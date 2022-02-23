@@ -125,23 +125,31 @@ export class GameRoom extends Room<GameState> {
 		}
 
 		var teamnum;
+		var xPos;
+		var yPos;
 		if (this.state.gamemode == 'CTC') {
 			if (this.redTeamIds.length <= this.blueTeamIds.length) {
 				teamnum = 1;
 				this.redTeamIds.push(client.id);
+				xPos = Math.random()*700+100
+				yPos = Math.random()*800+1100
 			} else {
 				teamnum = 2;
 				this.blueTeamIds.push(client.id);
+				xPos = Math.random()*800+2100
+				yPos = Math.random()*800+1100
 			}
-		} else { teamnum = 0; }
-		this.state.players[client.id] = new ServerPlayer(ballType, dragonSkin, teamnum, client);
-
-		var xPos = this.state.gamewidth * Math.random()
-		var yPos = this.state.gameheight * Math.random()
-		while (this.checkWalls(xPos, yPos, 45, false)) {
+		} else { 
+			teamnum = 0; 
 			xPos = this.state.gamewidth * Math.random()
 			yPos = this.state.gameheight * Math.random()
+			while (this.checkWalls(xPos, yPos, 45, false)) {
+				xPos = this.state.gamewidth * Math.random()
+				yPos = this.state.gameheight * Math.random()
+			}
 		}
+		this.state.players[client.id] = new ServerPlayer(ballType, dragonSkin, teamnum, client);
+
 		this.state.players[client.id].x = xPos
 		this.state.players[client.id].y = yPos
 
@@ -555,7 +563,7 @@ export class GameRoom extends Room<GameState> {
 			}
 
 			for (let cid of this.state.coins.keys()) {
-				if (this.state.coins[cid].checkHit(this.state.players[id].x, this.state.players[id].y, 0) && this.state.players[id].coins < 10) {
+				if (this.state.players[id].team == this.state.coins[cid].team && this.state.coins[cid].checkHit(this.state.players[id].x, this.state.players[id].y, 0) && this.state.players[id].coins < 10) {
 
 					let prevCoins = this.state.players[id].coins
 					var coins = this.state.players[id].coins

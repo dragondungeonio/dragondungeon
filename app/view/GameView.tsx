@@ -107,9 +107,9 @@ export class GameView extends Component<GameViewProps, GameViewState> {
 
     this.props.state.players.forEach(player => {
       if (player == me) {
-        dragons.push(<Dragon player={player} key={player.onlineID} team={0} celebration={dragonCelebrating} />)
+        dragons.push(<Dragon player={player} key={player.onlineID} team={player.team} celebration={dragonCelebrating} />)
       } else {
-        dragons.push(<Dragon player={player} key={player.onlineID} team={0} celebration={false} />)
+        dragons.push(<Dragon player={player} key={player.onlineID} team={player.team} celebration={false} />)
       }
       hudBars.push(<Bar key={v4()} health={player.health}  x={player.x - 35} y={player.y - 80} width={70} height={18} color ={0xe30b1d} coins={player.coins} name={player.onlineName}/>) 
     })
