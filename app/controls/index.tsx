@@ -122,7 +122,7 @@ export const Controls = (props: ControlProps) => {
       updateAndSend(change);
     }} />
     <ReactNipple
-      options={{ color: '#c60c30', mode: 'dynamic', position: { bottom: '50%', right: '50%' } }}
+      options={{ color: 'transparent', mode: 'dynamic', position: { bottom: '50%', right: '50%' } }}
       style={{
         position: 'fixed',
         width: '100vw',
