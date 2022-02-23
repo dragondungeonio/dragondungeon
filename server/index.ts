@@ -18,7 +18,8 @@ console.log('DragonDungeon'.red)
 console.log('The LEAGUE of Amazing Programmers'.yellow)
 
 // HTTPS support
-let secureServer = existsSync('config/private/key.pem')
+let secureServer =
+  process.env.HTTP !== 'true' && existsSync('config/private/key.pem')
 let secureServerOptions: any = {}
 
 if (secureServer) {
