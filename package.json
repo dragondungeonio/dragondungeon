@@ -1,7 +1,7 @@
 {
   "name": "dragondungeon",
   "private": true,
-  "version": "0.0.6",
+  "version": "0.0.7",
   "scripts": {
     "dev": "ts-node --project tsconfig.server.json server/index.ts",
     "start": "NODE_ENV=production ts-node --project tsconfig.server.json server/index.ts",

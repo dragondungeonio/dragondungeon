@@ -48,8 +48,8 @@ export const Coin = (props: IProps) => {
   return (
     <AnimatedSprite
     anchor={new PIXI.Point(0.5, 0.5)}
-    width ={props.size * 2}
-    height = {props.size * 2}
+    width ={props.size * 3}
+    height = {props.size * 2.6}
     textures = {coinTextures}
     x={props.x}
     animationSpeed = {ANIMATION_SPEED}
