@@ -7,70 +7,97 @@ import styles from 'styles/leaderboard.module.css'
 import { useEffect, useState } from 'react'
 
 function renderCountdown(countdown: Countdown) {
-    if (countdown.done) { return '0:00' }
-    if (countdown.minutes === 0) { return `0:${Math.floor(countdown.seconds)}` }
-    if (Math.floor(countdown.seconds) < 10) { return `${countdown.minutes}:0${Math.floor(countdown.seconds)}` }
-    return `${countdown.minutes}:${Math.floor(countdown.seconds)}`
+  if (countdown.done) {
+    return '0:00'
+  } else {
+    return `${countdown.minutes}:${Math.floor(countdown.seconds)
+      .toString()
+      .padStart(2, '0')}`
+  }
 }
 
 function renderTableData(players: MapSchema<Player>) {
-    let leaderboardData = []
-    players.forEach((player: Player, key: any) => {
-        const score = player.score;
-        let name = player.onlineName;
-        const ballType = player.ballType;
-        leaderboardData.push(<tr key={key}>
-            <td className="playerData"><img src={`/img/abilities/${ballType}ball.png`} style={{ height: '30px' }} /></td>
-            <td className="playerData">{name}</td>
-            <td className="playerData"><b><big>{score}</big></b></td>
-        </tr>)
-    })
-    return leaderboardData
+  let leaderboardData = []
+  players.forEach((player: Player, key: any) => {
+    const score = player.score
+    let name = player.onlineName
+    const ballType = player.ballType
+    leaderboardData.push(
+      <tr key={key}>
+        <td className="playerData">
+          <img
+            src={`/img/abilities/${ballType}ball.png`}
+            style={{ height: '30px' }}
+          />
+        </td>
+        <td className="playerData">{name}</td>
+        <td className="playerData">
+          <b>
+            <big>{score}</big>
+          </b>
+        </td>
+      </tr>,
+    )
+  })
+  return leaderboardData
 }
 
 function renderMobileTableData(players: MapSchema<Player>) {
-    let leaderboardData = []
-    players.forEach((player: Player, key: any) => {
-        const score = player.score;
-        let name = player.onlineName;
-        const ballType = player.ballType;
-        leaderboardData.push(<span key={key} style={{ color: 'white' }}>
-            <span className="playerData">{name}</span>&nbsp;&nbsp;
-            <b className="playerData" style={{ fontSize: '25px' }}>{score}</b>
-        </span>)
-    })
-    return leaderboardData
+  let leaderboardData = []
+  players.forEach((player: Player, key: any) => {
+    const score = player.score
+    let name = player.onlineName
+    const ballType = player.ballType
+    leaderboardData.push(
+      <span key={key} style={{ color: 'white' }}>
+        <span className="playerData">{name}</span>&nbsp;&nbsp;
+        <b className="playerData" style={{ fontSize: '25px' }}>
+          {score}
+        </b>
+      </span>,
+    )
+  })
+  return leaderboardData
 }
 
 export function Leaderboard(props: {
-    players: MapSchema<Player>,
-    countdown: Countdown
+  players: MapSchema<Player>
+  countdown: Countdown
 }) {
+  const [countdownRender, setCountdownState] = useState<String>('5:00')
+  const [players, setPlayerState] = useState<MapSchema<Player>>(props.players)
 
-    const [countdownRender, setCountdownState] = useState<String>("5:00")
-    const [players, setPlayerState] = useState<MapSchema<Player>>(props.players)
+  useEffect(() => {
+    let clockInterval = setInterval(() => {
+      setCountdownState(renderCountdown(props.countdown))
+    }, 100)
+    return () => clearInterval(clockInterval)
+  }, [])
 
-    useEffect(() => {
-        let clockInterval = setInterval(() => {
-            setCountdownState(renderCountdown(props.countdown))
-        }, 100)
-        return () => clearInterval(clockInterval)
-    }, [])
-
-    return (
+  return (
+    <>
+      <p className={styles.mobileCountdown}>{countdownRender}</p>
+      {window.innerWidth >= 1000 && (
         <>
-            <p className={styles.mobileCountdown}>{countdownRender}</p>
-            {(window.innerWidth >= 1000) && <>
-                <div id='chatlog' className={styles.chatlog}></div>
-                <div className={styles.leaderboardContainer} >
-                    <table><tbody id='leaderboard'>{renderTableData(props.players)}</tbody></table>
-                </div>
-            </>}
-
-            {(window.innerWidth <= 1000) && <>
-                <div id='chatlog' className={styles.chatlog} style={{ display: 'none' }}></div>
-                <Box>{renderMobileTableData(players)}</Box>
-            </>}
+          <div id="chatlog" className={styles.chatlog}></div>
+          <div className={styles.leaderboardContainer}>
+            <table>
+              <tbody id="leaderboard">{renderTableData(props.players)}</tbody>
+            </table>
+          </div>
         </>
-    )
+      )}
+
+      {window.innerWidth <= 1000 && (
+        <>
+          <div
+            id="chatlog"
+            className={styles.chatlog}
+            style={{ display: 'none' }}
+          ></div>
+          <Box>{renderMobileTableData(players)}</Box>
+        </>
+      )}
+    </>
+  )
 }

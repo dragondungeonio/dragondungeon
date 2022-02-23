@@ -56,8 +56,8 @@ export class GameRoom extends Room<GameState> {
   }
 
   manageBat() {
-    let bat = new Bat(
-      Math.floor(Math.random() * 10000),
+    const bat = new Bat(
+      v4(),
       Math.floor(Math.random() * 3000),
       Math.floor(Math.random() * 3000),
       1,
@@ -83,14 +83,8 @@ export class GameRoom extends Room<GameState> {
       this.manageBat()
     }
 
-    this.state.skulls.set(
-      v4(),
-      new Skull(Math.floor(Math.random() * 10000), 1500, 1500, 1),
-    )
-    this.state.skulls.set(
-      v4(),
-      new Skull(Math.floor(Math.random() * 10000), 0, 1500, 1),
-    )
+    this.state.skulls.set(v4(), new Skull(1500, 1500, 1))
+    this.state.skulls.set(v4(), new Skull(0, 1500, 1))
 
     const user = await admin.auth().verifyIdToken(options.token)
     const db = admin.firestore()
@@ -228,17 +222,14 @@ export class GameRoom extends Room<GameState> {
       xPos = Math.random() * this.state.gamewidth
       yPos = Math.random() * this.state.gameheight
     }
-    this.state.coins.set(
-      v4(),
-      new Coin(this.state.coins.size, xPos, yPos, size, teamNum),
-    )
+    this.state.coins.set(v4(), new Coin(xPos, yPos, size, teamNum))
 
     //IDK what this line does. Old?
     //Math.random() < 0.01 ? this.state.coins.set(v4(), new Coin(this.state.coins.size, Math.random() * 3000 + 40, Math.random() * 3000 + 40, 100, 0)) : this.state.coins.set(v4(), new Coin(this.state.coins.size, Math.random() * 3000, Math.random() * 3000, 20, 0));
   }
 
   createCoin(x: number, y: number) {
-    this.state.coins.set(v4(), new Coin(v4(), x, y, 20, 0))
+    this.state.coins.set(v4(), new Coin(x, y, 20, 0))
   }
   //sets x and y of player to random numbers
   spawnPlayer(player: Player) {
@@ -608,39 +599,30 @@ export class GameRoom extends Room<GameState> {
                 }
               } catch {}
 
-              switch (fireBall.type) {
-                case 'electric':
-                  if (
-                    this.state.players[id2].fireballs.length < 10 &&
-                    Math.random() > 0.9
-                  ) {
-                    const angle = Math.random() * 6.28
-                    const newX = this.state.players[id].x + 50 * Math.cos(angle)
-                    const newY = this.state.players[id].y + 50 * Math.sin(angle)
-                    // TODO: Reimplement when checkWalls is a thing... again
-                    if (!this.checkWalls(newX, newY, 22.5, true)) {
-                      this.state.players[id2].fireballs.push(
-                        new Fireball(
-                          newX,
-                          newY,
-                          angle + Math.PI,
-                          7,
-                          'electric',
-                          20,
-                          0,
-                        ),
-                      )
-                    }
+              if (fireBall.type === 'electric') {
+                if (
+                  this.state.players[id2].fireballs.length < 10 &&
+                  Math.random() > 0.9
+                ) {
+                  const angle = Math.random() * 6.28
+                  const newX = this.state.players[id].x + 50 * Math.cos(angle)
+                  const newY = this.state.players[id].y + 50 * Math.sin(angle)
+                  if (!this.checkWalls(newX, newY, 22.5, true)) {
+                    this.state.players[id2].fireballs.push(
+                      new Fireball(
+                        newX,
+                        newY,
+                        angle + Math.PI,
+                        7,
+                        'electric',
+                        20,
+                        0,
+                      ),
+                    )
                   }
-                  break
-                // case 'mud':
-                //   fireBall.width += 1
-                //   fireBall.height += 1.87
-                //   //fireBall.speed += .05;
-                //   break
-                case 'ice':
-                  this.state.players[id].deceleration = 2
-                  break
+                }
+              } else if (fireBall.type === 'ice') {
+                this.state.players[id].deceleration = 2
               }
             }
           }
@@ -651,7 +633,7 @@ export class GameRoom extends Room<GameState> {
           ) {
             fireBall.width += 0.05
             fireBall.height += 0.0935
-            //fireBall.speed += .05;
+            fireBall.speed += 0.005
           }
         }
       }
