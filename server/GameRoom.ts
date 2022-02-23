@@ -540,7 +540,7 @@ export class GameRoom extends Room<GameState> {
             ) {
               this.state.players[id2].hitsDealt++
               this.state.players[id].hitsRecived++
-              this.state.players[id].health -= 0.1
+              this.state.players[id].health -= 0.05
               if (this.state.players[id].health < 0) {
                 this.state.players[id].health = 0
                 try {

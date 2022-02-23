@@ -54,12 +54,12 @@ export const Controls = (props: ControlProps) => {
 
   useEffect(() => {
     const keydown = (e: KeyboardEvent) => {
-      var change = controlsDown[e.key.toLowerCase()] || {};
-      updateAndSend(change);
-    }
-    const keyup = (e: KeyboardEvent) => {
-      const change = controlsUp[e.key.toLowerCase()] || {};
-      updateAndSend(change);
+      if (e.key == 'w') { updateAndSend({ up: true, down: false }) }
+      if (e.key == 's') { updateAndSend({ down: true, up: false }) }
+      if (e.key == 'a') { updateAndSend({ left: true, right: false }) }
+      if (e.key == 'd') { updateAndSend({ right: true, left: false }) }
+      // var change = controlsDown[e.key.toLowerCase()] || {};
+      // updateAndSend(change);
     }
     const mouseMove = (e: MouseEvent) => {
       try {
@@ -75,9 +75,25 @@ export const Controls = (props: ControlProps) => {
         updateAndSend(change);
       } catch {}
     }
+
     window.addEventListener("keydown", keydown)
-    window.addEventListener("keyup", keyup)
     window.addEventListener("mousemove", mouseMove);
+
+    window.addEventListener("gamepadconnected", gamepadInputLoop);
+    
+    function gamepadInputLoop() {
+      var gamepads = navigator.getGamepads();
+      if (!gamepads) { return }
+      var gamepad = gamepads[0];
+
+      if (gamepad.buttons[12].pressed) { updateAndSend({ up: true, down: false }) }
+      if (gamepad.buttons[13].pressed) { updateAndSend({ down: true, up: false }) }
+      if (gamepad.buttons[14].pressed) { updateAndSend({ left: true, right: false }) }
+      if (gamepad.buttons[15].pressed) { updateAndSend({ right: true, left: false }) }
+    
+      requestAnimationFrame(gamepadInputLoop);
+    }
+    
 
     const controlFocusCheck = setInterval(() => {
       if (!document.hasFocus()) {
@@ -92,7 +108,6 @@ export const Controls = (props: ControlProps) => {
 
     return () => {
       window.removeEventListener("keydown", keydown);
-      window.removeEventListener("keyup", keyup);
       window.removeEventListener("mousemove", mouseMove);
       clearInterval(controlFocusCheck);
     }
@@ -107,7 +122,7 @@ export const Controls = (props: ControlProps) => {
       updateAndSend(change);
     }} />
     <ReactNipple
-      options={{ color: '#c60c30', mode: 'dynamic', position: { bottom: '50%', right: '50%' } }}
+      options={{ color: 'transparent', mode: 'dynamic', position: { bottom: '50%', right: '50%' } }}
       style={{
         position: 'fixed',
         width: '100vw',
