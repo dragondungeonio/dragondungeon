@@ -6,7 +6,6 @@ import {
   IInputs,
   Coin,
   Maths,
-  Countdown,
   Fireball,
   Bat,
   Skull,
@@ -15,7 +14,6 @@ import {
 
 import * as admin from 'firebase-admin'
 import { v4 } from 'uuid'
-import { BaseTexture } from 'pixi.js'
 
 const botnames = require('./botnames.json')
 const botwords = require('./wordlists/nouns.json')
@@ -57,7 +55,6 @@ export class GameRoom extends Room<GameState> {
 
   manageBat() {
     const bat = new Bat(
-      v4(),
       Math.floor(Math.random() * 3000),
       Math.floor(Math.random() * 3000),
       1,
@@ -172,7 +169,7 @@ export class GameRoom extends Room<GameState> {
     this.state.players[client.id].onlineID = user.uid
   }
 
-  onLeave(client: Client, _consent: boolean) {}
+  onLeave(client: Client, _consent: boolean) { }
 
   registerMessages() {
     this.onMessage('input', (client: Client, message: IInputs) => {
@@ -359,9 +356,11 @@ export class GameRoom extends Room<GameState> {
   }
 
   removeDeadWalls() {
-    for (let id of this.state.walls.keys()) {
-      if (this.state.walls[id].health <= 0) {
-        this.state.walls[id].remove
+    for (const wall of this.state.walls.values()) {
+      if (wall.health <= 0) {
+        // wall.remove
+        // ! the remove property doesn't exist on a wall
+        // is there another function for this or is the remove property going to be added?
       }
     }
   }
@@ -378,13 +377,13 @@ export class GameRoom extends Room<GameState> {
       )
       const speedX = Maths.round2Digits(
         player.direction.x *
-          (((player.speed + player.coins) * (1 / player.deceleration) * ticks) /
-            magnitude),
+        (((player.speed + player.coins) * (1 / player.deceleration) * ticks) /
+          magnitude),
       )
       const speedY = Maths.round2Digits(
         player.direction.y *
-          (((player.speed + player.coins) * (1 / player.deceleration) * ticks) /
-            magnitude),
+        (((player.speed + player.coins) * (1 / player.deceleration) * ticks) /
+          magnitude),
       )
       const newX = player.x + speedX
       const newY = player.y + speedY
@@ -526,105 +525,88 @@ export class GameRoom extends Room<GameState> {
       this.movePlayer(this.state.players[id], dx / 50)
       this.moveFireballs(this.state.players[id], dx / 50)
 
-      this.state.players[id].tick(dx)
+      let player = this.state.players[id]
+      let playerId = id
 
-      for (let id2 of this.state.players.keys()) {
-        for (let i = 0; i < this.state.players[id2].fireballs.length; i++) {
-          const fireBall = this.state.players[id2].fireballs[i]
-          if (id != id2) {
-            if (
-              this.state.players[id2].fireballs[i].checkHit(
-                this.state.players[id].x,
-                this.state.players[id].y,
-                this.state.players[id].team,
-              )
-            ) {
-              this.state.players[id2].hitsDealt++
-              this.state.players[id].hitsRecived++
-              this.state.players[id].health -= 0.05
-              if (this.state.players[id].health < 0) {
-                this.state.players[id].health = 0
-                try {
-                  this.state.players[id].colyseusClient.send(
-                    'chatlog',
-                    'You are very dead',
-                  )
-                  this.state.players[id].x = -40000
-                  this.state.players[id].y = -40000
-                  this.state.players[id].coins = 0
+      player.tick(dx)
 
-                  setTimeout(() => {
-                    this.state.players[id].x = 200
-                    this.state.players[id].y = 200
-                    this.state.players[id].health = 10
-                  }, 5000)
-                } catch {}
-              }
-
-              const coinChance = 0.2 // the possibility of removing a coin on collision with a fireball, this is done to spread out the coins more
-              const lifetimeRemove = 1 // the lifetime decreace of the fireball for every coin it removes from a dragon (as if  it is heavier)
-
+      this.state.players.forEach((playerHit, playerHitId) => {
+        for (let i = 0; i < playerHit.fireballs.length; i++) {
+          const fireBall = playerHit.fireballs[i]
+          if (playerId == playerHitId) return
+          if (
+            playerHit.fireballs[i].checkHit(player.x, player.y, player.team)
+          ) {
+            playerHit.hitsDealt++
+            player.hitsRecived++
+            player.health -= 0.05
+            if (player.health < 0) {
+              player.health = 0
               try {
-                const oldX = this.state.players[id].x
-                const oldY = this.state.players[id].y
-                const newX =
-                  oldX + fireBall.speed * Math.cos(fireBall.angle - Math.PI)
-                const newY =
-                  oldY + fireBall.speed * Math.sin(fireBall.angle - Math.PI)
+                player.colyseusClient.send('chatlog', 'You are very dead')
+                player.x = -40000
+                player.y = -40000
+                player.coins = 0
 
-                if (!this.checkWalls(oldX, newY, 45, true)) {
-                  this.state.players[id].y = newY
-                }
-                if (!this.checkWalls(newX, oldY, 45, true)) {
-                  this.state.players[id].x = newX
-                }
+                setTimeout(() => {
+                  player.x = 200
+                  player.y = 200
+                  player.health = 10
+                }, 5000)
+              } catch { }
+            }
 
-                if (
-                  this.state.players[id].coins > 0 &&
-                  Math.random() < coinChance
-                ) {
-                  this.state.players[id].coins--
-                  fireBall.lifetime -= lifetimeRemove
-                  if (
-                    fireBall.type == 'poison' &&
-                    this.state.players[id2].coins < 10
-                  ) {
-                    this.state.players[id2].coins++
-                    this.state.players[id2].coinsPickedUp++
-                  } else {
-                    this.createCoin(
-                      this.state.players[id].x,
-                      this.state.players[id].y,
-                    )
-                  }
-                }
-              } catch {}
+            const coinChance = 0.2 // the possibility of removing a coin on collision with a fireball, this is done to spread out the coins more
+            const lifetimeRemove = 1 // the lifetime decreace of the fireball for every coin it removes from a dragon (as if  it is heavier)
 
-              if (fireBall.type === 'electric') {
-                if (
-                  this.state.players[id2].fireballs.length < 10 &&
-                  Math.random() > 0.9
-                ) {
-                  const angle = Math.random() * 6.28
-                  const newX = this.state.players[id].x + 50 * Math.cos(angle)
-                  const newY = this.state.players[id].y + 50 * Math.sin(angle)
-                  if (!this.checkWalls(newX, newY, 22.5, true)) {
-                    this.state.players[id2].fireballs.push(
-                      new Fireball(
-                        newX,
-                        newY,
-                        angle + Math.PI,
-                        7,
-                        'electric',
-                        20,
-                        0,
-                      ),
-                    )
-                  }
-                }
-              } else if (fireBall.type === 'ice') {
-                this.state.players[id].deceleration = 2
+            try {
+              const oldX = player.x
+              const oldY = player.y
+              const newX =
+                oldX + fireBall.speed * Math.cos(fireBall.angle - Math.PI)
+              const newY =
+                oldY + fireBall.speed * Math.sin(fireBall.angle - Math.PI)
+
+              if (!this.checkWalls(oldX, newY, 45, true)) {
+                player.y = newY
               }
+              if (!this.checkWalls(newX, oldY, 45, true)) {
+                player.x = newX
+              }
+
+              if (player.coins > 0 && Math.random() < coinChance) {
+                player.coins--
+                fireBall.lifetime -= lifetimeRemove
+                if (fireBall.type == 'poison' && playerHit.coins < 10) {
+                  playerHit.coins++
+                  playerHit.coinsPickedUp++
+                } else {
+                  this.createCoin(player.x, player.y)
+                }
+              }
+            } catch { }
+
+            if (fireBall.type === 'electric') {
+              if (playerHit.fireballs.length < 10 && Math.random() > 0.9) {
+                const angle = Math.random() * Math.PI * 2
+                const newX = player.x + 50 * Math.cos(angle)
+                const newY = player.y + 50 * Math.sin(angle)
+                if (!this.checkWalls(newX, newY, 22.5, true)) {
+                  playerHit.fireballs.push(
+                    new Fireball(
+                      newX,
+                      newY,
+                      angle + Math.PI,
+                      7,
+                      'electric',
+                      20,
+                      0,
+                    ),
+                  )
+                }
+              }
+            } else if (fireBall.type === 'ice') {
+              player.deceleration = 2
             }
           }
           if (
@@ -637,46 +619,30 @@ export class GameRoom extends Room<GameState> {
             fireBall.speed += 0.005
           }
         }
-      }
+      })
 
-      if (
-        this.state.coinJar.checkHit(
-          this.state.players[id].x,
-          this.state.players[id].y,
-          0,
-        )
-      ) {
+      if (this.state.coinJar.checkHit(player.x, player.y, 0)) {
         // when a player has collided with the coinjar
-        this.state.players[id].score += this.state.players[id].coins // add coins to players score
-        if (this.state.players[id].coins > 0) {
+        player.score += player.coins // add coins to players score
+        if (player.coins > 0) {
           try {
-            this.state.players[id].colyseusClient.send(
-              'sfx',
-              '/audio/coinjar.wav',
-            )
+            player.colyseusClient.send('sfx', '/audio/coinjar.wav')
             this.broadcast(
               'chatlog',
-              `${this.state.players[id].onlineName} <img src='/img/game/coinJar.png' height='20px' height='20px' style='image-rendering:pixelated' /> ${this.state.players[id].coins}`,
+              `${player.onlineName} <img src='/img/game/coinJar.png' height='20px' height='20px' style='image-rendering:pixelated' /> ${player.coins}`,
             )
-          } catch {}
+          } catch { }
         }
-        this.state.players[id].coins = 0 // remove coins
+        player.coins = 0 // remove coins
       }
 
-      for (let cid of this.state.coins.keys()) {
-        if (
-          this.state.coins[cid].checkHit(
-            this.state.players[id].x,
-            this.state.players[id].y,
-            0,
-          ) &&
-          this.state.players[id].coins < 10
-        ) {
-          let prevCoins = this.state.players[id].coins
-          var coins = this.state.players[id].coins
+      this.state.coins.forEach((coin, cid) => {
+        if (coin.checkHit(player.x, player.y, 0) && player.coins < 10) {
+          let prevCoins = player.coins
+          var coins = player.coins
           try {
-            this.state.players[id].colyseusClient.send('sfx', '/audio/coin.wav')
-          } catch {}
+            player.colyseusClient.send('sfx', '/audio/coin.wav')
+          } catch { }
           switch (this.state.coins[cid].getSize()) {
             case 20:
               coins++
@@ -688,28 +654,24 @@ export class GameRoom extends Room<GameState> {
               coins += 4
               break
             case 100:
-              this.state.players[id].score += 20
-              this.state.players[id].coinsPickedUp += 20
+              player.score += 20
+              player.coinsPickedUp += 20
               break
           }
           if (prevCoins < 10 && coins >= 10) {
             try {
-              this.state.players[id].colyseusClient.send(
-                'sfx',
-                '/audio/error.wav',
-              )
-              this.state.players[id].colyseusClient.send(
+              player.colyseusClient.send('sfx', '/audio/error.wav')
+              player.colyseusClient.send(
                 'chatlog',
                 '<img src="/img/game/icon.png" width="20px" height="20px" /> out of space',
               )
-            } catch {}
+            } catch { }
           }
-          this.state.players[id].coinsPickedUp +=
-            Math.min(coins, 10) - this.state.players[id].coins
-          this.state.players[id].coins = Math.min(coins, 10)
+          player.coinsPickedUp += Math.min(coins, 10) - player.coins
+          player.coins = Math.min(coins, 10)
           this.state.coins.delete(cid)
         }
-      }
+      })
 
       for (let bat of this.state.bats.values()) {
         if (bat.checkHit(this.state.players[id].x, this.state.players[id].y)) {
@@ -719,19 +681,18 @@ export class GameRoom extends Room<GameState> {
       }
 
       for (let skull of this.state.skulls.values()) {
-        if (
-          skull.checkHit(this.state.players[id].x, this.state.players[id].y)
-        ) {
-          if (Math.random() < 0.2 && this.state.players[id].coins > 0) {
-            this.state.players[id].coins--
-            if (Math.random() < 0.5 && this.state.players[id].score > 0) {
-              this.state.players[id].score--
+        if (skull.checkHit(player.x, player.y)) {
+          if (Math.random() < 0.2 && player.coins > 0) {
+            player.coins--
+            if (Math.random() < 0.5 && player.score > 0) {
+              player.score--
             }
           }
           break
         }
       }
     }
+
     this.removeDeadWalls()
   }
 }
