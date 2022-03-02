@@ -3,9 +3,9 @@
   "private": true,
   "version": "0.0.7",
   "scripts": {
-    "dev": "HTTP=true ts-node --project tsconfig.server.json server/index.ts",
-    "dev:secure": "ts-node --project tsconfig.server.json server/index.ts",
-    "start": "NODE_ENV=production ts-node --project tsconfig.server.json server/index.ts",
+    "dev": "ts-node --project tsconfig.server.json server/index.ts",
+    "dev:secure": "ts-node --project tsconfig.server.json server/index.ts --https",
+    "start": "ts-node --project tsconfig.server.json server/index.ts --prod",
     "build": "next build",
     "lint": "next lint"
   },

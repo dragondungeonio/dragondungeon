@@ -19,7 +19,7 @@ console.log('The LEAGUE of Amazing Programmers'.yellow)
 
 // HTTPS support
 let secureServer =
-  process.env.HTTP !== 'true' && existsSync('config/private/key.pem')
+  process.argv.includes('--https') && existsSync('config/private/key.pem')
 let secureServerOptions: any = {}
 
 if (secureServer) {
@@ -28,7 +28,7 @@ if (secureServer) {
 }
 
 // Initialize Next.js
-const dev = process.env.NODE_ENV !== 'production'
+const dev = !process.argv.includes('--prod')
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
