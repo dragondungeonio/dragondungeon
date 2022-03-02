@@ -6,16 +6,28 @@ import styles from 'styles/index.module.css'
 
 function MenuOption(props) {
   let router = useRouter()
-  return <div className={styles.link} onClick={() => router.push(props.href)}>{props.name}</div>
+  return (
+    <div className={styles.link} onClick={() => router.push(props.href)}>
+      {props.name}
+    </div>
+  )
 }
 
 function MenuOptionCB(props) {
-  return <div className={styles.link} onClick={props.callback}>{props.name}</div>
+  return (
+    <div className={styles.link} onClick={props.callback}>
+      {props.name}
+    </div>
+  )
 }
 
 export default function Social() {
-  let [ user, setUser ] = useState<any>('')
-  let [ dname, setDname ] = useState<string>('dragon0000')
+  let [user, setUser] = useState<any>('')
+  let [dname, setDname] = useState<string>(
+    `dragon${(Math.floor(Math.random() * 9999) + 1)
+      .toString()
+      .padStart(4, '0')}`,
+  )
 
   useMemo(() => {
     let auth = getAuth()
@@ -37,12 +49,17 @@ export default function Social() {
       </div>
       <MenuOption name="&larr;" href="/profile" />
       <MenuOption name={dname} href="" />
-      <MenuOptionCB name="Dragon Name" callback={() => {
-        let displayName = prompt('Enter your new Dragon Name:')
-        updateProfile(user, { displayName })
-        user.displayName = displayName
-        setDname(displayName)
-      }} />
+      <MenuOptionCB
+        name="Dragon Name"
+        callback={() => {
+          let displayName = prompt('Enter your new Dragon Name:')
+          if (displayName) {
+            updateProfile(user, { displayName })
+            user.displayName = displayName
+            setDname(displayName)
+          }
+        }}
+      />
     </div>
   )
 }
