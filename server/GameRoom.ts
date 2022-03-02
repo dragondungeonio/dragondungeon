@@ -366,6 +366,10 @@ export class GameRoom extends Room<GameState> {
     }
   }
 
+  slowPlayer(player: Player) {
+    player.deceleration += 0.04
+  }
+
   movePlayer(player: Player, ticks: number) {
     if (player.direction.x !== 0 || player.direction.y !== 0) {
       const magnitude = Maths.normalize2D(
@@ -390,10 +394,6 @@ export class GameRoom extends Room<GameState> {
       }
       if (!this.checkWalls(newX, player.y, 45, false)) {
         player.x = newX
-      }
-
-      if (player.deceleration > 1) {
-        player.deceleration *= 0.9
       }
     }
   }
@@ -522,6 +522,7 @@ export class GameRoom extends Room<GameState> {
     }
 
     for (let id of this.state.players.keys()) {
+      this.slowPlayer(this.state.players[id])
       this.movePlayer(this.state.players[id], dx / 50)
       this.moveFireballs(this.state.players[id], dx / 50)
 
@@ -712,8 +713,7 @@ export class GameRoom extends Room<GameState> {
 
       for (let bat of this.state.bats.values()) {
         if (bat.checkHit(this.state.players[id].x, this.state.players[id].y)) {
-          this.state.players[id].deceleration = 2
-          this.state.players[id].fireballCooldown += 0.2
+          this.state.players[id].fireballCooldown += 0.3
           break
         }
       }

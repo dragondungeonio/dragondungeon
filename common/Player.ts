@@ -45,7 +45,7 @@ export class Player extends Schema {
   skinType: string
 
   @type('number')
-  speed: number = 15
+  speed: number = 27
 
   @type('number')
   deceleration: number = 1
@@ -111,15 +111,19 @@ export class Player extends Schema {
     const resDirection = new Geometry.Vector(0, 0)
     if (i.right) {
       resDirection.x += 1
+      this.deceleration = 1
     }
     if (i.left) {
       resDirection.x -= 1
+      this.deceleration = 1
     }
     if (i.up) {
       resDirection.y -= 1
+      this.deceleration = 1
     }
     if (i.down) {
       resDirection.y += 1
+      this.deceleration = 1
     }
     this.direction = resDirection
     //this.angle = Math.atan2(i.mouseX - this.x, i.mouseY - this.y)
