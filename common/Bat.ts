@@ -1,9 +1,6 @@
 import { Schema, type } from '@colyseus/schema'
 
 export class Bat extends Schema {
-  @type('string')
-  key: string
-
   @type('number')
   x: number = 1
 
@@ -19,11 +16,10 @@ export class Bat extends Schema {
   @type('number')
   dist: number = 10
 
-  constructor(key: string, x: number, y: number, speed: number) {
+  constructor(x: number, y: number, speed: number) {
     super()
     this.x = x
     this.y = y
-    this.key = key
     this.speed = speed
   }
 
