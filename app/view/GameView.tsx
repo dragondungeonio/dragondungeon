@@ -89,9 +89,9 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     let bats = []
     let skulls = []
 
-    this.props.state.bats.forEach((bat) => {
+    this.props.state.bats.forEach((bat, key) => {
       bats.push(
-        <Bat x={bat.x} y={bat.y} rot={bat.angle} key={bat.key.toString()} />,
+        <Bat x={bat.x} y={bat.y} rot={bat.angle} key={key.toString()} />,
       )
     })
 
