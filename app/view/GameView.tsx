@@ -40,8 +40,8 @@ export class GameView extends Component<GameViewProps, GameViewState> {
   componentDidMount() {
     this.app = new PIXI.Application({
       resizeTo: window,
-      antialias: true,
-      backgroundAlpha: 100,
+      antialias: false,
+      backgroundAlpha: 0
     })
     this.gameCanvas!.appendChild(this.app.view)
     this.viewport = new Viewport()
