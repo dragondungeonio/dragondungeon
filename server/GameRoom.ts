@@ -685,7 +685,7 @@ export class GameRoom extends Room<GameState> {
           break
         }
       }
-    })
+    }
 
     this.removeDeadWalls()
   }
