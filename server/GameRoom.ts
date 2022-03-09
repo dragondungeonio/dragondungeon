@@ -11,6 +11,7 @@ import {
   Skull,
   Wall,
 } from '../common'
+import gameConfig from '../config/dragondungeon.config'
 
 import * as admin from 'firebase-admin'
 import { v4 } from 'uuid'
@@ -55,8 +56,8 @@ export class GameRoom extends Room<GameState> {
 
   manageBat() {
     const bat = new Bat(
-      Math.floor(Math.random() * 3000),
-      Math.floor(Math.random() * 3000),
+      Math.floor(Math.random() * gameConfig.gameSize),
+      Math.floor(Math.random() * gameConfig.gameSize),
       1,
     )
     this.state.bats.set(v4(), bat)
@@ -80,8 +81,11 @@ export class GameRoom extends Room<GameState> {
       this.manageBat()
     }
 
-    this.state.skulls.set(v4(), new Skull(1500, 1500, 1))
-    this.state.skulls.set(v4(), new Skull(0, 1500, 1))
+    this.state.skulls.set(
+      v4(),
+      new Skull(gameConfig.gameSize / 2, gameConfig.gameSize / 2, 1),
+    )
+    this.state.skulls.set(v4(), new Skull(0, gameConfig.gameSize / 2, 1))
 
     const user = await admin.auth().verifyIdToken(options.token)
     const db = admin.firestore()
@@ -220,9 +224,6 @@ export class GameRoom extends Room<GameState> {
       yPos = Math.random() * this.state.gameheight
     }
     this.state.coins.set(v4(), new Coin(xPos, yPos, size, teamNum))
-
-    //IDK what this line does. Old?
-    //Math.random() < 0.01 ? this.state.coins.set(v4(), new Coin(this.state.coins.size, Math.random() * 3000 + 40, Math.random() * 3000 + 40, 100, 0)) : this.state.coins.set(v4(), new Coin(this.state.coins.size, Math.random() * 3000, Math.random() * 3000, 20, 0));
   }
 
   createCoin(x: number, y: number) {
