@@ -168,7 +168,6 @@ export class Player extends Schema {
         this.x,
         this.y,
         this.angle,
-        6,
         this.ballType,
         40,
         this.team,

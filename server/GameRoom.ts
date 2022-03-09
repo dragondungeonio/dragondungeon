@@ -169,7 +169,7 @@ export class GameRoom extends Room<GameState> {
     this.state.players[client.id].onlineID = user.uid
   }
 
-  onLeave(client: Client, _consent: boolean) { }
+  onLeave(client: Client, _consent: boolean) {}
 
   registerMessages() {
     this.onMessage('input', (client: Client, message: IInputs) => {
@@ -373,13 +373,13 @@ export class GameRoom extends Room<GameState> {
       )
       const speedX = Maths.round2Digits(
         player.direction.x *
-        (((player.speed + player.coins) * (1 / player.deceleration) * ticks) /
-          magnitude),
+          (((player.speed + player.coins) * (1 / player.deceleration) * ticks) /
+            magnitude),
       )
       const speedY = Maths.round2Digits(
         player.direction.y *
-        (((player.speed + player.coins) * (1 / player.deceleration) * ticks) /
-          magnitude),
+          (((player.speed + player.coins) * (1 / player.deceleration) * ticks) /
+            magnitude),
       )
       const newX = player.x + speedX
       const newY = player.y + speedY
@@ -548,7 +548,7 @@ export class GameRoom extends Room<GameState> {
                   player.y = 200
                   player.health = 10
                 }, 5000)
-              } catch { }
+              } catch {}
             }
 
             const coinChance = 0.2 // the possibility of removing a coin on collision with a fireball, this is done to spread out the coins more
@@ -579,7 +579,7 @@ export class GameRoom extends Room<GameState> {
                   this.createCoin(player.x, player.y)
                 }
               }
-            } catch { }
+            } catch {}
 
             if (fireBall.type === 'electric') {
               if (playerHit.fireballs.length < 10 && Math.random() > 0.9) {
@@ -592,7 +592,6 @@ export class GameRoom extends Room<GameState> {
                       newX,
                       newY,
                       angle + Math.PI,
-                      7,
                       'electric',
                       20,
                       0,
@@ -626,7 +625,7 @@ export class GameRoom extends Room<GameState> {
               'chatlog',
               `${player.onlineName} <img src='/img/game/coinJar.png' height='20px' height='20px' style='image-rendering:pixelated' /> ${player.coins}`,
             )
-          } catch { }
+          } catch {}
         }
         player.coins = 0 // remove coins
       }
@@ -637,7 +636,7 @@ export class GameRoom extends Room<GameState> {
           var coins = player.coins
           try {
             player.colyseusClient.send('sfx', '/audio/coin.wav')
-          } catch { }
+          } catch {}
           switch (this.state.coins[cid].getSize()) {
             case 20:
               coins++
@@ -660,7 +659,7 @@ export class GameRoom extends Room<GameState> {
                 'chatlog',
                 '<img src="/img/game/icon.png" width="20px" height="20px" /> out of space',
               )
-            } catch { }
+            } catch {}
           }
           player.coinsPickedUp += Math.min(coins, 10) - player.coins
           player.coins = Math.min(coins, 10)
