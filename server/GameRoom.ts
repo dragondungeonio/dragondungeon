@@ -668,8 +668,8 @@ export class GameRoom extends Room<GameState> {
       })
 
       for (let bat of this.state.bats.values()) {
-        if (bat.checkHit(this.state.players[id].x, this.state.players[id].y)) {
-          this.state.players[id].fireballCooldown += 0.3
+        if (bat.checkHit(player.x, player.y)) {
+          player.fireballCooldown += 0.3
           break
         }
       }
@@ -685,7 +685,7 @@ export class GameRoom extends Room<GameState> {
           break
         }
       }
-    }
+    })
 
     this.removeDeadWalls()
   }

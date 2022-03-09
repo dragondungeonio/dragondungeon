@@ -83,7 +83,7 @@ export class Player extends Schema {
     angle: 0.0,
     space: false,
   }
-
+  colyseusClient: any
   constructor(ballType: string, skinType: string, teamNum: number) {
     super()
     this.team = teamNum
@@ -109,6 +109,8 @@ export class Player extends Schema {
     }
     this.activeInputs = Object.assign({}, this.activeInputs, i)
     const resDirection = new Geometry.Vector(0, 0)
+    resDirection.x += Math.sin(this.activeInputs.angle - Math.PI / 2)
+    resDirection.y += Math.cos(this.activeInputs.angle - Math.PI / 2)
     if (i.right) {
       resDirection.x += 1
       this.deceleration = 1
