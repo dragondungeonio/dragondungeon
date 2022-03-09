@@ -52,6 +52,8 @@ export class GameRoom extends Room<GameState> {
     this.setState(new GameState())
     this.registerMessages()
     this.startGameLoop()
+    this.state.skulls.set(v4(), new Skull(gameConfig.gameSize / 2 + 80, gameConfig.gameSize / 2, 1))
+    this.state.skulls.set(v4(), new Skull(60, gameConfig.gameSize / 2, 1))
   }
 
   manageBat() {
@@ -80,12 +82,6 @@ export class GameRoom extends Room<GameState> {
     for (let batCreationIndex = 0; batCreationIndex < 70; batCreationIndex++) {
       this.manageBat()
     }
-
-    this.state.skulls.set(
-      v4(),
-      new Skull(gameConfig.gameSize / 2, gameConfig.gameSize / 2, 1),
-    )
-    this.state.skulls.set(v4(), new Skull(0, gameConfig.gameSize / 2, 1))
 
     const user = await admin.auth().verifyIdToken(options.token)
     const db = admin.firestore()

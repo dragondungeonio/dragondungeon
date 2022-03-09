@@ -24,7 +24,7 @@ export class Skull extends Schema {
   }
 
   move() {
-    if (this.dist > 1000) {
+    if (this.dist > 800) {
       this.angle += Math.PI
       this.dist = 0
       if (this.angle > 2 * Math.PI) {

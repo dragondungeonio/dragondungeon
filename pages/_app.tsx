@@ -42,7 +42,7 @@ function DragonDungeon({ Component, pageProps }) {
     <div id='league' style={{ display: 'none', position: 'fixed', top: '0', left: '0', width: '100vw', height: '100vh', background: 'black', textAlign: 'center' }}>
       <img src="/img/ui/jtl.png" style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%); }}' }} />
     </div>
-    <p style={{ color: '#f9e300', fontFamily: 'Press Start 2P', position: 'fixed', top: '0', right: '0', fontSize: '13pt', padding: '10px', margin: '10px', border: '5px solid #f9e300', background: 'rgba(0, 0, 0, 0.8)' }}>Beta Build {require('package.json').version}</p>
+    <p style={{ color: '#f9e300', fontFamily: 'sans-serif', position: 'fixed', bottom: '0', right: '15px', fontSize: '13pt' }}>{require('package.json').version}</p>
     {!gameStarted && <div style={{ textAlign: 'center' }}>
         <br /><br /><br />
         <img style={{ textAlign: 'center', height: '150px', imageRendering: 'pixelated' }} src="/img/dragons/basicDragon.png" />

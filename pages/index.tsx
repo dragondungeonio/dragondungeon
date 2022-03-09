@@ -29,7 +29,7 @@ export default function Home() {
     <div className={styles.home}>
       <div style={{ padding: '20px' }}>
         <h1>DRAGON DUNGEON</h1>
-        <img src="/img/dragons/basicDragon.png" className={styles.heroImage} />
+        <img src="/img/game/skull.png" className={styles.heroImage} style={{ transform: 'scaleX(-1)' }} />
         <h2><img src={profilePicture} style={{ verticalAlign: 'middle', height: '50px' }} />&nbsp;&nbsp;&nbsp;{name}</h2>
       </div>
       <MenuOption name="Play" href="/play" />
