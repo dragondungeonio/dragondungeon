@@ -126,7 +126,7 @@ export class Player extends Schema {
       this.deceleration = 1
     }
     resDirection.x += Math.sin(this.activeInputs.angle - Math.PI / 2)
-    resDirection.y += Math.cos(this.activeInputs.angle - Math.PI / 2)
+    resDirection.y += Math.cos(this.activeInputs.angle + Math.PI / 2)
     this.direction = resDirection
     //this.angle = Math.atan2(i.mouseX - this.x, i.mouseY - this.y)
     this.angle = i.angle
