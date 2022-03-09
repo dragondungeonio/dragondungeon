@@ -45,10 +45,6 @@ export const Controls = (props: ControlProps) => {
 
   useEffect(() => {
     const keydown = (e: KeyboardEvent) => {
-      if (e.key == 'w') { updateAndSend({ up: true, down: false }) }
-      if (e.key == 's') { updateAndSend({ down: true, up: false }) }
-      if (e.key == 'a') { updateAndSend({ left: true, right: false }) }
-      if (e.key == 'd') { updateAndSend({ right: true, left: false }) }
       if (e.key == ' ') { updateAndSend({ space: true, shoot: true }) }
       if (e.key == 'x') { updateAndSend({ autoshoot: true }) }
     }

@@ -365,10 +365,6 @@ export class GameRoom extends Room<GameState> {
     }
   }
 
-  slowPlayer(player: Player) {
-    player.deceleration += 0.04
-  }
-
   movePlayer(player: Player, ticks: number) {
     if (player.direction.x !== 0 || player.direction.y !== 0) {
       const magnitude = Maths.normalize2D(
@@ -521,7 +517,6 @@ export class GameRoom extends Room<GameState> {
     }
 
     for (let id of this.state.players.keys()) {
-      this.slowPlayer(this.state.players[id])
       this.movePlayer(this.state.players[id], dx / 50)
       this.moveFireballs(this.state.players[id], dx / 50)
 
