@@ -2,9 +2,9 @@ import Head from 'next/head'
 import { useMemo, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 
 import '../styles/globals.css'
-import { LoadingIcon } from 'components'
 
 function DragonDungeon({ Component, pageProps }) {
   let [ gameStarted, setGameStarted ] = useState<boolean>(false)
@@ -54,6 +54,16 @@ function DragonDungeon({ Component, pageProps }) {
             let auth = getAuth()
             let info = await signInWithPopup(auth, new GoogleAuthProvider())
             if (info.user) {
+              let db = getFirestore()
+              let userStatsRef = doc(db, info.user.uid, 'stats')
+              let userStats = await getDoc(userStatsRef)
+              if (!userStats.exists()) {
+                await setDoc(userStatsRef, {
+                  level: 1,
+                  coins: 0,
+                  fireballs: 0
+                })
+              }
               setSignInNeeded(false)
               setGameStarted(true)
             }

@@ -40,8 +40,8 @@ export class GameView extends Component<GameViewProps, GameViewState> {
   componentDidMount() {
     this.app = new PIXI.Application({
       resizeTo: window,
-      antialias: true,
-      backgroundAlpha: 100,
+      antialias: false,
+      backgroundAlpha: 0
     })
     this.gameCanvas!.appendChild(this.app.view)
     this.viewport = new Viewport()
@@ -86,14 +86,14 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     let walls = []
     let coins = []
     let hudBars = []
-    let bats = []
+    // let bats = []
     let skulls = []
 
-    this.props.state.bats.forEach((bat, key) => {
-      bats.push(
-        <Bat x={bat.x} y={bat.y} rot={bat.angle} key={key.toString()} />,
-      )
-    })
+    // this.props.state.bats.forEach((bat, key) => {
+    //   bats.push(
+    //     <Bat x={bat.x} y={bat.y} rot={bat.angle} key={key.toString()} />,
+    //   )
+    // })
 
     this.props.state.skulls.forEach((skull, key) => {
       skulls.push(
@@ -275,7 +275,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
         {coinJar}
         {dragons}
         {hudBars}
-        {bats}
+        {/* {bats} */}
         {skulls}
       </>,
       this.viewport,

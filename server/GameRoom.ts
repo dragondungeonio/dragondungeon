@@ -365,10 +365,6 @@ export class GameRoom extends Room<GameState> {
     }
   }
 
-  slowPlayer(player: Player) {
-    player.deceleration += 0.04
-  }
-
   movePlayer(player: Player, ticks: number) {
     if (player.direction.x !== 0 || player.direction.y !== 0) {
       const magnitude = Maths.normalize2D(
@@ -520,10 +516,12 @@ export class GameRoom extends Room<GameState> {
       skull.move()
     }
 
-    this.state.players.forEach((player, playerId) => {
-      this.slowPlayer(player)
-      this.movePlayer(player, dx / 50)
-      this.moveFireballs(player, dx / 50)
+    for (let id of this.state.players.keys()) {
+      this.movePlayer(this.state.players[id], dx / 50)
+      this.moveFireballs(this.state.players[id], dx / 50)
+
+      let player = this.state.players[id]
+      let playerId = id
 
       player.tick(dx)
 
@@ -594,7 +592,6 @@ export class GameRoom extends Room<GameState> {
                       newX,
                       newY,
                       angle + Math.PI,
-                      7,
                       'electric',
                       20,
                       0,

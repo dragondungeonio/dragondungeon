@@ -45,7 +45,7 @@ export class Player extends Schema {
   skinType: string
 
   @type('number')
-  speed: number = 27
+  speed: number = 20
 
   @type('number')
   deceleration: number = 1
@@ -127,6 +127,8 @@ export class Player extends Schema {
       resDirection.y += 1
       this.deceleration = 1
     }
+    resDirection.x += Math.sin(this.activeInputs.angle - Math.PI / 2)
+    resDirection.y += Math.cos(this.activeInputs.angle + Math.PI / 2)
     this.direction = resDirection
     //this.angle = Math.atan2(i.mouseX - this.x, i.mouseY - this.y)
     this.angle = i.angle
@@ -168,7 +170,6 @@ export class Player extends Schema {
         this.x,
         this.y,
         this.angle,
-        6,
         this.ballType,
         40,
         this.team,
