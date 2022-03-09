@@ -188,8 +188,6 @@ export function checkWalls(newX: number, newY: number){
 */
 
 /*export function checkWalls (newX: number, newY: number, rad: number){
-  const gameWidth = 3000;
-  const gameHeight = 3000;
   //this just checks the basic outer walls
   if(newX > gameWidth-rad || newY > gameHeight-rad || newX < rad || newY < rad){
     return true;
