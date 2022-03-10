@@ -18,6 +18,7 @@ import { Bar } from './entities/healthBar/healthBar'
 import { Leaderboard } from 'components'
 import { Skull } from './entities/skull'
 import { Bat } from './entities/bat'
+import Router from 'next/router'
 
 let dragonCelebrating = false
 let SFXPlayTimeout = false
@@ -77,6 +78,10 @@ export class GameView extends Component<GameViewProps, GameViewState> {
         2000,
       )
       setTimeout(() => (SFXPlayTimeout = false), 1000)
+    })
+
+    this.props.stateManager.room.onLeave(() => {
+      Router.push('/disconnected')
     })
   }
 

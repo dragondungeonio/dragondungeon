@@ -193,6 +193,7 @@ export class GameRoom extends Room<GameState> {
     this.state.players.forEach((player: Player) => {
       player.dead = true
     })
+    this.lock()
   }
 
   spawnCoin() {
