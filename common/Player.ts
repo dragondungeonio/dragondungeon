@@ -12,6 +12,9 @@ export class Player extends Schema {
   botTimeout: number = Math.random() * 5000
 
   @type('number')
+  fireballCount: number = 0
+
+  @type('number')
   health: number = 10
 
   @type('number')

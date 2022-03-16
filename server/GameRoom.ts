@@ -190,7 +190,14 @@ export class GameRoom extends Room<GameState> {
   gameOver() {
     this.clock.clear()
     this.state.gameOver = true
-    this.state.players.forEach((player: Player) => {
+    this.state.players.forEach(async (player: Player) => {
+      if (!player.isBot) {
+        let playerLifetimeStatsRef = admin.firestore().collection(player.onlineID).doc('stats')
+        let playerLifetimeStats = await playerLifetimeStatsRef.get()
+        let coins = parseInt(playerLifetimeStats.data().coins, 10) + player.score
+        let fireballs = parseInt(playerLifetimeStats.data().fireballs, 10) + player.fireballCount
+        playerLifetimeStatsRef.update({ coins, fireballs })
+      }
       player.dead = true
     })
     this.lock()

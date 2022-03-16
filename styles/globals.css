@@ -15,7 +15,7 @@ a {
 
 * {
   font-family: 'Press Start 2P', sans-serif;
-  cursor: crosshair !important;
+  cursor: url('/img/ui/cursor.png'), crosshair !important;
 }
 
 html {
