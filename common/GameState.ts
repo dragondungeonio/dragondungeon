@@ -62,9 +62,9 @@ export class GameState extends Schema {
 	coinJars = new MapSchema<CoinJar>();
 
 
-	//"FFA" or "coinCapture"
+	//"CTC" or "coinCapture"
 	@type("string")
-	gamemode: string = "CTC"
+	gamemode: string = "coinCapture"
 
 	constructor() {
 		super();
