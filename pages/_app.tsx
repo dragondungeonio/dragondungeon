@@ -45,13 +45,13 @@ function DragonDungeon({ Component, pageProps }) {
       <title>Dragon Dungeon</title>
       <link rel="icon" href="/img/game/coinJar.png" />
       <meta property="og:title" content="Dragon Dungeon" />
-      <meta property="og:type" content="text/html" />
+      <meta property="og:type" content="website" />
       <meta property="og:url" content="https://dragondungeon.io" />
       <meta property="og:image" content="https://dragondungeon.io/img/dragons/basicDragon.png" />
+      <meta property="og:description" content="Compete against dragons from all over the world and become the richest dragon of all in this award-winning game from the LEAGUE of Amazing Programmers." />
+      <meta name="description" content="Compete against dragons from all over the world and become the richest dragon of all in this award-winning game from the LEAGUE of Amazing Programmers." />
       <meta name="twitter:creator" content="@dragondungeonio" />
-      <meta name="twitter:player" content="https://dragondungeon.io/play" />
-      <meta name="twitter:player:width" content="480" />
-	    <meta name="twitter:player:height" content="480" />
+      <meta name="twitter:image" content="https://dragondungeon.io/img/dragons/basicDragon.png" />
     </Head>
     <p style={{ color: '#f9e300', fontFamily: 'sans-serif', position: 'fixed', bottom: '0', right: '15px', fontSize: '13pt' }}>{require('package.json').version}</p>
     {!gameStarted && <div className={styles.home} style={{ textAlign: 'center' }}>

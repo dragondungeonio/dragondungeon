@@ -27,6 +27,9 @@ export default function Credits() {
       <h2>Assets</h2>
       <p>Toybox 2020 Competition</p>
       <p>Kevin Macleod (imcompetech.com)</p>
+      <div className={styles.link} onClick={() => router.push('/award')}>
+        Award
+      </div>
     </div>
   )
 }
