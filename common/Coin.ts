@@ -2,7 +2,7 @@ import { Schema, type } from "@colyseus/schema";
 
 export class Coin extends Schema {
 	@type("number")
-	key: number;
+	key: number | string;
 
 	@type("number")
 	x: number = 1;

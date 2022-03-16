@@ -2,12 +2,12 @@
 
 // 3rd Party Imports
 import { createServer } from 'http'
+import { createServer as createSecureServer } from 'https'
+import { readFileSync, existsSync } from 'fs'
 import { parse } from 'url'
 import { Server } from 'colyseus'
-import { monitor } from '@colyseus/monitor'
 import { WebSocketTransport } from '@colyseus/ws-transport'
 import next from 'next'
-import express from 'express'
 import 'colors'
 
 // 1st Party Imports
@@ -17,6 +17,16 @@ import { GameRoom } from './GameRoom'
 console.log('DragonDungeon'.red)
 console.log('The LEAGUE of Amazing Programmers'.yellow)
 
+// HTTPS support
+let secureServer =
+  process.env.HTTP !== 'true' && existsSync('config/private/key.pem')
+let secureServerOptions: any = {}
+
+if (secureServer) {
+  secureServerOptions.key = readFileSync('config/private/key.pem')
+  secureServerOptions.cert = readFileSync('config/private/cert.pem')
+}
+
 // Initialize Next.js
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -24,26 +34,39 @@ const handle = app.getRequestHandler()
 
 // Start Client
 app.prepare().then(() => {
-  createServer((req, res) => {
-    const parsedUrl = parse(req.url, true)
-    handle(req, res, parsedUrl)
-  }).listen(8080, () => {
-    console.log('client'.green + ' - localhost:8080')
+  let clientServer = !secureServer
+    ? createServer((req, res) => {
+        handle(req, res, parse(req.url, true))
+      })
+    : createSecureServer(secureServerOptions, (req, res) => {
+        handle(req, res, parse(req.url, true))
+      })
+
+  clientServer.listen(8080, () => {
+    console.log(
+      'client'.green +
+        ' - [::]:8080 - ' +
+        (secureServer ? 'https'.green : 'http'.yellow),
+    )
   })
 })
 
 // Start Server
-const exp = express()
+let gameServer = !secureServer
+  ? createServer()
+  : createSecureServer(secureServerOptions)
 
-exp.get('/*', monitor())
-
-const gameServer = new Server({
+const colyseusServer = new Server({
   transport: new WebSocketTransport({
-    server: createServer(exp)
-  })
+    server: gameServer,
+  }),
 })
 
-gameServer.define('game', GameRoom)
+colyseusServer.define('game', GameRoom)
 
-gameServer.listen(1337)
-console.log('server'.green + ' - localhost:1337')
+colyseusServer.listen(1337)
+console.log(
+  'server'.green +
+    ' - [::]:1337 - ' +
+    (secureServer ? 'https'.green : 'http'.yellow),
+)

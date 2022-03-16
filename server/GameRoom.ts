@@ -649,8 +649,6 @@ export class GameRoom extends Room<GameState> {
     }
 
     for (let id of this.state.players.keys()) {
-      //console.log(this.state.players[id].x+"   "+this.state.players[id].y)
-
       this.movePlayer(this.state.players[id], dx / 50)
       this.moveFireballs(this.state.players[id], dx / 50)
 
@@ -658,6 +656,7 @@ export class GameRoom extends Room<GameState> {
 
       for (let id2 of this.state.players.keys()) {
         for (let i = 0; i < this.state.players[id2].fireballs.length; i++) {
+          const fireBall = this.state.players[id2].fireballs[i]
           if (id != id2) {
             if (
               this.state.players[id2].fireballs[i].checkHit(
@@ -668,7 +667,7 @@ export class GameRoom extends Room<GameState> {
             ) {
               this.state.players[id2].hitsDealt++
               this.state.players[id].hitsRecived++
-              this.state.players[id].health -= 0.1
+              this.state.players[id].health -= 0.05
               if (this.state.players[id].health < 0) {
                 this.state.players[id].health = 0
                 try {
@@ -687,7 +686,6 @@ export class GameRoom extends Room<GameState> {
                   }, 5000)
                 } catch {}
               }
-              var fireBall = this.state.players[id2].fireballs[i]
               const coinChance = 0.2 // the possibility of removing a coin on collision with a fireball, this is done to spread out the coins more
               const lifetimeRemove = 1 // the lifetime decreace of the fireball for every coin it removes from a dragon (as if  it is heavier)
 
@@ -737,17 +735,26 @@ export class GameRoom extends Room<GameState> {
                     const newX = this.state.players[id].x + 50 * Math.cos(angle)
                     const newY = this.state.players[id].y + 50 * Math.sin(angle)
                     // TODO: Reimplement when checkWalls is a thing... again
-                    // if (!this.checkWalls(newX, newY, 22.5, true)) {
-                    // 	this.state.players[id2].fireballs.push(new Fireball(newX, newY, angle + Math.PI, 7, "electric", 20, 0));
-
-                    // }
+                    if (!this.checkWalls(newX, newY, 22.5, true)) {
+                      this.state.players[id2].fireballs.push(
+                        new Fireball(
+                          newX,
+                          newY,
+                          angle + Math.PI,
+                          7,
+                          'electric',
+                          20,
+                          0,
+                        ),
+                      )
+                    }
                   }
                   break
-                case 'mud':
-                  fireBall.width += 1
-                  fireBall.height += 1.87
-                  //fireBall.speed += .05;
-                  break
+                // case 'mud':
+                //   fireBall.width += 1
+                //   fireBall.height += 1.87
+                //   //fireBall.speed += .05;
+                //   break
                 case 'ice':
                   this.state.players[id].deceleration = 2
                   break

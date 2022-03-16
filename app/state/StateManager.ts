@@ -31,7 +31,7 @@ export class StateManager {
         await this.colyseus.client.joinOrCreate('game', { token }).then(room => {
           this.room = room as Room<GameState>
           resolve()
-        }).catch(console.warn)
+        })
       } else {
         reject()
       }
