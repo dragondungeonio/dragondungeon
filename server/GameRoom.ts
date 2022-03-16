@@ -10,6 +10,7 @@ import {
   Bat,
   Skull,
   Wall,
+  CoinJar,
 } from '../common'
 import gameConfig from '../config/dragondungeon.config'
 
@@ -128,16 +129,28 @@ export class GameRoom extends Room<GameState> {
     }
 
     var teamnum
+    var xPos
+    var yPos
     if (this.state.gamemode == 'CTC') {
       if (this.redTeamIds.length <= this.blueTeamIds.length) {
         teamnum = 1
         this.redTeamIds.push(client.id)
+        xPos = Math.random() * 700 + 100
+        yPos = Math.random() * 800 + 1100
       } else {
         teamnum = 2
         this.blueTeamIds.push(client.id)
+        xPos = Math.random() * 800 + 2100
+        yPos = Math.random() * 800 + 1100
       }
     } else {
       teamnum = 0
+      xPos = this.state.gamewidth * Math.random()
+      yPos = this.state.gameheight * Math.random()
+      while (this.checkWalls(xPos, yPos, 45, false)) {
+        xPos = this.state.gamewidth * Math.random()
+        yPos = this.state.gameheight * Math.random()
+      }
     }
     this.state.players[client.id] = new ServerPlayer(
       ballType,
@@ -146,12 +159,6 @@ export class GameRoom extends Room<GameState> {
       client,
     )
 
-    var xPos = this.state.gamewidth * Math.random()
-    var yPos = this.state.gameheight * Math.random()
-    while (this.checkWalls(xPos, yPos, 45, false)) {
-      xPos = this.state.gamewidth * Math.random()
-      yPos = this.state.gameheight * Math.random()
-    }
     this.state.players[client.id].x = xPos
     this.state.players[client.id].y = yPos
 
@@ -179,7 +186,7 @@ export class GameRoom extends Room<GameState> {
 
   startGameLoop() {
     this.setWalls(false)
-
+    this.setCoinJar()
     this.gameInt = setInterval(() => {
       this.clock.tick()
       this.tick()
@@ -203,9 +210,29 @@ export class GameRoom extends Room<GameState> {
     this.lock()
   }
 
+  setCoinJar() {
+    if (this.state.gamemode == 'CTC') {
+      this.state.coinJars.set(
+        v4(),
+        new CoinJar(this.state.gamewidth / 4, this.state.gameheight / 2, 1),
+      )
+      this.state.coinJars.set(
+        v4(),
+        new CoinJar(this.state.gamewidth / 1.25, this.state.gameheight / 2, 2),
+      )
+    } else {
+      this.state.coinJars.set(
+        v4(),
+        new CoinJar(this.state.gamewidth / 2, this.state.gameheight / 2, 0),
+      )
+    }
+  }
+
   spawnCoin() {
     var num = Math.random()
     var size = 20
+    var xPos
+    var yPos
     if (num >= 0.75) {
       size += 5
       if (num >= 0.95) {
@@ -218,14 +245,22 @@ export class GameRoom extends Room<GameState> {
     var teamNum
     if (this.state.gamemode == 'CTC') {
       teamNum = 1
+      if (this.state.coins.size % 2 == 0) {
+        xPos = Math.random() * 700 + 100
+        yPos = Math.random() * 800 + 1100
+      } else if (this.state.coins.size % 2 == 1) {
+        teamNum = 2
+        xPos = Math.random() * 800 + 2100
+        yPos = Math.random() * 800 + 1100
+      }
     } else {
       teamNum = 0
-    }
-    let xPos = Math.random() * this.state.gamewidth
-    let yPos = Math.random() * this.state.gameheight
-    while (this.checkWalls(xPos, yPos, size, false)) {
       xPos = Math.random() * this.state.gamewidth
       yPos = Math.random() * this.state.gameheight
+      while (this.checkWalls(xPos, yPos, size, false)) {
+        xPos = Math.random() * this.state.gamewidth
+        yPos = Math.random() * this.state.gameheight
+      }
     }
     this.state.coins.set(v4(), new Coin(xPos, yPos, size, teamNum))
   }
@@ -270,94 +305,176 @@ export class GameRoom extends Room<GameState> {
     const wallLength = 700
     const wallWidth = 50
 
-    //bottom right
-    const wall2 = new Wall(
-      gamewidth / 2 + midAreaLength,
-      gameheight / 2 + midAreaLength,
-      wallLength,
-      wallWidth,
-      true,
-      2,
-      'coingrab',
-    )
-    const wall3 = new Wall(
-      gamewidth / 2 + midAreaLength,
-      gameheight / 2 + midAreaLength,
-      wallLength,
-      wallWidth,
-      false,
-      2,
-      'coingrab',
-    )
-    //bottom left
-    const wall4 = new Wall(
-      gamewidth / 2 - midAreaLength,
-      gameheight / 2 + midAreaLength,
-      wallLength,
-      wallWidth,
-      true,
-      2,
-      'coingrab',
-    )
-    const wall5 = new Wall(
-      gamewidth / 2 - midAreaLength - wallLength,
-      gameheight / 2 + midAreaLength,
-      wallLength,
-      wallWidth,
-      false,
-      2,
-      'coingrab',
-    )
-    //top left
-    const wall6 = new Wall(
-      gamewidth / 2 - midAreaLength,
-      gameheight / 2 - midAreaLength - wallLength,
-      wallLength,
-      wallWidth,
-      true,
-      2,
-      'coingrab',
-    )
-    const wall7 = new Wall(
-      gamewidth / 2 - midAreaLength - wallLength,
-      gameheight / 2 - midAreaLength,
-      wallLength,
-      wallWidth,
-      false,
-      2,
-      'coingrab',
-    )
-    //top right
-    const wall8 = new Wall(
-      gamewidth / 2 + midAreaLength,
-      gameheight / 2 - midAreaLength - wallLength,
-      wallLength,
-      wallWidth,
-      true,
-      2,
-      'coingrab',
-    )
-    const wall9 = new Wall(
-      gamewidth / 2 + midAreaLength,
-      gameheight / 2 - midAreaLength,
-      wallLength,
-      wallWidth,
-      false,
-      2,
-      'coingrab',
-    )
-
-    this.state.walls[v4()] = wall2
-    this.state.walls[v4()] = wall3
-
-    this.state.walls[v4()] = wall4
-    this.state.walls[v4()] = wall5
-
-    this.state.walls[v4()] = wall6
-    this.state.walls[v4()] = wall7
-
-    this.state.walls[v4()] = wall8
-    this.state.walls[v4()] = wall9
+    var walls: Wall[] = []
+    if (this.state.gamemode == 'CTC') {
+      //left side
+      //walls.push(new Wall(0, (gameheight/3), (gamewidth/3), wallWidth, false, 10, "CTC"))
+      for (let i = 0; i < 5; i++) {
+        walls.push(
+          new Wall(
+            i * (gamewidth / 3 / 5),
+            gameheight / 3,
+            gamewidth / 3 / 5,
+            wallWidth,
+            false,
+            10,
+            'CTC',
+          ),
+        )
+      }
+      walls.push(
+        new Wall(
+          0,
+          gameheight / 1.5,
+          gamewidth / 3,
+          wallWidth,
+          false,
+          10,
+          'CTC',
+        ),
+      )
+      walls.push(
+        new Wall(
+          gamewidth / 3,
+          gameheight / 3,
+          gamewidth / 3,
+          wallWidth,
+          true,
+          10,
+          'CTC',
+        ),
+      )
+      //right side
+      walls.push(
+        new Wall(
+          gamewidth / 1.5,
+          gameheight / 3,
+          gamewidth / 3,
+          wallWidth,
+          false,
+          10,
+          'CTC',
+        ),
+      )
+      walls.push(
+        new Wall(
+          gamewidth / 1.5,
+          gameheight / 1.5,
+          gamewidth / 3,
+          wallWidth,
+          false,
+          10,
+          'CTC',
+        ),
+      )
+      walls.push(
+        new Wall(
+          gamewidth / 1.5,
+          gameheight / 3,
+          gamewidth / 3,
+          wallWidth,
+          true,
+          10,
+          'CTC',
+        ),
+      )
+    } else {
+      //bottom right
+      walls.push(
+        new Wall(
+          gamewidth / 2 + midAreaLength,
+          gameheight / 2 + midAreaLength,
+          wallLength,
+          wallWidth,
+          true,
+          2,
+          'coingrab',
+        ),
+      )
+      walls.push(
+        new Wall(
+          gamewidth / 2 + midAreaLength,
+          gameheight / 2 + midAreaLength,
+          wallLength,
+          wallWidth,
+          false,
+          2,
+          'coingrab',
+        ),
+      )
+      //bottom left
+      walls.push(
+        new Wall(
+          gamewidth / 2 - midAreaLength,
+          gameheight / 2 + midAreaLength,
+          wallLength,
+          wallWidth,
+          true,
+          2,
+          'coingrab',
+        ),
+      )
+      walls.push(
+        new Wall(
+          gamewidth / 2 - midAreaLength - wallLength,
+          gameheight / 2 + midAreaLength,
+          wallLength,
+          wallWidth,
+          false,
+          2,
+          'coingrab',
+        ),
+      )
+      //top left
+      walls.push(
+        new Wall(
+          gamewidth / 2 - midAreaLength,
+          gameheight / 2 - midAreaLength - wallLength,
+          wallLength,
+          wallWidth,
+          true,
+          2,
+          'coingrab',
+        ),
+      )
+      walls.push(
+        new Wall(
+          gamewidth / 2 - midAreaLength - wallLength,
+          gameheight / 2 - midAreaLength,
+          wallLength,
+          wallWidth,
+          false,
+          2,
+          'coingrab',
+        ),
+      )
+      //top right
+      walls.push(
+        new Wall(
+          gamewidth / 2 + midAreaLength,
+          gameheight / 2 - midAreaLength - wallLength,
+          wallLength,
+          wallWidth,
+          true,
+          2,
+          'coingrab',
+        ),
+      )
+      walls.push(
+        new Wall(
+          gamewidth / 2 + midAreaLength,
+          gameheight / 2 - midAreaLength,
+          wallLength,
+          wallWidth,
+          false,
+          2,
+          'coingrab',
+        ),
+      )
+    }
+    for (let wall of walls) {
+      this.state.walls[v4()] = wall
+    }
   }
 
   removeDeadWalls() {
@@ -608,7 +725,7 @@ export class GameRoom extends Room<GameState> {
               player.deceleration = 2
             }
           }
-          if (
+        if (
             fireBall.type === 'mud' &&
             fireBall.width < 500 &&
             fireBall.height < 935
@@ -619,26 +736,45 @@ export class GameRoom extends Room<GameState> {
           }
         }
       })
-
-      if (this.state.coinJar.checkHit(player.x, player.y, 0)) {
-        // when a player has collided with the coinjar
-        player.score += player.coins // add coins to players score
-        if (player.coins > 0) {
-          try {
-            player.colyseusClient.send('sfx', '/audio/coinjar.wav')
-            this.broadcast(
-              'chatlog',
-              `${player.onlineName} <img src='/img/game/coinJar.png' height='20px' height='20px' style='image-rendering:pixelated' /> ${player.coins}`,
-            )
-          } catch {}
+      
+      for (let coinJarId of this.state.coinJars.keys()) {
+        if (
+          this.state.coinJars[coinJarId].checkHit(
+            this.state.players[id].x,
+            this.state.players[id].y,
+            this.state.players[id].team,
+          )
+        ) {
+          // when a player has collided with the coinjar
+          this.state.players[id].score += this.state.players[id].coins // add coins to players score
+          if (this.state.players[id].coins > 0) {
+            try {
+              this.state.players[id].colyseusClient.send(
+                'sfx',
+                '/audio/coinjar.wav',
+              )
+              this.broadcast(
+                'chatlog',
+                `${this.state.players[id].onlineName} <img src='/img/game/coinJar.png' height='20px' height='20px' style='image-rendering:pixelated' /> ${this.state.players[id].coins}`,
+              )
+            } catch {}
+          }
+          this.state.players[id].coins = 0 // remove coins
         }
-        player.coins = 0 // remove coins
       }
 
-      this.state.coins.forEach((coin, cid) => {
-        if (coin.checkHit(player.x, player.y, 0) && player.coins < 10) {
-          let prevCoins = player.coins
-          var coins = player.coins
+      for (let cid of this.state.coins.keys()) {
+        if (
+          this.state.players[id].team == this.state.coins[cid].team &&
+          this.state.coins[cid].checkHit(
+            this.state.players[id].x,
+            this.state.players[id].y,
+            0,
+          ) &&
+          this.state.players[id].coins < 10
+        ) {
+          let prevCoins = this.state.players[id].coins
+          var coins = this.state.players[id].coins
           try {
             player.colyseusClient.send('sfx', '/audio/coin.wav')
           } catch {}
@@ -670,7 +806,7 @@ export class GameRoom extends Room<GameState> {
           player.coins = Math.min(coins, 10)
           this.state.coins.delete(cid)
         }
-      })
+      }
 
       for (let bat of this.state.bats.values()) {
         if (bat.checkHit(player.x, player.y)) {

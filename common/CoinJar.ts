@@ -13,24 +13,20 @@ export class CoinJar extends Schema {
   @type('string')
   key: string
 
-  constructor(x: number, y: number, key?: string) {
-    super()
-    this.x = x
-    this.y = y
-    this.key = key
-  }
+	constructor(x: number, y: number, teamNum: number) {
+		super()
+		this.x = x
+		this.y = y
+		this.team = teamNum
+	}
 
-  checkHit(dragonX: number, dragonY: number, teamNum: number) {
-    if (teamNum == this.team && !(teamNum == 0 && this.team == 0)) {
-      return false
-    }
-    if (
-      Math.sqrt(Math.pow(this.x - dragonX, 2) + Math.pow(this.y - dragonY, 2)) <
-      95
-    ) {
-      return true
-    } else {
-      return false
-    }
-  }
+	checkHit(dragonX: number, dragonY: number, teamNum: number) {
+		if( teamNum != this.team ){return false;}
+		if (Math.sqrt(Math.pow(this.x - dragonX, 2) + Math.pow(this.y - dragonY, 2)) < 95) {
+			return true;
+		} else {
+			return false
+		}
+	}
+
 }

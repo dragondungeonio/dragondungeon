@@ -53,14 +53,15 @@ export class GameState extends Schema {
   @type('number')
   gameheight: number = gameConfig.gameSize
 
-  @type(CoinJar)
-  coinJar = new CoinJar(this.gamewidth / 2, this.gameheight / 2)
+	@type({map: CoinJar})
+	coinJars = new MapSchema<CoinJar>();
 
-  //"FFA" or "coinCapture"
-  @type('string')
-  gamemode: string = 'FFA'
 
-  constructor() {
-    super()
-  }
+	//"CTC" or "coinCapture"
+	@type("string")
+	gamemode: string = "CTC"
+
+	constructor() {
+		super();
+	}
 }

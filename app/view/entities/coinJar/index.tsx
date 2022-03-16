@@ -36,8 +36,10 @@ export const CoinJar = (props: IProps) => {
     switch(props.team){
       case 1:
         jarImages = [redJarImage1, redJarImage2, redJarImage3, redJarImage4, redJarImage5];
+        break
       case 2:
         jarImages = [blueJarImage1, blueJarImage2, blueJarImage3, blueJarImage4, blueJarImage5];
+        break
       default:
         jarImages = [jarImage1, jarImage2, jarImage3, jarImage4, jarImage5];
     }

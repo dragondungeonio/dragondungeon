@@ -93,7 +93,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     let hudBars = []
     // let bats = []
     let skulls = []
-
+    let coinJars = []
     // this.props.state.bats.forEach((bat, key) => {
     //   bats.push(
     //     <Bat x={bat.x} y={bat.y} rot={bat.angle} key={key.toString()} />,
@@ -270,14 +270,17 @@ export class GameView extends Component<GameViewProps, GameViewState> {
       })
     }
 
-    let coinJar = <CoinJar x={1500} y={1500} key={'coinJar'} team={0} />
+    this.props.state.coinJars.forEach(coinJar => {
+      coinJars.push(<CoinJar x={coinJar.x} y={coinJar.y} key={v4()} team={coinJar.team} />)
+    });
 
     render(
+
       <>
         {tiles}
         {walls}
         {coins}
-        {coinJar}
+        {coinJars}
         {dragons}
         {hudBars}
         {/* {bats} */}
