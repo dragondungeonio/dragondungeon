@@ -6,11 +6,15 @@ import styles from 'styles/index.module.css'
 
 function MenuOption(props) {
   let router = useRouter()
-  return <div className={styles.link} onClick={() => router.push(props.href)}>{props.name}</div>
+  return (
+    <div className={styles.link} onClick={() => router.push(props.href)}>
+      {props.name}
+    </div>
+  )
 }
 
 export default function MyDragon() {
-  let [ user, setUser ] = useState<any>('')
+  let [user, setUser] = useState<any>('')
 
   useMemo(() => {
     let auth = getAuth()
@@ -19,7 +23,7 @@ export default function MyDragon() {
         setUser(currentUser)
       }
     })
-  
+
     authUnsub()
   }, [])
 

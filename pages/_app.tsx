@@ -1,15 +1,20 @@
 import Head from 'next/head'
 import { useMemo, useState } from 'react'
 import { initializeApp } from 'firebase/app'
-import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from 'firebase/auth'
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 
 import '../styles/globals.css'
 import styles from '../styles/index.module.css'
 
 function DragonDungeon({ Component, pageProps }) {
-  let [ gameStarted, setGameStarted ] = useState<boolean>(false)
-  let [ signInNeeded, setSignInNeeded ] = useState<boolean>(false)
+  let [gameStarted, setGameStarted] = useState<boolean>(false)
+  let [signInNeeded, setSignInNeeded] = useState<boolean>(false)
 
   useMemo(() => {
     if (typeof window !== undefined) {
@@ -21,8 +26,8 @@ function DragonDungeon({ Component, pageProps }) {
         messagingSenderId: '320692217416',
         appId: '1:320692217416:web:f9cd0efdc04445865e9a7d',
       })
-    
-      let auth = getAuth()    
+
+      let auth = getAuth()
       let unsubAuthState = onAuthStateChanged(auth, async (user) => {
         if (user) {
           setGameStarted(true)
@@ -30,7 +35,7 @@ function DragonDungeon({ Component, pageProps }) {
           setSignInNeeded(true)
         }
       })
-    
+
       unsubAuthState()
     }
   }, [])
