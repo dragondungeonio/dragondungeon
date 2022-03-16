@@ -1,5 +1,5 @@
 /**
- * 
+ *
  * Get the angle in radiant between two points
  * @param x1
  * @param y1
@@ -7,9 +7,13 @@
  * @param y2
  */
 
-
-export function calculateAngle(x1: number, y1: number, x2: number, y2: number): number {
-  return Math.atan2(y1 - y2, x1 - x2);
+export function calculateAngle(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+): number {
+  return Math.atan2(y1 - y2, x1 - x2)
 }
 
 /**
@@ -19,26 +23,26 @@ export function calculateAngle(x1: number, y1: number, x2: number, y2: number): 
  * @param n
  */
 export function lerp(a: number, b: number, n: number): number {
-  return (1 - n) * a + n * b;
+  return (1 - n) * a + n * b
 }
 
-/** 
+/**
  * Lerp between two angles
  * @param from
  * @param to
  * @param weight
  */
-export function lerpAngle(from:number, to:number, weight:number){
-  return from + shortAngleDist(from, to) * weight;
+export function lerpAngle(from: number, to: number, weight: number) {
+  return from + shortAngleDist(from, to) * weight
 }
 
 /**
  * find shortest angle distance.
  */
-function shortAngleDist(startAngle:number,endAngle:number) {
-  var max = Math.PI*2;
-  var da = (endAngle-startAngle) % max;
-  return 2*da % max - da;
+function shortAngleDist(startAngle: number, endAngle: number) {
+  var max = Math.PI * 2
+  var da = (endAngle - startAngle) % max
+  return ((2 * da) % max) - da
 }
 
 /**
@@ -48,8 +52,13 @@ function shortAngleDist(startAngle:number,endAngle:number) {
  * @param toX
  * @param toY
  */
-export function getDistance(x: number, y: number, toX: number, toY: number): number {
-  return Math.hypot(toX - x, toY - y);
+export function getDistance(
+  x: number,
+  y: number,
+  toX: number,
+  toY: number,
+): number {
+  return Math.hypot(toX - x, toY - y)
 }
 
 /**
@@ -58,7 +67,7 @@ export function getDistance(x: number, y: number, toX: number, toY: number): num
  * @param {number} max - max number
  */
 export function getRandomInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 /**
@@ -68,7 +77,7 @@ export function getRandomInt(min: number, max: number): number {
  * @param max
  */
 export function clamp(value: number, min: number, max: number): number {
-  return value > max ? max : value < min ? min : value;
+  return value > max ? max : value < min ? min : value
 }
 
 /**
@@ -76,7 +85,7 @@ export function clamp(value: number, min: number, max: number): number {
  * @param value
  */
 export function round2Digits(value: number): number {
-  return Math.round(Math.round(value * 1000) / 10) / 100;
+  return Math.round(Math.round(value * 1000) / 10) / 100
 }
 
 /**
@@ -85,18 +94,18 @@ export function round2Digits(value: number): number {
  * @param ay
  */
 export function normalize2D(ax: number, ay: number): number {
-  return Math.sqrt((ax * ax) + (ay * ay));
+  return Math.sqrt(ax * ax + ay * ay)
 }
 
 /**
  * Transform an angle in degrees to the nearest cardinal point.
  */
-type Cardinal = 'E' | 'NE' | 'N' | 'NW' | 'W' | 'SW' | 'S' | 'SE';
+type Cardinal = 'E' | 'NE' | 'N' | 'NW' | 'W' | 'SW' | 'S' | 'SE'
 export function degreeToCardinal(degree: number): Cardinal {
-  const cardinals: Cardinal[] = ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'];
-  const remainder = degree %= 360;
-  const index = Math.round((remainder < 0 ? degree + 360 : degree) / 45) % 8;
-  return cardinals[index];
+  const cardinals: Cardinal[] = ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE']
+  const remainder = (degree %= 360)
+  const index = Math.round((remainder < 0 ? degree + 360 : degree) / 45) % 8
+  return cardinals[index]
 }
 
 /**
@@ -105,7 +114,7 @@ export function degreeToCardinal(degree: number): Cardinal {
  * reverseNumber(1.2, 0, 3) // returns 1.8
  */
 export function reverseNumber(num: number, min: number, max: number): number {
-  return (max + min) - num;
+  return max + min - num
 }
 
 /**
@@ -114,26 +123,24 @@ export function reverseNumber(num: number, min: number, max: number): number {
  * @param tileSize The tile size to snap to
  */
 export function snapPosition(pos: number, tileSize: number): number {
-  const rest = pos % tileSize;
-  return rest < tileSize / 2
-    ? -rest
-    : tileSize - rest;
+  const rest = pos % tileSize
+  return rest < tileSize / 2 ? -rest : tileSize - rest
 }
 
 /**
  * Shuffles an array
  */
 export function shuffleArray(array: any[]) {
-  const result = [...array];
+  const result = [...array]
 
   for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = result[i];
-    result[i] = result[j];
-    result[j] = temp;
+    const j = Math.floor(Math.random() * (i + 1))
+    const temp = result[i]
+    result[i] = result[j]
+    result[j] = temp
   }
 
-  return result;
+  return result
 }
 /*
 export function lineOverlap(xmin1: number, xmax1: number, xmin2: number, xmax2: number){
@@ -180,10 +187,7 @@ export function checkWalls(newX: number, newY: number){
 }
 */
 
-
 /*export function checkWalls (newX: number, newY: number, rad: number){
-  const gameWidth = 3000;
-  const gameHeight = 3000;
   //this just checks the basic outer walls
   if(newX > gameWidth-rad || newY > gameHeight-rad || newX < rad || newY < rad){
     return true;

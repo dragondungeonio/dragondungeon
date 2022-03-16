@@ -1,11 +1,11 @@
 {
   "name": "dragondungeon",
   "private": true,
-  "version": "0.0.7",
+  "version": "beta-0.1.0",
   "scripts": {
-    "dev": "HTTP=true ts-node --project tsconfig.server.json server/index.ts",
-    "dev:secure": "ts-node --project tsconfig.server.json server/index.ts",
-    "start": "NODE_ENV=production ts-node --project tsconfig.server.json server/index.ts",
+    "dev": "ts-node --project tsconfig.server.json server/index.ts",
+    "dev:secure": "ts-node --project tsconfig.server.json server/index.ts --https",
+    "start": "ts-node --project tsconfig.server.json server/index.ts --prod",
     "build": "next build",
     "lint": "next lint"
   },
@@ -32,6 +32,7 @@
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/react": "^17.0.34",
+    "@types/uuid": "^8.3.4",
     "eslint": "7.32.0",
     "eslint-config-next": "12.0.3"
   }

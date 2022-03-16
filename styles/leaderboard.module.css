@@ -62,12 +62,12 @@
 
 .chatlog {
   text-align: right;
-  height: 30vh;
-  width: 25vw;
   position: fixed;
-  bottom: 20px;
+  bottom: 0;
   right: 0;
   padding: 15px;
-  font-size: 13pt;
-  background: rgba(0, 0, 0, 0.6);
+  font-size: 15pt;
+  background: black;
+  border: 2px solid red;
+  display: none;
 }

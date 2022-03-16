@@ -3,8 +3,8 @@
 :root {
   --primary_color: red;
   --primary_variant: red;
-  --secondary_color: #c60c30;
-  --secondary_variant: #c60c30;
+  --secondary_color: red;
+  --secondary_variant: red;
   --text_color: #ffffff;
   overflow: hidden;
 }
@@ -19,7 +19,7 @@ a {
 }
 
 html {
-  background: linear-gradient( rgba(0, 0, 20, 0.8), rgba(0, 0, 20, 0.8) ), url('/img/game/background-tile.png') !important;
+  background: url('/img/game/background-tile.png') !important;
 }
 
 body {
@@ -37,13 +37,8 @@ body {
   user-select: auto;
 }
 
-#page {
-  padding: 25px;
-  text-align: center;
-}
-
 h1 {
-	color: #c60c30;
+	color: red;
   font-family: 'Press Start 2P', sans-serif;
   font-size: 25pt;
 }

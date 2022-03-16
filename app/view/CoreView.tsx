@@ -7,6 +7,8 @@ import { GameView } from './GameView'
 import { MapSchema } from '@colyseus/schema'
 import { Player } from 'common'
 
+import styles from '../../styles/index.module.css'
+
 let stateManager = new StateManager(
   new ColyseusService(window.location.protocol == 'http:' ? 'ws': 'wss', window.location.hostname + ':1337'),
   'random',
@@ -18,11 +20,9 @@ function renderTableData(players: MapSchema<Player>) {
       const score = player.score;
       let name = player.onlineName;
       const ballType = player.ballType;
-      leaderboardData.push(<tr key={key}>
-          <td style={{ padding: '10px' }} className="playerData"><img src={`/img/abilities/${ballType}ball.png`} style={{ height: '30px' }} /></td>
-          <td style={{ padding: '10px' }} className="playerData">{name}</td>
-          <td style={{ padding: '10px' }} className="playerData"><b><big>{score}</big></b></td>
-      </tr>)
+      leaderboardData.push(
+          <span style={{ justifyContent: 'start' }}><img src={`/img/abilities/${ballType}ball.png`} style={{ height: '30px', padding: '10px', verticalAlign: 'sub' }} /> { name }<b>&nbsp;&nbsp;<big>{ score }</big></b><br /></span>
+      )
   })
   return leaderboardData
 }
@@ -58,9 +58,10 @@ export default function CoreView() {
 
   if (gameOver) {
     return (
-      <div style={{ padding: '30px' }}>
+      <div style={{ padding: '30px' }} className={styles.home}>
+        <img src="/img/game/coinJar.png" className={styles.heroImage} style={{ transform: 'scaleX(-1)' }} />
         <h1>Game Over</h1>
-        <table><tbody id='leaderboard'>{renderTableData(state.players)}</tbody></table>
+        {renderTableData(state.players)}
       </div>
     )
   }

@@ -1,15 +1,17 @@
-import { Schema, type } from "@colyseus/schema";
+import { Schema, type } from '@colyseus/schema'
 
 export class CoinJar extends Schema {
+  @type('number')
+  x: number = 0
 
-	@type("number")
-	x: number = 0;
+  @type('number')
+  y: number = 0
 
-	@type("number")
-	y: number = 0;
+  @type('number')
+  team: number = 0
 
-	@type("number")
-	team: number = 0;
+  @type('string')
+  key: string
 
 	constructor(x: number, y: number, teamNum: number) {
 		super()

@@ -21,15 +21,6 @@ const mouseActivity: { [key: string]: object } = {
   "position": { x: 0.0, y: 0.0 }
 }
 
-const controlsUp: { [key: string]: object } = {
-  "w": { up: false },
-  "a": { left: false },
-  "s": { down: false },
-  "d": { right: false },
-  " ": { space: false },
-  "x": { autoshoot: false }
-}
-
 let activeControls = {
   left: false,
   up: false,
@@ -54,12 +45,12 @@ export const Controls = (props: ControlProps) => {
 
   useEffect(() => {
     const keydown = (e: KeyboardEvent) => {
-      if (e.key == 'w') { updateAndSend({ up: true, down: false }) }
-      if (e.key == 's') { updateAndSend({ down: true, up: false }) }
-      if (e.key == 'a') { updateAndSend({ left: true, right: false }) }
-      if (e.key == 'd') { updateAndSend({ right: true, left: false }) }
-      // var change = controlsDown[e.key.toLowerCase()] || {};
-      // updateAndSend(change);
+      if (e.key == ' ') { updateAndSend({ space: true, shoot: true }) }
+      if (e.key == 'x') { updateAndSend({ autoshoot: true }) }
+    }
+    const keyup = (e: KeyboardEvent) => {
+      if (e.key == ' ') { updateAndSend({ space: false, shoot: false }) }
+      if (e.key == 'x') { updateAndSend({ autoshoot: false }) }
     }
     const mouseMove = (e: MouseEvent) => {
       try {
@@ -77,9 +68,10 @@ export const Controls = (props: ControlProps) => {
     }
 
     window.addEventListener("keydown", keydown)
-    window.addEventListener("mousemove", mouseMove);
+    window.addEventListener("keyup", keyup)
+    window.addEventListener("mousemove", mouseMove)
 
-    window.addEventListener("gamepadconnected", gamepadInputLoop);
+    window.addEventListener("gamepadconnected", gamepadInputLoop)
     
     function gamepadInputLoop() {
       var gamepads = navigator.getGamepads();
@@ -122,7 +114,7 @@ export const Controls = (props: ControlProps) => {
       updateAndSend(change);
     }} />
     <ReactNipple
-      options={{ color: '#c60c30', mode: 'dynamic', position: { bottom: '50%', right: '50%' } }}
+      options={{ color: 'transparent', mode: 'dynamic', position: { bottom: '50%', right: '50%' } }}
       style={{
         position: 'fixed',
         width: '100vw',
