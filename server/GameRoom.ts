@@ -799,7 +799,7 @@ export class GameRoom extends Room<GameState> {
           player.coins = Math.min(coins, 10)
           this.state.coins.delete(cid)
         }
-      })
+      }
 
       for (let bat of this.state.bats.values()) {
         if (bat.checkHit(player.x, player.y)) {
