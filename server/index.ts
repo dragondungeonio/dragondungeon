@@ -11,7 +11,7 @@ import next from 'next'
 import 'colors'
 
 // 1st Party Imports
-import { GameRoom } from './GameRoom'
+import { ArenaRoom } from './MultiplayerRooms'
 
 // Friendly Logs
 console.log('DragonDungeon'.red)
@@ -62,7 +62,7 @@ const colyseusServer = new Server({
   }),
 })
 
-colyseusServer.define('game', GameRoom)
+colyseusServer.define('arena', ArenaRoom)
 
 colyseusServer.listen(1337)
 console.log(

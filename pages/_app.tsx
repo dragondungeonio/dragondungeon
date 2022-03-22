@@ -55,34 +55,34 @@ function DragonDungeon({ Component, pageProps }) {
     </Head>
     <p style={{ color: '#f9e300', fontFamily: 'sans-serif', position: 'fixed', bottom: '0', right: '15px', fontSize: '13pt' }}>{require('package.json').version}</p>
     {!gameStarted && <div className={styles.home} style={{ textAlign: 'center' }}>
-        <img className={styles.heroImage} src="/img/dragons/basicDragon.png" />
-        <br /><br /><br />
-        <h1>DRAGON DUNGEON</h1>
-        {!signInNeeded && <h2>Loading...</h2>}
-        {signInNeeded && <>
-          <h2 className={styles.link} style={{ fontSize: '25pt' }} onClick={async () => {
-            let auth = getAuth()
-            let info = await signInWithPopup(auth, new GoogleAuthProvider())
-            if (info.user) {
-              let db = getFirestore()
-              let userStatsRef = doc(db, info.user.uid, 'stats')
-              let userStats = await getDoc(userStatsRef)
-              if (!userStats.exists()) {
-                await setDoc(userStatsRef, {
-                  level: 1,
-                  coins: 0,
-                  fireballs: 0
-                })
-              }
-              setSignInNeeded(false)
-              setGameStarted(true)
+      <img className={styles.heroImage} src="/img/dragons/basicDragon.png" />
+      <br /><br /><br />
+      <h1>DRAGON DUNGEON</h1>
+      {!signInNeeded && <h2>Loading...</h2>}
+      {signInNeeded && <>
+        <h2 className={styles.link} style={{ fontSize: '25pt' }} onClick={async () => {
+          let auth = getAuth()
+          let info = await signInWithPopup(auth, new GoogleAuthProvider())
+          if (info.user) {
+            let db = getFirestore()
+            let userStatsRef = doc(db, info.user.uid, 'stats')
+            let userStats = await getDoc(userStatsRef)
+            if (!userStats.exists()) {
+              await setDoc(userStatsRef, {
+                level: 1,
+                coins: 0,
+                fireballs: 0
+              })
             }
-          }}>Start</h2>
-          <a style={{ textDecoration: 'none' }} href="https://lit.games" className={styles.link}>lit.games</a><br /><br />
-          <a style={{ textDecoration: 'none' }} href="https://jointheleague.org" className={styles.link}>The LEAGUE</a><br /><br />
-          <a style={{ textDecoration: 'none' }} href="https://github.com/dragondungeonio/dragondungeon" className={styles.link}>GitHub</a>
-        </>}
-      </div>}
+            setSignInNeeded(false)
+            setGameStarted(true)
+          }
+        }}>Start</h2>
+        <a style={{ textDecoration: 'none' }} href="https://lit.games" className={styles.link}>lit.games</a><br /><br />
+        <a style={{ textDecoration: 'none' }} href="https://jointheleague.org" className={styles.link}>The LEAGUE</a><br /><br />
+        <a style={{ textDecoration: 'none' }} href="https://github.com/dragondungeonio/dragondungeon" className={styles.link}>GitHub</a>
+      </>}
+    </div>}
     {gameStarted && <Component {...pageProps} />}
   </>
 }
