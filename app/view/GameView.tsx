@@ -81,7 +81,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     })
 
     this.props.stateManager.room.onLeave(() => {
-      Router.push('/disconnected')
+      Router.push('/')
     })
   }
 
