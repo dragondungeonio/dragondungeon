@@ -7,7 +7,8 @@
   left: 0px;
   background-color: black;
   color: whitesmoke;
-  padding: 16px;
+  padding: 10px;
+  font-size: 20pt;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -30,6 +31,8 @@
   border-bottom: 3px solid red;
   border-top: 3px solid red;
   padding: 20px;
+  font-size: 20pt;
+  font-family: 'Press Start 2P';
 }
 
 @media only screen and (min-width:1000px) {
@@ -47,7 +50,7 @@
 }
 
 .mobileCountdown tr, .mobileCountdown th {
-  padding: 15px;
+  padding: 5px;
 }
 
 .playerData {

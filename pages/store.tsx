@@ -100,8 +100,8 @@ function GemStoreItem(props) {
     }
   }}>
     <img src={props.img} alt={props.name} style={{ imageRendering: 'pixelated', height: '45px', opacity: affordable ? 1 : 0.5 }} /><br /><br />
-    {props.name}<br /><br /><span style={{ color: affordable ? 'white' : 'red' }}>{props.cost}</span> {currency}
-    <br /><br /><p style={{ color: borderImage ? 'whitesmoke' : rarityBorder }}>{rarityText}</p>
+    <b style={{ fontSize: '17pt' }}>{props.name}</b><br /><br /><span style={{ color: affordable ? 'white' : 'red', fontSize: '15pt' }}>{props.cost}</span> {currency}
+    <br /><br /><p style={{ color: borderImage ? 'whitesmoke' : rarityBorder, fontSize: '15pt' }}>{rarityText}</p>
   </div>
 }
 
@@ -131,7 +131,7 @@ export default function MyDragon() {
   return (
     <div className={styles.pageContent}>
       <h1>Store</h1>
-      <h2><img src={user.photoURL} className={styles.heroImage} style={{ height: '60px', verticalAlign: 'middle' }} /> { gems } Gems <a href='#buy' className={styles.formSubmit}>Get More</a> </h2>
+      <h2><img src={user.photoURL} className={styles.heroImage} style={{ height: '60px', verticalAlign: 'middle', borderRadius: '50px' }} />&nbsp;&nbsp; { gems } Gems &nbsp;&nbsp;<a href='#buy' className={styles.formSubmit}>Get More</a> </h2>
       <br />
       <form id="payment-form" className={styles.form}>
         <div id="payment-element"></div>
@@ -140,17 +140,17 @@ export default function MyDragon() {
           Buy Gems
         </button>
       </form>
-      <h3>Modes</h3>
+      <h2>Modes</h2>
       <GemStoreSection>
-        <GemStoreItem name="Capture The Coins" rarity={1} img="/img/game/coinJar.png" cost={400} player={gems} />
+        <GemStoreItem name="Capture" rarity={1} img="/img/game/coinJar.png" cost={400} player={gems} />
       </GemStoreSection>
-      <h3>Skins</h3>
+      <h2>Skins</h2>
       <GemStoreSection>
-        <GemStoreItem name="Electric Dragon" rarity={2} img="/img/dragons/goldDragon.png" cost={100} player={gems} />
-        <GemStoreItem name="Bat Dragon" rarity={3} img="/img/dragons/goldDragon.png" cost={300} player={gems} />
-        <GemStoreItem name="Light Dragon" rarity={4} img="/img/dragons/lightDragon.png" nft="nft-id-here" cost={0.032} />
+        <GemStoreItem name="Electric" rarity={2} img="/img/dragons/goldDragon.png" cost={100} player={gems} />
+        <GemStoreItem name="Batdragon" rarity={3} img="/img/dragons/goldDragon.png" cost={300} player={gems} />
+        <GemStoreItem name="Lighter" rarity={4} img="/img/dragons/lightDragon.png" nft="nft-id-here" cost={0.032} />
       </GemStoreSection>
-      <h3>Story</h3>
+      <h2>Story</h2>
       <GemStoreSection>
         <GemStoreItem name="2022 Annual Pass" rarity={0} img="/img/ui/cursor.png" cost={1000} player={gems} />
       </GemStoreSection>
@@ -159,10 +159,10 @@ export default function MyDragon() {
       <br /><br />
       <span id='buy' />
       <GemStoreSection>
-        <GemStoreItem name="100 Gems" img="/img/ui/gem.png" cost="$0.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/100?uid=${user.uid}`} />
-        <GemStoreItem name="500 Gems + 50 Bonus" img="/img/ui/gem.png" cost="$4.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/500?uid=${user.uid}`} />
-        <GemStoreItem name="1000 Gems + 100 Bonus" img="/img/ui/gem.png" cost="$9.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/1000?uid=${user.uid}`} />
-        <GemStoreItem name="10000 Gems + 1000 Bonus" img="/img/ui/gem.png" cost="$99.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/10000?uid=${user.uid}`} />
+        <GemStoreItem name="100" img="/img/ui/gem.png" cost="$0.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/100?uid=${user.uid}`} />
+        <GemStoreItem name="500 + 50" img="/img/ui/gem.png" cost="$4.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/500?uid=${user.uid}`} />
+        <GemStoreItem name="1000 + 100" img="/img/ui/gem.png" cost="$9.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/1000?uid=${user.uid}`} />
+        <GemStoreItem name="10000 + 1000" img="/img/ui/gem.png" cost="$99.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/10000?uid=${user.uid}`} />
       </GemStoreSection>
       <br /><br /><br /><br />
     </div>

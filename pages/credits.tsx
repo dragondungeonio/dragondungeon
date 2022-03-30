@@ -6,7 +6,7 @@ export default function Credits() {
 
   return (
     <div className={styles.pageContent}>
-      <h1 onDoubleClick={() => router.push('/award')}>About</h1>
+      <h1 onDoubleClick={() => router.push('/award')}>Game Credits</h1>
       <h2>Development</h2>
       <p>Keith Groves</p>
       <p>Chris Woolson</p>
