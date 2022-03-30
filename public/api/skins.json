@@ -2,7 +2,7 @@
     {
         "rarity": 0,
         "id": 0,
-        "gemCost": 0,
+        "gemCost": 400,
         "name": "Basic Dragon",
         "description": "A classic, favored by everyone except paying customers.",
         "thumbnail": "/img/skins/basic.png",
@@ -14,7 +14,7 @@
     {
         "rarity": 4,
         "id": 1,
-        "gemCost": 0,
+        "gemCost": 0.23,
         "name": "Light Dragon",
         "description": "One of a kind, just like you.",
         "thumbnail": "/img/skins/light.png",
@@ -26,7 +26,7 @@
     {
         "rarity": 1,
         "id": 2,
-        "gemCost": 0,
+        "gemCost": 200,
         "name": "CTC Red Dragon",
         "description": "No, seriously. You're on fire.",
         "thumbnail": "/img/skins/red.png",
@@ -38,7 +38,7 @@
     {
         "rarity": 2,
         "id": 3,
-        "gemCost": 0,
+        "gemCost": 200,
         "name": "CTC Blue Dragon",
         "description": "Please follow the signs to imminent destruction.",
         "thumbnail": "/img/skins/blue.png",
@@ -50,7 +50,7 @@
     {
         "rarity": 3,
         "id": 4,
-        "gemCost": 0,
+        "gemCost": 300,
         "name": "Electric Dragon",
         "description": "Light 'em up!",
         "thumbnail": "/img/skins/electric.png",
@@ -62,11 +62,23 @@
     {
         "rarity": 3,
         "id": 5,
-        "gemCost": 0,
+        "gemCost": 400,
         "name": "Null & Void",
         "description": "The quieter you are...",
         "thumbnail": "/img/skins/empty.png",
         "perk": "Your name and coinbar are hidden in Turbo Mode",
+        "assets": [
+            ""
+        ]
+    },
+    {
+        "rarity": 5,
+        "id": 6,
+        "gemCost": null,
+        "name": "This is a test",
+        "description": "Testing 1... 2... 3...",
+        "thumbnail": "/img/skins/basic.png",
+        "perk": "An exclusive reward for completing the 2022 Annual Pass Campaign",
         "assets": [
             ""
         ]

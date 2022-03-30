@@ -42,9 +42,18 @@ function GemStoreItem(props) {
       borderImage = true
       rarityBorder = 'linear-gradient(to bottom right, #c60c30 0%, #00a1de 25%, #f9461c 50%, whitesmoke 75%, #f9e300 100%)'
       currency = 'ETH'
+      break;
+    case 5:
+      borderImage = true
+      rarityBorder = 'linear-gradient(to bottom right, blue 0%, red 90%, #c60c30 100%)'
+      currency = 'Gems'
+      if (!props.cost) {
+        currency = ''
+      }
+      break;
   }
 
-  return <div className={styles.borderSliceApplied} style={{ border: borderImage ? '5px solid transparent' : `5px solid ${rarityBorder}`, borderImage: borderImage ? rarityBorder : '', padding: '20px', width: '160px', background: 'rgba(0, 0, 0, 0.9)' }} onClick={() => {
+  return <div className={styles.borderSliceApplied} style={{ border: borderImage ? '5px solid transparent' : `5px solid ${rarityBorder}`, borderImage: borderImage ? rarityBorder : '', padding: '20px', width: '200px', background: 'rgba(0, 0, 0, 0.9)' }} onClick={() => {
     if (currency == 'Gems') {
       if (props.cost < props.player) {
         if (confirm(`You are about to buy ${props.name} for ${props.cost} Gems.`)) {
@@ -101,19 +110,21 @@ function GemStoreItem(props) {
   }}>
     <img src={props.img} alt={props.name} style={{ imageRendering: 'pixelated', height: '45px', opacity: affordable ? 1 : 0.5 }} /><br /><br />
     <b style={{ fontSize: '17pt' }}>{props.name}</b><br /><br /><span style={{ color: affordable ? 'white' : 'red', fontSize: '15pt' }}>{props.cost}</span> {currency}
-    <br /><br /><p style={{ color: borderImage ? 'whitesmoke' : rarityBorder, fontSize: '15pt' }}>{rarityText}</p>
+    <br /><p>{props.description}</p><p style={{ color: '#f9e300', fontSize: '10pt' }}>{props.perk}</p><p style={{ color: borderImage ? 'whitesmoke' : rarityBorder, fontSize: '15pt' }}>{rarityText}</p>
   </div>
 }
 
 function GemStoreSection(props) {
-  return <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '5px' }}>{props.children}</div>
+  return <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '5px' }}>{props.children}</div>
 }
 
 export default function MyDragon() {
   let [user, setUser] = useState<any>('')
   let [gems, setGems] = useState<number>(0)
   let [skins, setSkins] = useState<any>('')
+  let [modes, setModes] = useState<any>('')
   let [skinsLoaded, setSkinsLoaded] = useState<boolean>(false)
+  let [modesLoaded, setModesLoaded] = useState<boolean>(false)
 
   useMemo(() => {
     let auth = getAuth()
@@ -122,8 +133,12 @@ export default function MyDragon() {
         setUser(currentUser)
         let skinListingResp = await fetch('/api/skins.json')
         let skinListing = await skinListingResp.json()
+        let modeListingResp = await fetch('/api/modes.json')
+        let modeListing = await modeListingResp.json()
         setSkins(skinListing)
+        setModes(modeListing)
         setSkinsLoaded(true)
+        setModesLoaded(true)
         let db = getFirestore()
         let playerEntitlementsDoc = await getDoc(doc(db, currentUser.uid, 'store'))
         let playerEntitlements = playerEntitlementsDoc.data()
@@ -137,7 +152,7 @@ export default function MyDragon() {
   return (
     <div className={styles.pageContent}>
       <h1>Store</h1>
-      <h2><img src={user.photoURL} className={styles.heroImage} style={{ height: '60px', verticalAlign: 'middle', borderRadius: '50px' }} />&nbsp;&nbsp; { gems } Gems &nbsp;&nbsp;<a href='#buy' className={styles.formSubmit}>Get More</a> </h2>
+      <h2><img src="/img/ui/gem.png" className={styles.heroImage} style={{ height: '40px', verticalAlign: 'middle' }} /> { gems }&nbsp;<a href='#buy' style={{ fontSize: '13pt', textDecoration: 'none' }}>Get More</a> </h2>
       <br />
       <form id="payment-form" className={styles.form}>
         <div id="payment-element"></div>
@@ -146,20 +161,14 @@ export default function MyDragon() {
           Buy Gems
         </button>
       </form>
-      <h2>Modes</h2>
-      <GemStoreSection>
-        <GemStoreItem name="Capture" rarity={1} img="/img/game/coinJar.png" cost={400} player={gems} />
-      </GemStoreSection>
-      <h2>Skins</h2>
-      <GemStoreSection>
-        <GemStoreItem name="Electric" rarity={2} img="/img/dragons/goldDragon.png" cost={100} player={gems} />
-        <GemStoreItem name="Batdragon" rarity={3} img="/img/dragons/goldDragon.png" cost={300} player={gems} />
-        <GemStoreItem name="Lighter" rarity={4} img="/img/dragons/lightDragon.png" nft="nft-id-here" cost={0.032} />
-      </GemStoreSection>
-      <h2>Story</h2>
-      <GemStoreSection>
-        <GemStoreItem name="2022 Annual Pass" rarity={0} img="/img/ui/cursor.png" cost={1000} player={gems} />
-      </GemStoreSection>
+      { (skinsLoaded && modesLoaded) && <GemStoreSection>
+        { modes.map(mode => {
+          return <GemStoreItem name={mode.name} description={mode.description} rarity={5} img={mode.thumbnail} cost={mode.gemCost} player={gems} />
+        }) }
+        { skins.map(skin => {
+          return <GemStoreItem name={skin.name} description={skin.description} rarity={skin.rarity} img={skin.thumbnail} cost={skin.gemCost} perk={skin.perk} player={gems} />
+        }) }
+      </GemStoreSection> }
       <br /><br />
       <hr />
       <br /><br />
