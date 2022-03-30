@@ -7,7 +7,11 @@ import { readFileSync, existsSync } from 'fs'
 import { parse } from 'url'
 import { Server } from 'colyseus'
 import { WebSocketTransport } from '@colyseus/ws-transport'
+import express from 'express'
 import next from 'next'
+import * as admin from 'firebase-admin'
+import cors from 'cors'
+import Stripe from 'stripe'
 import 'colors'
 
 // 1st Party Imports
@@ -36,25 +40,106 @@ const handle = app.getRequestHandler()
 app.prepare().then(() => {
   let clientServer = !secureServer
     ? createServer((req, res) => {
-        handle(req, res, parse(req.url, true))
-      })
+      handle(req, res, parse(req.url, true))
+    })
     : createSecureServer(secureServerOptions, (req, res) => {
-        handle(req, res, parse(req.url, true))
-      })
+      handle(req, res, parse(req.url, true))
+    })
 
   clientServer.listen(8080, () => {
     console.log(
       'client'.green +
-        ' - [::]:8080 - ' +
-        (secureServer ? 'https'.green : 'http'.yellow),
+      ' - [::]:8080 - ' +
+      (secureServer ? 'https'.green : 'http'.yellow),
     )
   })
 })
 
 // Start Server
+let gameServerApp = express()
+
+gameServerApp.use(cors())
+
+const stripeAccount = require('../config/private/stripesdk.json')
+const stripe = new Stripe(stripeAccount.secretKey, {
+  apiVersion: '2020-08-27'
+})
+
+const serviceAccount = require('../config/private/adminsdk.json')
+admin.initializeApp({ credential: admin.credential.cert(serviceAccount) })
+
+gameServerApp.get('/pay/:gemAmount', async (req, res) => {
+  let linePrice = 99
+
+  switch(req.params.gemAmount) {
+    case "500":
+      linePrice = 499
+      break;
+    case "1000":
+      linePrice = 999
+      break;
+    case "10000":
+      linePrice = 9999
+      break;
+  }
+
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: linePrice,
+    currency: "usd",
+    description: req.query.uid.toString(),
+    automatic_payment_methods: { enabled: true },
+  })
+
+  res.send({ clientSecret: paymentIntent.client_secret })
+})
+
+gameServerApp.post('/pay/webhook', express.raw({ type: 'application/json' }), async (request, response) => {  
+  try {
+    let event: Stripe.Event = JSON.parse(request.body)
+    console.log('stripe'.gray + ' - ' + event.type)
+    if (event.type == 'charge.succeeded') {
+      let gemCharge = event.data.object as Stripe.Charge
+      let gemCredit = 100
+ 
+      switch (gemCharge.amount) {
+        case 499:
+          gemCredit = 550
+          break
+        case 999:
+          gemCredit = 1100
+          break
+        case 9999:
+          gemCredit = 11000
+          break
+      }
+
+      let authedCharge = await stripe.charges.retrieve(gemCharge.id)
+      // Fraud protection - makes sure request isn't forged
+      if (authedCharge.amount == gemCharge.amount) {
+        let playerGemDoc = admin.firestore().collection(gemCharge.description).doc('store')
+        let playerGems = await playerGemDoc.get()
+        if (playerGems.exists) {
+          playerGemDoc.update({
+            gems: (playerGems.data().gems || 0) + gemCredit
+          })
+        } else {
+          playerGemDoc.create({
+            gems: gemCredit
+          })
+        }
+      }
+    }
+  } catch (err) {
+    console.log(err.message)
+    return response.status(400).send(err.message)
+  }
+
+  response.status(200);
+});
+
 let gameServer = !secureServer
-  ? createServer()
-  : createSecureServer(secureServerOptions)
+  ? createServer(gameServerApp)
+  : createSecureServer(secureServerOptions, gameServerApp)
 
 const colyseusServer = new Server({
   transport: new WebSocketTransport({
@@ -67,6 +152,6 @@ colyseusServer.define('arena', ArenaRoom)
 colyseusServer.listen(1337)
 console.log(
   'server'.green +
-    ' - [::]:1337 - ' +
-    (secureServer ? 'https'.green : 'http'.yellow),
+  ' - [::]:1337 - ' +
+  (secureServer ? 'https'.green : 'http'.yellow),
 )

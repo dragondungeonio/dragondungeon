@@ -12,8 +12,8 @@
     position: fixed;
     height: 10%;
     right: 0;
-    bottom: 24px;
-    text-align: center;
+    top: 24px;
+    text-align: right;
     z-index: 999999999;
 }
 

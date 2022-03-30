@@ -7,3 +7,25 @@
 .borderSliceApplied {
   border-image-slice: 0.5 !important;
 }
+
+.form {
+  display: none;
+  width: 40vw;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.9);
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999999999999999999999999;
+}
+
+.formSubmit {
+  font-size: 15pt;
+  background-color: #522398;
+  color: whitesmoke;
+  padding: 20px;
+  border-radius: 10px;
+  border: none;
+  text-decoration: none;
+}

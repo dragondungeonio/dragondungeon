@@ -40,13 +40,11 @@ function DragonDungeon({ Component, pageProps }) {
 
       let auth = getAuth()
       let unsubAuthState = onAuthStateChanged(auth, async (user) => {
-        setTimeout(() => {
-          if (user) {
-            setGameStarted(true)
-          } else {
-            setSignInNeeded(true)
-          }
-        }, 800)
+        if (user) {
+          setGameStarted(true)
+        } else {
+          setSignInNeeded(true)
+        }
       })
 
       unsubAuthState()
@@ -68,10 +66,7 @@ function DragonDungeon({ Component, pageProps }) {
     </Head>
     <p style={{ color: '#f9e300', fontFamily: 'sans-serif', position: 'fixed', bottom: '0', right: '15px', fontSize: '13pt' }}>{require('package.json').version}</p>
     {!gameStarted && <div className={styles.pageContent} style={{ textAlign: 'center' }}>
-      <br /><br /><br />
-      {!signInNeeded && <div className={styles.loginWindow}>
-        <img height="170px" src="/img/ui/jtl.png" alt="The LEAGUE of Amazing Programmers" />
-      </div>}
+      {!signInNeeded && <div className={styles.loginWindow}><h2>Loading...</h2></div>}
       {signInNeeded && <div className={styles.loginWindow}>
         <h1 style={{ fontSize: '40pt' }}>DRAGON DUNGEON</h1>
         <img src="/img/dragons/basicDragon.png" height={180} style={{ imageRendering: 'pixelated' }} />
@@ -96,13 +91,12 @@ function DragonDungeon({ Component, pageProps }) {
       </div>}
     </div>}
     {gameStarted && <>
-      { router.pathname !== '/play' && <div className={styles.nav}>
+      {!router.pathname.startsWith('/play/') && <div className={styles.nav}>
         <span className={styles.link} style={{ color: '#f9e300', fontSize: '14pt' }} onClick={() => router.push('/play')}>Play</span>
         <MenuOption name="Profile" href="/profile" />
         <MenuOption name="Store" href="/store" />
-        <MenuOption name="Credits" href="/credits" />
-        <MenuOption name="Tutorial" href="/tutorial" />
-      </div> }
+        <MenuOption name="About" href="/about" />
+      </div>}
       <Component {...pageProps} />
     </>}
   </>
