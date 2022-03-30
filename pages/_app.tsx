@@ -64,7 +64,7 @@ function DragonDungeon({ Component, pageProps }) {
       <meta name="twitter:creator" content="@dragondungeonio" />
       <meta name="twitter:image" content="https://dragondungeon.io/img/dragons/basicDragon.png" />
     </Head>
-    <p style={{ color: '#f9e300', fontFamily: 'sans-serif', position: 'fixed', bottom: '0', right: '15px', fontSize: '13pt' }}>{require('package.json').version}</p>
+    <p style={{ color: '#f9e300', position: 'fixed', bottom: '0', right: '15px', fontSize: '13pt' }}>Build {require('package.json').version}</p>
     {!gameStarted && <div className={styles.pageContent} style={{ textAlign: 'center' }}>
       {!signInNeeded && <div className={styles.loginWindow}><h2>Loading...</h2></div>}
       {signInNeeded && <div className={styles.loginWindow}>

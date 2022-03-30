@@ -68,6 +68,35 @@ const stripe = new Stripe(stripeAccount.secretKey, {
 const serviceAccount = require('../config/private/adminsdk.json')
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount) })
 
+gameServerApp.get('/equip/:id', async (req, res) => {
+  try {
+    let userClaims = await admin.auth().verifyIdToken(req.query.user as string)
+
+    if (req.query.type == 'ability') {
+      await admin.firestore().doc(`${userClaims.uid}/dragon`).update({
+        ability: req.params.id
+      })
+    } else {
+      let userEntitlementsDoc = await admin.firestore().doc(`${userClaims.uid}/store`).get()
+      let userEntitlements = userEntitlementsDoc.data()
+      if (userEntitlements.skinEntitlements.includes(parseInt(req.params.id, 10))) {
+        await admin.firestore().doc(`${userClaims.uid}/dragon`).update({
+          skin: parseInt(req.params.id, 10)
+        })
+      } else {
+        res.status(400)
+        res.send('Skin is not in user entitlements')
+      }
+    }
+
+    res.status(200)
+    res.send('Success')
+  } catch {
+    res.status(400)
+    res.send('Unknown error')
+  }
+})
+
 gameServerApp.get('/pay/:gemAmount', async (req, res) => {
   let linePrice = 99
 

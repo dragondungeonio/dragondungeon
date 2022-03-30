@@ -112,12 +112,18 @@ function GemStoreSection(props) {
 export default function MyDragon() {
   let [user, setUser] = useState<any>('')
   let [gems, setGems] = useState<number>(0)
+  let [skins, setSkins] = useState<any>('')
+  let [skinsLoaded, setSkinsLoaded] = useState<boolean>(false)
 
   useMemo(() => {
     let auth = getAuth()
     let authUnsub = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser)
+        let skinListingResp = await fetch('/api/skins.json')
+        let skinListing = await skinListingResp.json()
+        setSkins(skinListing)
+        setSkinsLoaded(true)
         let db = getFirestore()
         let playerEntitlementsDoc = await getDoc(doc(db, currentUser.uid, 'store'))
         let playerEntitlements = playerEntitlementsDoc.data()

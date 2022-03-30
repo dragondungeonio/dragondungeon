@@ -1,0 +1,74 @@
+[
+    {
+        "rarity": 0,
+        "id": 0,
+        "gemCost": 0,
+        "name": "Basic Dragon",
+        "description": "A classic, favored by everyone except paying customers.",
+        "thumbnail": "/img/skins/basic.png",
+        "perk": "",
+        "assets": [
+            ""
+        ]
+    },
+    {
+        "rarity": 4,
+        "id": 1,
+        "gemCost": 0,
+        "name": "Light Dragon",
+        "description": "One of a kind, just like you.",
+        "thumbnail": "/img/skins/light.png",
+        "perk": "Big Coins make you temporarily invincible",
+        "assets": [
+            ""
+        ]
+    },
+    {
+        "rarity": 1,
+        "id": 2,
+        "gemCost": 0,
+        "name": "CTC Red Dragon",
+        "description": "No, seriously. You're on fire.",
+        "thumbnail": "/img/skins/red.png",
+        "perk": "Faster movement speed in Capture matches",
+        "assets": [
+            ""
+        ]
+    },
+    {
+        "rarity": 2,
+        "id": 3,
+        "gemCost": 0,
+        "name": "CTC Blue Dragon",
+        "description": "Please follow the signs to imminent destruction.",
+        "thumbnail": "/img/skins/blue.png",
+        "perk": "Gem gifts appear during Capture matches",
+        "assets": [
+            ""
+        ]
+    },
+    {
+        "rarity": 3,
+        "id": 4,
+        "gemCost": 0,
+        "name": "Electric Dragon",
+        "description": "Light 'em up!",
+        "thumbnail": "/img/skins/electric.png",
+        "perk": "Greatly increases electricball range and explosion size",
+        "assets": [
+            ""
+        ]
+    },
+    {
+        "rarity": 3,
+        "id": 5,
+        "gemCost": 0,
+        "name": "Null & Void",
+        "description": "The quieter you are...",
+        "thumbnail": "/img/skins/empty.png",
+        "perk": "Your name and coinbar are hidden in Turbo Mode",
+        "assets": [
+            ""
+        ]
+    }
+]
