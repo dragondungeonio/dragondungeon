@@ -1,7 +1,5 @@
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useRouter } from 'next/router'
-import { useMemo, useState } from 'react'
-import styles from 'styles/index.module.css'
+import styles from 'styles/menu.module.css'
 
 function MenuOption(props) {
   let router = useRouter()
@@ -13,46 +11,20 @@ function MenuOption(props) {
 }
 
 export default function Home() {
-  let [name, setName] = useState<string>('Dragon0000')
-  let [profilePicture, setProfilePicture] = useState<string>(
-    '/img/game/coinJar.png',
-  )
-
-  useMemo(() => {
-    let auth = getAuth()
-    let authUnsub = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setName(user.displayName)
-        setProfilePicture(user.photoURL)
-      }
-    })
-
-    authUnsub()
-  }, [])
+  let router = useRouter()
 
   return (
-    <div className={styles.home}>
+    <div className={styles.pageContent}>
       <div style={{ padding: '20px' }}>
-        <h1>DRAGON DUNGEON</h1>
+        <h1 style={{ fontSize: '30pt' }}>DRAGON DUNGEON</h1>
         <img
           src="/img/game/skull.png"
           className={styles.heroImage}
-          style={{ transform: 'scaleX(-1)' }}
+          style={{ height: 150, imageRendering: 'pixelated' }}
           alt="Skull"
-        />
-        <h2>
-          <img
-            src={profilePicture}
-            style={{ verticalAlign: 'middle', height: '50px' }}
-          />
-          &nbsp;&nbsp;&nbsp;{name}
-        </h2>
+        /><br /><br /><br />
+        <span style={{ color: '#f9e300', fontSize: '20pt', border: '5px solid #f9e300', padding: '10px' }} onClick={() => router.push('/play')}>Play</span>
       </div>
-      <MenuOption name="Play" href="/play" />
-      <MenuOption name="Profile" href="/profile" />
-      {/* <MenuOption name="Options" href="/options" /> */}
-      <MenuOption name="Credits" href="/credits" />
-      <MenuOption name="How to Play" href="/how_to_play" />
     </div>
   )
 }

@@ -1,15 +1,12 @@
 import { useRouter } from 'next/router'
-
-import styles from '../styles/index.module.css'
+import styles from '../styles/menu.module.css'
 
 export default function Credits() {
   let router = useRouter()
+
   return (
-    <div className={styles.home} style={{ padding: '20px' }}>
-      <img src="/img/game/coinJar.png" className={styles.heroImage} />
-      <div className={styles.link} onClick={() => router.push('/')}>
-        &larr;
-      </div>
+    <div className={styles.pageContent}>
+      <h1 onDoubleClick={() => router.push('/award')}>Credits</h1>
       <h2>Development</h2>
       <p>Keith Groves</p>
       <p>Chris Woolson</p>
@@ -27,10 +24,6 @@ export default function Credits() {
       <h2>Assets</h2>
       <p>Toybox 2020 Competition</p>
       <p>Kevin Macleod (imcompetech.com)</p>
-      <div className={styles.link} onClick={() => router.push('/award')}>
-        Award
-      </div>
     </div>
   )
 }
-

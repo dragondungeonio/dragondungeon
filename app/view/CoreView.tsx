@@ -8,7 +8,7 @@ import { GameView } from './GameView'
 import { MapSchema } from '@colyseus/schema'
 import { Player } from 'common'
 
-import styles from '../../styles/index.module.css'
+import styles from '../../styles/menu.module.css'
 
 function MenuOption(props) {
   let router = useRouter()
@@ -96,7 +96,7 @@ export default function CoreView() {
 
   if (gameOver) {
     return (
-      <div style={{ padding: '30px' }} className={styles.home}>
+      <div style={{ padding: '30px' }} className={styles.pageContent}>
         <img
           src="/img/game/coinJar.png"
           className={styles.heroImage}

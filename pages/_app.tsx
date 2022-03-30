@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import {
@@ -9,12 +10,22 @@ import {
 } from 'firebase/auth'
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 
+import styles from '../styles/navigation.module.css'
 import '../styles/globals.css'
-import styles from '../styles/index.module.css'
+
+function MenuOption(props) {
+  let router = useRouter()
+  return (
+    <span className={styles.link} onClick={() => router.push(props.href)}>
+      {props.name}
+    </span>
+  )
+}
 
 function DragonDungeon({ Component, pageProps }) {
   let [gameStarted, setGameStarted] = useState<boolean>(false)
   let [signInNeeded, setSignInNeeded] = useState<boolean>(false)
+  let router = useRouter()
 
   useMemo(() => {
     if (typeof window !== undefined) {
@@ -29,11 +40,13 @@ function DragonDungeon({ Component, pageProps }) {
 
       let auth = getAuth()
       let unsubAuthState = onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          setGameStarted(true)
-        } else {
-          setSignInNeeded(true)
-        }
+        setTimeout(() => {
+          if (user) {
+            setGameStarted(true)
+          } else {
+            setSignInNeeded(true)
+          }
+        }, 800)
       })
 
       unsubAuthState()
@@ -54,13 +67,15 @@ function DragonDungeon({ Component, pageProps }) {
       <meta name="twitter:image" content="https://dragondungeon.io/img/dragons/basicDragon.png" />
     </Head>
     <p style={{ color: '#f9e300', fontFamily: 'sans-serif', position: 'fixed', bottom: '0', right: '15px', fontSize: '13pt' }}>{require('package.json').version}</p>
-    {!gameStarted && <div className={styles.home} style={{ textAlign: 'center' }}>
-      <img className={styles.heroImage} src="/img/dragons/basicDragon.png" />
+    {!gameStarted && <div className={styles.pageContent} style={{ textAlign: 'center' }}>
       <br /><br /><br />
-      <h1>DRAGON DUNGEON</h1>
-      {!signInNeeded && <h2>Loading...</h2>}
-      {signInNeeded && <>
-        <h2 className={styles.link} style={{ fontSize: '25pt' }} onClick={async () => {
+      {!signInNeeded && <div className={styles.loginWindow}>
+        <img height="170px" src="/img/ui/jtl.png" alt="The LEAGUE of Amazing Programmers" />
+      </div>}
+      {signInNeeded && <div className={styles.loginWindow}>
+        <h1 style={{ fontSize: '40pt' }}>DRAGON DUNGEON</h1>
+        <img src="/img/dragons/basicDragon.png" height={180} style={{ imageRendering: 'pixelated' }} />
+        <h2 style={{ fontSize: '20pt' }} onClick={async () => {
           let auth = getAuth()
           let info = await signInWithPopup(auth, new GoogleAuthProvider())
           if (info.user) {
@@ -77,13 +92,19 @@ function DragonDungeon({ Component, pageProps }) {
             setSignInNeeded(false)
             setGameStarted(true)
           }
-        }}>Start</h2>
-        <a style={{ textDecoration: 'none' }} href="https://lit.games" className={styles.link}>lit.games</a><br /><br />
-        <a style={{ textDecoration: 'none' }} href="https://jointheleague.org" className={styles.link}>The LEAGUE</a><br /><br />
-        <a style={{ textDecoration: 'none' }} href="https://github.com/dragondungeonio/dragondungeon" className={styles.link}>GitHub</a>
-      </>}
+        }}>Click Here To Begin</h2>
+      </div>}
     </div>}
-    {gameStarted && <Component {...pageProps} />}
+    {gameStarted && <>
+      { router.pathname !== '/play' && <div className={styles.nav}>
+        <span className={styles.link} style={{ color: '#f9e300', fontSize: '14pt' }} onClick={() => router.push('/play')}>Play</span>
+        <MenuOption name="Profile" href="/profile" />
+        <MenuOption name="Store" href="/store" />
+        <MenuOption name="Credits" href="/credits" />
+        <MenuOption name="Tutorial" href="/tutorial" />
+      </div> }
+      <Component {...pageProps} />
+    </>}
   </>
 }
 

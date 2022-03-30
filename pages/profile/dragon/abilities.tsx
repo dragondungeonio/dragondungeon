@@ -3,7 +3,7 @@ import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 
-import styles from 'styles/index.module.css'
+import styles from 'styles/menu.module.css'
 
 function MenuOption(props) {
   let router = useRouter()
@@ -70,7 +70,7 @@ export default function Abilities() {
   }, [user])
 
   return (
-    <div className={styles.home}>
+    <div className={styles.pageContent}>
       <div style={{ padding: '20px' }}>
         <h1>Abilities</h1>
         <img

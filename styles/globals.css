@@ -1,12 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+::-webkit-scrollbar {
+  width: 0;
+}
+
 :root {
   --primary_color: red;
   --primary_variant: red;
   --secondary_color: red;
   --secondary_variant: red;
   --text_color: #ffffff;
-  overflow: hidden;
 }
 
 a {
@@ -19,7 +22,8 @@ a {
 }
 
 html {
-  background: url('/img/game/background-tile.png') !important;
+  background: linear-gradient(rgba(0, 0, 0, 0.7)), url('/img/game/background-tile.png') !important;
+  overflow-x: hidden;
 }
 
 body {

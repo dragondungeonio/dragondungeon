@@ -1,0 +1,9 @@
+.pageContent {
+  width: 100vw;
+  height: 100vh;
+  padding: 40px;
+}
+
+.borderSliceApplied {
+  border-image-slice: 0.5 !important;
+}
