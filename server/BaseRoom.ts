@@ -45,6 +45,8 @@ export class BaseRoom extends Room<GameState> {
 
   gameInt: NodeJS.Timeout
 
+  firstBlood = false
+
   onCreate() {
     this.setState(new GameState())
     this.registerMessages()
@@ -76,6 +78,7 @@ export class BaseRoom extends Room<GameState> {
   }
 
   async onJoin(client: Client, options: { token: string }, _2: any) {
+    client.send('sfx', '/audio/welcome.m4a')
     for (let batCreationIndex = 0; batCreationIndex < 70; batCreationIndex++) {
       this.manageBat()
     }
@@ -657,6 +660,13 @@ export class BaseRoom extends Room<GameState> {
               player.health = 0
               try {
                 player.colyseusClient.send('chatlog', 'You are very dead')
+                if (!this.firstBlood) {
+                  this.firstBlood = true
+                  this.broadcast('chatlog', `${playerHit.onlineName} got First Blood!`)
+                  playerHit.colyseusClient.send('sfx', '/audio/firstblood.m4a')
+                } else {
+                  playerHit.colyseusClient.send('sfx', '/audio/amazing.m4a')
+                }
                 player.x = -40000
                 player.y = -40000
                 player.coins = 0

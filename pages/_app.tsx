@@ -92,7 +92,7 @@ function DragonDungeon({ Component, pageProps }) {
     </div>}
     {gameStarted && <>
       {!router.pathname.startsWith('/play/') && <div className={styles.nav}>
-        <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/play')}>Play</span>
+        <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/')}>Play</span>
         <MenuOption name="Profile" href="/profile" />
         <MenuOption name="Store" href="/store" />
         <MenuOption name="Settings" href="/settings" />

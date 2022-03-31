@@ -7,8 +7,8 @@ export default function Credits() {
     return (
         <div className={styles.pageContent}>
             <h1>Settings &amp; About</h1>
-            <h2>Settings Editor</h2>
-            <p>Coming soon...</p>
+            <h2>Account Linking</h2>
+            <a href="https://www.bungie.net/en/OAuth/Authorize?client_id=34616&response_type=code">Link with Bungie.net</a>
             <h2>About</h2>
             <h3>Dragon Dungeon {require('../package.json').version}</h3>
             <h4 onClick={() => {
