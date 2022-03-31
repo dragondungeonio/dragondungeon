@@ -97,6 +97,56 @@ gameServerApp.get('/equip/:id', async (req, res) => {
   }
 })
 
+gameServerApp.get('/purchase/:id', async (req, res) => {
+  try {
+    let userClaims = await admin.auth().verifyIdToken(req.query.user as string)
+    let playerEntitlementsDoc = await admin.firestore().doc(`${userClaims.uid}/store`).get()
+    let playerEntitlements = playerEntitlementsDoc.data()
+
+    if (req.query.type == 'mode') {
+      let modeList = require('../public/api/modes.json')
+      modeList.forEach(async mode => {
+        if (mode.id == req.params.id) {
+          if (playerEntitlements.gems >= mode.gemCost) {
+            playerEntitlements.modeEntitlements.push(mode.id)
+            await admin.firestore().doc(`${userClaims.uid}/store`).update({
+              gems: playerEntitlements.gems - mode.gemCost,
+              modeEntitlements: playerEntitlements.modeEntitlements
+            })
+          } else {
+            res.status(400)
+            res.send('Not enough gems')
+          }
+        }
+      })
+    } else {
+      let skinList = require('../public/api/skins.json')
+      skinList.forEach(async skin => {
+        if (skin.id == parseInt(req.params.id, 10)) {
+          console.log(`purchasing skin ${skin.name}`)
+          if (playerEntitlements.gems >= skin.gemCost) {
+            console.log('has enough gems')
+            playerEntitlements.skinEntitlements.push(skin.id)
+            await admin.firestore().doc(`${userClaims.uid}/store`).update({
+              gems: playerEntitlements.gems - skin.gemCost,
+              skinEntitlements: playerEntitlements.skinEntitlements
+            })
+          } else {
+            res.status(400)
+            res.send('Not enough gems')
+          }
+        }
+      })
+    }
+
+    res.status(200)
+    res.send('Success')
+  } catch {
+    res.status(400)
+    res.send('Unknown error')
+  }
+})
+
 gameServerApp.get('/pay/:gemAmount', async (req, res) => {
   let linePrice = 99
 

@@ -23,7 +23,8 @@ export default function Home() {
           style={{ height: 150, imageRendering: 'pixelated' }}
           alt="Skull"
         /><br /><br /><br />
-        <span style={{ color: '#f9e300', fontSize: '20pt', border: '5px solid #f9e300', padding: '10px' }} onClick={() => router.push('/play')}>Play</span>
+        <span style={{ color: '#f9e300', fontSize: '20pt', border: '5px solid #f9e300', padding: '10px' }} onClick={() => router.push('/play/arena')}>Quickplay: Arena Mode</span><br /><br /><br />
+        <span style={{ color: 'whitesmoke', fontSize: '15pt', border: '5px solid whitesmoke', padding: '5px' }} onClick={() => router.push('/play')}>Play</span>
       </div>
     </div>
   )

@@ -1,5 +1,12 @@
 [
     {
+        "id": "arena",
+        "gemCost": 0,
+        "name": "Arena",
+        "description": "The classic Dragon Dungeon Mode. Find coins and become the richest dragon of all.",
+        "thumbnail": "/img/game/icon.png"
+    },
+    {
         "id": "ctc",
         "gemCost": 600,
         "name": "Capture",
