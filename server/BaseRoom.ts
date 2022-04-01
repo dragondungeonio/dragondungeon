@@ -25,7 +25,7 @@ class ServerPlayer extends Player {
   colyseusClient: Client = null
   constructor(
     ballType: string,
-    skinType: string,
+    skinType: number,
     teamNum: number,
     client: Client,
   ) {
@@ -85,46 +85,20 @@ export class BaseRoom extends Room<GameState> {
 
     const user = await admin.auth().verifyIdToken(options.token)
     const db = admin.firestore()
-    let ballType = 'fireball'
-    let dragonSkin = 'default'
+    let ability = 'fire'
+    let dragonSkin = 0
 
-    const userDoc = await db.collection(user.uid).doc('gameplay').get()
-    if (userDoc.data()?.ballType) {
-      ballType = userDoc.data()?.ballType
+    const userDoc = await db.collection(user.uid).doc('dragon').get()
+    if (userDoc.data()?.ability) {
+      ability = userDoc.data()?.ability.toLowerCase().replace('ball', '')
     } else {
-      switch (Math.floor(Math.random() * 5)) {
-        case 0:
-          ballType = 'fire'
-          break
-        case 1:
-          ballType = 'ice'
-          break
-        case 2:
-          ballType = 'poison'
-          break
-        case 3:
-          ballType = 'mud'
-          break
-        case 4:
-          ballType = 'electric'
-          break
-      }
+      ability = 'fire'
     }
 
-    if (userDoc.data()?.dragonSkin) {
-      dragonSkin = userDoc.data()?.dragonSkin
+    if (userDoc.data()?.skin) {
+      dragonSkin = userDoc.data()?.skin
     } else {
-      switch (Math.floor(Math.random() * 3)) {
-        case 0:
-          dragonSkin = 'default'
-          break
-        case 1:
-          dragonSkin = 'light'
-          break
-        case 2:
-          dragonSkin = 'gold'
-          break
-      }
+      dragonSkin = 0
     }
 
     var teamnum
@@ -152,7 +126,7 @@ export class BaseRoom extends Room<GameState> {
       }
     }
     this.state.players[client.id] = new ServerPlayer(
-      ballType,
+      ability,
       dragonSkin,
       teamnum,
       client,
@@ -609,7 +583,7 @@ export class BaseRoom extends Room<GameState> {
             break
         }
 
-        let botPlayer = new Player(ballType, 'light', 0)
+        let botPlayer = new Player(ballType, 0, 0)
         botPlayer.onlineName =
           botNames[Math.floor(Math.random() * botNames.length)]
         botPlayer.isBot = true

@@ -29,3 +29,22 @@
   border: none;
   text-decoration: none;
 }
+
+.homeSelection {
+  margin: 0;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  padding-top: 60px;
+  text-align: center;
+}
+
+.link {
+  font-size: 17pt;
+  padding: 10px;
+  border: 1px solid #c60c30;
+  font-family: 'Press Start 2P';
+  width: 18%;
+  margin-left: 2%;
+  background: rgba(0, 0, 0, 0.7);
+}

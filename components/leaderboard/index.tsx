@@ -23,20 +23,27 @@ function renderTableData(players: MapSchema<Player>) {
     let name = player.onlineName
     const ballType = player.ballType
     leaderboardData.push(
-      <tr key={key}>
-        <td className="playerData">
-          <img
-            src={`/img/abilities/${ballType}ball.png`}
-            style={{ height: '30px' }}
-          />
-        </td>
-        <td className="playerData">{name}</td>
-        <td className="playerData">
-          <b>
-            <big>{score}</big>
-          </b>
-        </td>
-      </tr>,
+      // <tr key={key}>
+      //   <td className="playerData">
+      //     <img
+      //       src={`/img/abilities/${ballType}ball.png`}
+      //       style={{ height: '40px' }}
+      //     />
+      //   </td>
+      //   <td className="playerData">{name}</td>
+      //   <td className="playerData">
+      //     <b>
+      //       <big>{score}</big>
+      //     </b>
+      //   </td>
+      // </tr>,
+      <span>
+        &nbsp;&nbsp;&nbsp;
+        <img src={`/img/abilities/${ballType}ball.png`} style={{ height: '40px', verticalAlign: 'bottom' }} />
+        &nbsp;&nbsp;
+        <span>{name}</span>&nbsp;&nbsp;
+        <b>{score}</b>&nbsp;&nbsp;&nbsp;
+      </span>
     )
   })
   return leaderboardData
@@ -76,7 +83,7 @@ export function Leaderboard(props: {
 
   return (
     <>
-      <p className={styles.mobileCountdown}>{countdownRender}</p>
+      <p className={styles.countdown}>{countdownRender}</p>
       {window.innerWidth >= 1000 && (
         <>
           <div id="chatlog" className={styles.chatlog}></div>

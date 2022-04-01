@@ -44,8 +44,8 @@ export class Player extends Schema {
   @type('string')
   ballType: string
 
-  @type('string')
-  skinType: string
+  @type('number')
+  skinType: number
 
   @type('number')
   speed: number = 20
@@ -87,7 +87,7 @@ export class Player extends Schema {
     space: false,
   }
   colyseusClient: any
-  constructor(ballType: string, skinType: string, teamNum: number) {
+  constructor(ballType: string, skinType: number, teamNum: number) {
     super()
     this.team = teamNum
     this.ballType = ballType

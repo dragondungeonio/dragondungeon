@@ -14,18 +14,23 @@ export default function Home() {
   let router = useRouter()
 
   return (
-    <div className={styles.pageContent}>
-      <div style={{ padding: '20px' }}>
-        <h1 style={{ fontSize: '30pt' }}>DRAGON DUNGEON</h1>
-        <img
-          src="/img/game/skull.png"
-          className={styles.heroImage}
-          style={{ height: 150, imageRendering: 'pixelated' }}
-          alt="Skull"
-        /><br /><br /><br />
-        <span style={{ color: '#f9e300', fontSize: '20pt', border: '5px solid #f9e300', padding: '10px' }} onClick={() => router.push('/play/arena')}>Quickplay: Arena Mode</span><br /><br /><br />
-        <span style={{ color: 'whitesmoke', fontSize: '15pt', border: '5px solid whitesmoke', padding: '5px' }} onClick={() => router.push('/play')}>Select Mode</span>
+    <>
+      <div className={styles.homeSelection} style={{ background: 'rgba(0, 0, 0, 0.7)', left: '0', borderRight: '10px solid #c60c30', zIndex: 999999, width: '49.4vw' }} >
+        <img src="/img/game/icon.png" style={{ height: '250px', imageRendering: 'pixelated' }} onClick={() => router.push('/play/arena')} />
+        <br /><br />
+        <h1 style={{ fontSize: '40pt' }}>Play</h1>
+        <p style={{ fontSize: '20pt' }}>Battle against other dragons in a variety of multiplayer and singleplayer modes.</p>
+        <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/play/arena')}>Arena</span>
+        <span className={styles.link} onClick={() => router.push('/play')}>Select Mode</span>
       </div>
-    </div>
+      <div className={styles.homeSelection} style={{ background: 'rgba(0, 0, 0, 0.9)', left: '50vw' }} >
+        <img src="/img/skins/basic.png" style={{ height: '250px', imageRendering: 'pixelated' }} onClick={() => router.push('/profile')} />
+        <br /><br />
+        <h1 style={{ fontSize: '40pt' }}>Dragon</h1>
+        <p style={{ fontSize: '20pt' }}>Suit up for battle with a special ability, and get new skins and modes from the Gem Store.</p>
+        <span className={styles.link} onClick={() => router.push('/profile')}>Profile</span>
+        <span className={styles.link} onClick={() => router.push('/store')}>Store</span>
+      </div>
+    </>
   )
 }

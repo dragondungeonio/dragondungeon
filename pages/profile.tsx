@@ -93,7 +93,7 @@ export default function Profile() {
                     }
                 });
                 document.querySelector('#currentAbility').innerHTML = `<div style='width:160px'>
-                    <img src='/img/abilities/${playerAppearance.ability}.png' style='image-rendering:pixelated;height:60px;' /><br /><br />
+                    <img src='/img/abilities/${playerAppearance.ability.toLowerCase()}.png' style='image-rendering:pixelated;height:60px;' /><br /><br />
                     <b>${playerAppearance.ability}</b>
                 </div>`
                 let userToken = await getIdToken(currentUser)

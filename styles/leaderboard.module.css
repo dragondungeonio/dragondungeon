@@ -1,14 +1,15 @@
 .leaderboardContainer {
-  text-align: center;
+  text-align: left;
   display: block;
   margin: auto;
   position: fixed;
-  bottom: 20px;
-  left: 0px;
+  bottom: 0;
+  left: 0;
   background-color: black;
   color: whitesmoke;
   padding: 10px;
   font-size: 20pt;
+  width: 100vw;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -20,27 +21,22 @@
   }
 }
 
-.mobileCountdown {
+.countdown {
   position: fixed;
-  top: 0;
-  left: 0;
-  background-color: black;
+  bottom: 0;
+  left: 20px;
+  background-color: transparent;
   color: whitesmoke;
-  border-left: none;
-  border-right: 3px solid red;
-  border-bottom: 3px solid red;
-  border-top: 3px solid red;
-  padding: 20px;
   font-size: 20pt;
+  height: 4vh;
+  z-index: 999999;
   font-family: 'Press Start 2P';
 }
 
 @media only screen and (min-width:1000px) {
   .leaderboardContainer {
-    border-right: 3px solid var(--primary_color);
     border-top: 3px solid var(--primary_color);
-    border-bottom: 3px solid var(--primary_color);
-    height: 30vh;
+    height: 8vh;
     min-width: 30%;
   }
 }
@@ -63,13 +59,13 @@
 }
 
 .chatlog {
-  text-align: right;
+  text-align: center;
   position: fixed;
-  bottom: 0;
+  width: 10vw;
+  height: 5vh;
+  bottom: 20px;
   right: 0;
-  padding: 15px;
   font-size: 15pt;
-  background: black;
-  border: 2px solid red;
-  display: none;
+  z-index: 99999999;
+  display: block;
 }

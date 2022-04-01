@@ -28,7 +28,7 @@ export interface IPlayer {
   onlineName: string
   onlineID: string
   ballType: string
-  skinType: string
+  skinType: number
   hitsRecived: number
   hitsDealt: number
   coinsPickedUp: number
