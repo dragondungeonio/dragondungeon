@@ -1,7 +1,7 @@
 {
   "name": "dragondungeon",
   "private": true,
-  "version": "B106",
+  "version": "B107",
   "scripts": {
     "dev": "ts-node --project tsconfig.server.json server/index.ts",
     "dev:secure": "ts-node --project tsconfig.server.json server/index.ts --https",

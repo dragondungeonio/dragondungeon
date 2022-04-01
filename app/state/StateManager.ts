@@ -28,7 +28,7 @@ export class StateManager {
     onAuthStateChanged(auth, async user => {
       if (user) {
         let token = await user.getIdToken()
-        await this.colyseus.client.joinOrCreate('arena', { token }).then(room => {
+        await this.colyseus.client.joinOrCreate(window.localStorage.gameType || 'arena', { token }).then(room => {
           this.room = room as Room<GameState>
           resolve()
         })

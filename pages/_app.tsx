@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
   signInWithPopup,
   GoogleAuthProvider,
+  getIdToken,
 } from 'firebase/auth'
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 
@@ -75,14 +76,9 @@ function DragonDungeon({ Component, pageProps }) {
           let info = await signInWithPopup(auth, new GoogleAuthProvider())
           if (info.user) {
             let db = getFirestore()
-            let userStatsRef = doc(db, info.user.uid, 'stats')
-            let userStats = await getDoc(userStatsRef)
-            if (!userStats.exists()) {
-              await setDoc(userStatsRef, {
-                level: 1,
-                coins: 0,
-                fireballs: 0
-              })
+            let userStoreDoc = await getDoc(doc(db, info.user.uid, 'store'))
+            if (!userStoreDoc.exists()) {
+              await fetch(`${window.location.protocol}//${window.location.hostname}:1337/init?user=${await getIdToken(info.user)}`)
             }
             setSignInNeeded(false)
             setGameStarted(true)

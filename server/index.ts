@@ -16,6 +16,7 @@ import 'colors'
 
 // 1st Party Imports
 import { ArenaRoom } from './MultiplayerRooms'
+import { AP22DiscoveryRoom } from './SingleplayerRooms'
 
 // Friendly Logs
 console.log('DragonDungeon'.red)
@@ -216,6 +217,36 @@ gameServerApp.post('/pay/webhook', express.raw({ type: 'application/json' }), as
   response.status(200);
 });
 
+gameServerApp.get('/init', async (req, res) => {
+  try {
+    let userClaims = await admin.auth().verifyIdToken(req.query.user.toString())
+    let userDragonDoc = admin.firestore().doc(`${userClaims.uid}/dragon`)
+    let userStoreDoc = admin.firestore().doc(`${userClaims.uid}/store`)
+    let userStatsDoc = admin.firestore().doc(`${userClaims.uid}/stats`)
+    if (!(await userStoreDoc.get()).exists) {
+      userDragonDoc.set({
+        ability: 'Fireball',
+        skin: 0
+      })
+      userStoreDoc.set({
+        gems: 0,
+        skinEntitlements: [0],
+        modeEntitlements: ["arena"]
+      })
+      userStatsDoc.set({
+        level: 0,
+        fireballs: 0,
+        coins: 0
+      })
+    }
+    res.status(200)
+    res.send('Done')
+  } catch {
+    res.status(400)
+    res.send('Couldn\'t initialize user')
+  }
+})
+
 let gameServer = !secureServer
   ? createServer(gameServerApp)
   : createSecureServer(secureServerOptions, gameServerApp)
@@ -227,6 +258,7 @@ const colyseusServer = new Server({
 })
 
 colyseusServer.define('arena', ArenaRoom)
+colyseusServer.define('ap22discovery', AP22DiscoveryRoom)
 
 colyseusServer.listen(1337)
 console.log(

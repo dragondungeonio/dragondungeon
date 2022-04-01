@@ -51,8 +51,6 @@ export class BaseRoom extends Room<GameState> {
     this.setState(new GameState())
     this.registerMessages()
     this.startGameLoop()
-    this.state.skulls.set(v4(), new Skull(gameConfig.gameSize / 2 + 80, gameConfig.gameSize / 2, 1))
-    this.state.skulls.set(v4(), new Skull(60, gameConfig.gameSize / 2, 1))
   }
 
   manageBat() {

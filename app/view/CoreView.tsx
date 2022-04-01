@@ -30,7 +30,7 @@ let stateManager = new StateManager(
     window.location.protocol == 'http:' ? 'ws' : 'wss',
     window.location.hostname + ':1337',
   ),
-  'random',
+  'arena',
 )
 
 function renderTableData(players: MapSchema<Player>) {

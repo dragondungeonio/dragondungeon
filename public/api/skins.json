@@ -12,11 +12,11 @@
         ]
     },
     {
-        "rarity": 4,
+        "rarity": 2,
         "id": 1,
-        "gemCost": 0.23,
+        "gemCost": 200,
         "name": "Light Dragon",
-        "description": "One of a kind, just like you.",
+        "description": "[Pre-Order] Brighten your day by 0.002%!",
         "thumbnail": "/img/skins/light.png",
         "perk": "Big Coins make you temporarily invincible",
         "assets": [
@@ -24,11 +24,11 @@
         ]
     },
     {
-        "rarity": 1,
+        "rarity": 2,
         "id": 2,
         "gemCost": 200,
         "name": "CTC Red Dragon",
-        "description": "No, seriously. You're on fire.",
+        "description": "[Pre-Order] No, seriously. You're on fire.",
         "thumbnail": "/img/skins/red.png",
         "perk": "Faster movement speed in Capture matches",
         "assets": [
@@ -40,7 +40,7 @@
         "id": 3,
         "gemCost": 200,
         "name": "CTC Blue Dragon",
-        "description": "Please follow the signs to imminent destruction.",
+        "description": "[Pre-Order] Please follow the signs to imminent destruction.",
         "thumbnail": "/img/skins/blue.png",
         "perk": "Gem gifts appear during Capture matches",
         "assets": [
@@ -48,11 +48,11 @@
         ]
     },
     {
-        "rarity": 3,
+        "rarity": 1,
         "id": 4,
         "gemCost": 300,
         "name": "Electric Dragon",
-        "description": "Light 'em up!",
+        "description": "[Pre-Order] Light 'em up!",
         "thumbnail": "/img/skins/electric.png",
         "perk": "Greatly increases electricball range and explosion size",
         "assets": [
@@ -64,21 +64,9 @@
         "id": 5,
         "gemCost": 400,
         "name": "Null & Void",
-        "description": "The quieter you are...",
+        "description": "[Pre-Order] The quieter you are...",
         "thumbnail": "/img/skins/empty.png",
         "perk": "Your name and coinbar are hidden in Turbo Mode",
-        "assets": [
-            ""
-        ]
-    },
-    {
-        "rarity": 6,
-        "id": 6,
-        "gemCost": null,
-        "name": "This is a test",
-        "description": "Testing 1... 2... 3...",
-        "thumbnail": "/img/skins/basic.png",
-        "perk": "An exclusive reward for completing the 2022 Annual Pass Campaign",
         "assets": [
             ""
         ]
