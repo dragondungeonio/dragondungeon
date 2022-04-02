@@ -62,7 +62,7 @@ function GemStoreItem(props) {
       alert('This item is not available for purchase.')
     } else {
       if (currency == 'Gems') {
-        if (props.cost < props.player) {
+        if (props.cost <= props.player) {
           if (confirm(`You are about to buy ${props.name} for ${props.cost} Gems.`)) {
             fetch(`${window.location.protocol}//${window.location.hostname}:1337/purchase/${props.id}?user=${props.token}&type=${props.rarity == 5 ? 'mode' : 'skin'}`)
               .then((r) => {

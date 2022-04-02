@@ -124,7 +124,6 @@ gameServerApp.get('/purchase/:id', async (req, res) => {
       let skinList = require('../public/api/skins.json')
       skinList.forEach(async skin => {
         if (skin.id == parseInt(req.params.id, 10)) {
-          console.log(`purchasing skin ${skin.name}`)
           if (playerEntitlements.gems >= skin.gemCost) {
             console.log('has enough gems')
             playerEntitlements.skinEntitlements.push(skin.id)

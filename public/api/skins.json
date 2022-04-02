@@ -2,11 +2,21 @@
     {
         "rarity": 0,
         "id": 0,
-        "gemCost": 400,
+        "gemCost": 0,
         "name": "Basic Dragon",
         "description": "A classic, favored by everyone except paying customers.",
         "thumbnail": "/img/skins/basic.png",
         "perk": "",
+        "assets": [
+            ""
+        ]
+    },
+    {
+        "rarity": 3,
+        "id": 999,
+        "gemCost": 0,
+        "name": "Слава Україні",
+        "thumbnail": "/img/skins/ukraine.png",
         "assets": [
             ""
         ]
