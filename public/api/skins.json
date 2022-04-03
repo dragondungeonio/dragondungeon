@@ -17,6 +17,7 @@
         "gemCost": 0,
         "name": "Слава Україні",
         "thumbnail": "/img/skins/ukraine.png",
+        "description": "[Not available in Beta] Glory to Ukraine!",
         "assets": [
             ""
         ]
@@ -26,7 +27,7 @@
         "id": 1,
         "gemCost": 200,
         "name": "Light Dragon",
-        "description": "[Pre-Order] Brighten your day by 0.002%!",
+        "description": "[Not available in Beta] Brighten your day by 0.002%!",
         "thumbnail": "/img/skins/light.png",
         "perk": "Big Coins make you temporarily invincible",
         "assets": [
@@ -38,7 +39,7 @@
         "id": 2,
         "gemCost": 200,
         "name": "CTC Red Dragon",
-        "description": "[Pre-Order] No, seriously. You're on fire.",
+        "description": "[Not available in Beta] No, seriously. You're on fire.",
         "thumbnail": "/img/skins/red.png",
         "perk": "Faster movement speed in Capture matches",
         "assets": [
@@ -50,7 +51,7 @@
         "id": 3,
         "gemCost": 200,
         "name": "CTC Blue Dragon",
-        "description": "[Pre-Order] Please follow the signs to imminent destruction.",
+        "description": "[Not available in Beta] Please follow the signs to imminent destruction.",
         "thumbnail": "/img/skins/blue.png",
         "perk": "Gem gifts appear during Capture matches",
         "assets": [
@@ -62,7 +63,7 @@
         "id": 4,
         "gemCost": 300,
         "name": "Electric Dragon",
-        "description": "[Pre-Order] Light 'em up!",
+        "description": "[Not available in Beta] Light 'em up!",
         "thumbnail": "/img/skins/electric.png",
         "perk": "Greatly increases electricball range and explosion size",
         "assets": [
@@ -74,7 +75,7 @@
         "id": 5,
         "gemCost": 400,
         "name": "Null & Void",
-        "description": "[Pre-Order] The quieter you are...",
+        "description": "[Not available in Beta] The quieter you are...",
         "thumbnail": "/img/skins/empty.png",
         "perk": "Your name and coinbar are hidden in Turbo Mode",
         "assets": [

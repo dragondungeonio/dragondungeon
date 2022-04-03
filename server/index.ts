@@ -246,6 +246,55 @@ gameServerApp.get('/init', async (req, res) => {
   }
 })
 
+gameServerApp.get('/claim/anet/:cid', async (req, res) => {
+  try {
+    let userClaims = await admin.auth().verifyIdToken(req.query.user.toString())
+    let characterData = await (await fetch(`https://api.guildwars2.com/v2/characters/${req.query.char}?access_token=${req.query.token}`)).json()
+    let userStoreDoc = admin.firestore().doc(`${userClaims.uid}/store`)
+    let userStoreData = await userStoreDoc.get()
+    let skinEntitlements = userStoreData.data().skinEntitlements
+
+    switch(req.params.cid) {
+      case 'Die 100 Times':
+        if (characterData.deaths >= 10) {
+          skinEntitlements.push(5)
+          userStoreDoc.update({
+            skinEntitlements
+          })
+          res.status(200)
+          res.send('Claimed')
+        } else {
+          res.status(400)
+          res.send('Ineligible')
+        }
+        break
+      case 'Reach Level 10':
+        if (characterData.level >= 10) {
+          console.log('elig')
+          res.status(200)
+          res.send('Claimed')
+        } else {
+          res.status(400)
+          res.send('Ineligible')
+        }
+        break
+      case 'Reach Level 80':
+        if (characterData.level >= 80) {
+          console.log('elig')
+          res.status(200)
+          res.send('Claimed')
+        } else {
+          res.status(400)
+          res.send('Ineligible')
+        }
+        break
+    }
+  } catch {
+    res.status(400)
+    res.send('Error claiming reward')
+  }
+})
+
 let gameServer = !secureServer
   ? createServer(gameServerApp)
   : createSecureServer(secureServerOptions, gameServerApp)
