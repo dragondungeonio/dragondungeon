@@ -170,10 +170,16 @@ export class BaseRoom extends Room<GameState> {
     this.state.gameOver = true
     this.state.players.forEach(async (player: Player) => {
       if (!player.isBot) {
-        let playerLifetimeStatsRef = admin.firestore().collection(player.onlineID).doc('stats')
+        let playerLifetimeStatsRef = admin
+          .firestore()
+          .collection(player.onlineID)
+          .doc('stats')
         let playerLifetimeStats = await playerLifetimeStatsRef.get()
-        let coins = parseInt(playerLifetimeStats.data().coins, 10) + player.score
-        let fireballs = parseInt(playerLifetimeStats.data().fireballs, 10) + player.fireballCount
+        let coins =
+          parseInt(playerLifetimeStats.data().coins, 10) + player.score
+        let fireballs =
+          parseInt(playerLifetimeStats.data().fireballs, 10) +
+          player.fireballCount
         playerLifetimeStatsRef.update({ coins, fireballs })
       }
       player.dead = true
@@ -634,7 +640,10 @@ export class BaseRoom extends Room<GameState> {
                 player.colyseusClient.send('chatlog', 'You are very dead')
                 if (!this.firstBlood) {
                   this.firstBlood = true
-                  this.broadcast('chatlog', `${playerHit.onlineName} got First Blood!`)
+                  this.broadcast(
+                    'chatlog',
+                    `${playerHit.onlineName} got First Blood!`,
+                  )
                   playerHit.colyseusClient.send('sfx', '/audio/firstblood.m4a')
                 } else {
                   playerHit.colyseusClient.send('sfx', '/audio/amazing.m4a')
@@ -703,18 +712,18 @@ export class BaseRoom extends Room<GameState> {
               player.deceleration = 2
             }
           }
-        if (
+          if (
             fireBall.type === 'mud' &&
             fireBall.width < 500 &&
             fireBall.height < 935
           ) {
-            fireBall.width += 0.05
-            fireBall.height += 0.0935
+            fireBall.width += 0.2
+            fireBall.height += 0.374
             fireBall.speed += 0.005
           }
         }
       })
-      
+
       for (let coinJarId of this.state.coinJars.keys()) {
         if (
           this.state.coinJars[coinJarId].checkHit(
