@@ -17,8 +17,8 @@ export default function Credits() {
             <h4 onClick={() => {
                 router.push('/credits')
             }}>Game Credits</h4>
-            <img src="/img/ui/jtl.png" alt="The LEAGUE of Amazing Programmers" height={60} /><br /><br />
-            <img src="/img/ui/lit.png" alt="lit.games" height={50} />
+            <a href="https://jointheleague.org"><img src="/img/ui/jtl.png" alt="The LEAGUE of Amazing Programmers" height={60} /></a><br /><br />
+            <a href="https://lit.games"><img src="/img/ui/lit.png" alt="lit.games" height={50} /></a>
         </div>
     )
 }

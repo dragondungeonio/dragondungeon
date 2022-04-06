@@ -20,8 +20,8 @@ export default function Home() {
         <br /><br />
         <h1 style={{ fontSize: '40pt' }}>Play</h1>
         <p style={{ fontSize: '20pt' }}>Battle against other dragons in a variety of multiplayer and singleplayer modes.</p>
-        <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/play/arena')}>Arena</span>
-        <span className={styles.link} onClick={() => router.push('/play')}>Select Mode</span>
+        <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/play/arena')}>Play (Arena)</span>
+        <span className={styles.link} onClick={() => router.push('/play')}>Other Modes</span>
       </div>
       <div className={styles.homeSelection} style={{ background: 'rgba(0, 0, 0, 0.9)', left: '50vw' }} >
         <img src="/img/skins/basic.png" style={{ height: '250px', imageRendering: 'pixelated' }} onClick={() => router.push('/profile')} />
@@ -30,6 +30,7 @@ export default function Home() {
         <p style={{ fontSize: '20pt' }}>Suit up for battle with a special ability, and get new skins and modes from the Gem Store.</p>
         <span className={styles.link} onClick={() => router.push('/profile')}>Profile</span>
         <span className={styles.link} onClick={() => router.push('/store')}>Store</span>
+        <span className={styles.link} onClick={() => router.push('/settings')}>Settings</span>
       </div>
     </>
   )

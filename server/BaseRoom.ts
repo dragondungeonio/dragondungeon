@@ -682,7 +682,7 @@ export class BaseRoom extends Room<GameState> {
             } catch {}
 
             if (fireBall.type === 'electric') {
-              if (playerHit.fireballs.length < 10 && Math.random() > 0.9) {
+              if (playerHit.fireballs.length < 10) {
                 const angle = Math.random() * Math.PI * 2
                 const newX = player.x + 50 * Math.cos(angle)
                 const newY = player.y + 50 * Math.sin(angle)
@@ -700,7 +700,12 @@ export class BaseRoom extends Room<GameState> {
                 }
               }
             } else if (fireBall.type === 'ice') {
-              player.deceleration = 2
+              player.deceleration = 0.0001
+              setTimeout(() => {
+                player.deceleration = 1
+              }, 4000)
+            } else if (fireBall.type === 'fire') {
+              fireBall.lifetime = 70
             }
           }
         if (
