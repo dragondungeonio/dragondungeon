@@ -56,7 +56,11 @@ function renderTableData(players: MapSchema<Player>) {
   return leaderboardData
 }
 
-export default function CoreView() {
+export default function CoreView({
+  isPlayingMusic,
+}: {
+  isPlayingMusic: boolean
+}) {
   const [room, setRoom] = useState<Room<GameState> | null>(null)
   const [state, setState] = useState<GameState | null>(null)
   const [gameOver, setGameOver] = useState<boolean>(false)
@@ -112,5 +116,11 @@ export default function CoreView() {
     )
   }
 
-  return <GameView stateManager={stateManager} state={state} />
+  return (
+    <GameView
+      stateManager={stateManager}
+      state={state}
+      playingMusic={isPlayingMusic}
+    />
+  )
 }

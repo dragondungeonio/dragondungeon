@@ -17,7 +17,7 @@ import gameConfig from '../config/dragondungeon.config'
 import * as admin from 'firebase-admin'
 import { v4 } from 'uuid'
 
-const botnames = require('./botnames.json')
+const botNames = require('./botnames.json')
 const botwords = require('./wordlists/nouns.json')
 const MAX_COINS_HELD = 30
 
@@ -566,8 +566,6 @@ export class BaseRoom extends Room<GameState> {
   tick() {
     if (this.state.players.size < 2) {
       for (let botIndex = 0; botIndex < 3; botIndex++) {
-        let botNames = require('./botnames.json')
-
         let ballType = 'fire'
         switch (Math.floor(Math.random() * 5)) {
           case 0:
