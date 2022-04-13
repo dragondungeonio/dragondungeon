@@ -342,11 +342,12 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             </div>
           )}
         </div>
-        
+       
         <div style={{ marginLeft: '3vw', display: 'flex' }}>
-          <CTCLeaderboard
+          
+          { this.props.state.gamemode == "CTC" && <CTCLeaderboard
             players={this.props.state.players}
-          ></CTCLeaderboard>
+          ></CTCLeaderboard>}
         </div>
         <div
           ref={(thisDiv) => {
