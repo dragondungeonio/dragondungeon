@@ -6,19 +6,32 @@ import { AnimatedSprite } from '../../entities/AnimatedSprite';
 // import WallImage2 from './sprites/Wall(2.2).png';
 import WallImage from './sprites/WallSec.png'
 
+import RedWallImage from './sprites/RedWallSec.jpg'
+import BlueWallImage from './sprites/BlueWallSec.jpg'
+
 interface IProps {
   x: number;
   y: number;
   xLength: number;
   yLength: number;
   angle: number;
+  team: number;
 }
  
  
 export const Wall = (props: IProps) => {
   const fenceTextures = useMemo(() => {
     let textures: any = []
-    textures = [PIXI.Texture.from(WallImage.src)]
+    switch(props.team){
+      case 1:
+        textures = [PIXI.Texture.from(RedWallImage.src)]
+        break
+      case 2:
+        textures = [PIXI.Texture.from(BlueWallImage.src)]
+        break
+      default:
+        textures = [PIXI.Texture.from(WallImage.src)]
+    }
     return textures
   }, []);
 

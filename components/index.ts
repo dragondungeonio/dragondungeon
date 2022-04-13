@@ -5,6 +5,7 @@ import { Space } from './space'
 import { Line } from './line'
 import { Input } from './input'
 import { Leaderboard } from './leaderboard'
+import { CTCLeaderboard } from './CTCLeaderboard'
 import { LoadingIcon } from './loadingicon'
 
 export {
@@ -15,5 +16,6 @@ export {
   Line,
   Input,
   Leaderboard,
+  CTCLeaderboard,
   LoadingIcon
 }

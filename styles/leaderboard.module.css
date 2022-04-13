@@ -71,3 +71,17 @@
   border: 2px solid red;
   display: none;
 }
+
+.CTCboard{
+  text-align: center;
+  display: block;
+  margin: auto;
+  position: fixed;
+  top: 20px;   
+  left: 50%;
+  font-size: 30px;
+  background: black;
+  color: whitesmoke;
+  border: 3px solid red;
+  padding: 16px;
+}
