@@ -16,6 +16,7 @@ import { Wall } from './entities/wall'
 import { CoinJar } from './entities/coinJar'
 import { Bar } from './entities/healthBar/healthBar'
 import { Leaderboard } from 'components'
+import { CTCLeaderboard} from 'components'
 import { Skull } from './entities/skull'
 import { Bat } from './entities/bat'
 import Router from 'next/router'
@@ -131,6 +132,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
               xLength={newLen}
               yLength={wall.yLength}
               angle={wall.angle}
+              team = {wall.team}
             />,
           )
         } else {
@@ -141,6 +143,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
               xLength={newLen}
               yLength={wall.yLength}
               angle={wall.angle}
+              team = {wall.team}
             />,
           )
         }
@@ -221,6 +224,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           xLength={xLen}
           yLength={yLen}
           angle={0}
+          team = {0}
         />,
       )
       walls.push(
@@ -230,6 +234,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           xLength={xLen}
           yLength={yLen}
           angle={0}
+          team = {0}
         />,
       )
       walls.push(
@@ -239,6 +244,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           xLength={xLen}
           yLength={yLen}
           angle={Math.PI / 2}
+          team = {0}
         />,
       )
       walls.push(
@@ -248,6 +254,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           xLength={xLen}
           yLength={yLen}
           angle={Math.PI / 2}
+          team = {0}
         />,
       )
     }
@@ -321,6 +328,9 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           actionCallback={(v: IInputs) => this.actionCallback(v)}
           viewport={this.viewport}
         />
+
+        
+
         <div style={{ marginLeft: '3vw', display: 'flex' }}>
           <Leaderboard
             players={this.props.state.players}
@@ -331,6 +341,12 @@ export class GameView extends Component<GameViewProps, GameViewState> {
               Please turn on autoplay and refresh for background music to play.
             </div>
           )}
+        </div>
+        
+        <div style={{ marginLeft: '3vw', display: 'flex' }}>
+          <CTCLeaderboard
+            players={this.props.state.players}
+          ></CTCLeaderboard>
         </div>
         <div
           ref={(thisDiv) => {

@@ -56,6 +56,11 @@ export interface ILeaderboard {
   score: number
 }
 
+export interface ICTCLeaderboard {
+  name: string
+  score: number
+}
+
 export interface IBat {
   key: string
   x: number
@@ -77,4 +82,5 @@ export interface IWall {
   yLength: number
   health: number
   angle: number
+  team: number
 }
