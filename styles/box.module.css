@@ -1,15 +1,9 @@
 .boxContainer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: space-around;
   flex-direction: column;
-  border-top: 3px solid var(--primary_color);
-  background-color: rgba(0, 0, 0, 0.7);
   border-radius: 8;
-  overflow: hidden;
   width: 100vw;
 }

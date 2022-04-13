@@ -1,0 +1,50 @@
+.pageContent {
+  width: 100vw;
+  height: 100vh;
+  padding: 20px;
+}
+
+.borderSliceApplied {
+  border-image-slice: 0.5 !important;
+}
+
+.form {
+  display: none;
+  width: 40vw;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.9);
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999999999999999999999999;
+}
+
+.formSubmit {
+  font-size: 15pt;
+  background-color: #522398;
+  color: whitesmoke;
+  padding: 20px;
+  border-radius: 10px;
+  border: none;
+  text-decoration: none;
+}
+
+.homeSelection {
+  margin: 0;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  padding-top: 60px;
+  text-align: center;
+}
+
+.link {
+  font-size: 17pt;
+  padding: 10px;
+  border: 1px solid #c60c30;
+  font-family: 'Press Start 2P';
+  width: 18%;
+  margin-left: 2%;
+  background: rgba(0, 0, 0, 0.7);
+}

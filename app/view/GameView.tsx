@@ -27,15 +27,22 @@ let SFXPlayTimeout = false
 interface GameViewProps {
   stateManager: StateManager
   state: GameState
+  playingMusic: boolean
 }
 
-interface GameViewState {}
+interface GameViewState {
+  showMusicElement: boolean
+}
 
 export class GameView extends Component<GameViewProps, GameViewState> {
   app!: PIXI.Application
   gameCanvas!: HTMLDivElement
   viewport!: Viewport
 
+  constructor(props) {
+    super(props)
+    this.state = { showMusicElement: true }
+  }
   /**
    * After mounting, add the Pixi Renderer to the div and start the Application.
    */
@@ -43,8 +50,9 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     this.app = new PIXI.Application({
       resizeTo: window,
       antialias: false,
-      backgroundAlpha: 0
+      backgroundAlpha: 0,
     })
+    this.setState({ showMusicElement: true })
     this.gameCanvas!.appendChild(this.app.view)
     this.viewport = new Viewport()
     this.viewport.zoom(30, true)
@@ -80,9 +88,9 @@ export class GameView extends Component<GameViewProps, GameViewState> {
       )
       setTimeout(() => (SFXPlayTimeout = false), 1000)
     })
-
+    setTimeout(() => this.setState({ showMusicElement: false }), 10_000)
     this.props.stateManager.room.onLeave(() => {
-      Router.push('/disconnected')
+      Router.push('/')
     })
   }
 
@@ -277,12 +285,13 @@ export class GameView extends Component<GameViewProps, GameViewState> {
       })
     }
 
-    this.props.state.coinJars.forEach(coinJar => {
-      coinJars.push(<CoinJar x={coinJar.x} y={coinJar.y} key={v4()} team={coinJar.team} />)
-    });
+    this.props.state.coinJars.forEach((coinJar) => {
+      coinJars.push(
+        <CoinJar x={coinJar.x} y={coinJar.y} key={v4()} team={coinJar.team} />,
+      )
+    })
 
     render(
-
       <>
         {tiles}
         {walls}
@@ -327,6 +336,11 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             players={this.props.state.players}
             countdown={this.props.state.countdown}
           ></Leaderboard>
+          {!this.props.playingMusic && this.state.showMusicElement && (
+            <div style={{ backgroundColor: 'transparent' }} id="musicwarning">
+              Please turn on autoplay and refresh for background music to play.
+            </div>
+          )}
         </div>
         
         <div style={{ marginLeft: '3vw', display: 'flex' }}>

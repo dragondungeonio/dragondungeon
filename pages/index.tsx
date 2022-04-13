@@ -1,7 +1,5 @@
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useRouter } from 'next/router'
-import { useMemo, useState } from 'react'
-import styles from 'styles/index.module.css'
+import styles from 'styles/menu.module.css'
 
 function MenuOption(props) {
   let router = useRouter()
@@ -13,46 +11,27 @@ function MenuOption(props) {
 }
 
 export default function Home() {
-  let [name, setName] = useState<string>('Dragon0000')
-  let [profilePicture, setProfilePicture] = useState<string>(
-    '/img/game/coinJar.png',
-  )
-
-  useMemo(() => {
-    let auth = getAuth()
-    let authUnsub = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setName(user.displayName)
-        setProfilePicture(user.photoURL)
-      }
-    })
-
-    authUnsub()
-  }, [])
+  let router = useRouter()
 
   return (
-    <div className={styles.home}>
-      <div style={{ padding: '20px' }}>
-        <h1>DRAGON DUNGEON</h1>
-        <img
-          src="/img/game/skull.png"
-          className={styles.heroImage}
-          style={{ transform: 'scaleX(-1)' }}
-          alt="Skull"
-        />
-        <h2>
-          <img
-            src={profilePicture}
-            style={{ verticalAlign: 'middle', height: '50px' }}
-          />
-          &nbsp;&nbsp;&nbsp;{name}
-        </h2>
+    <>
+      <div className={styles.homeSelection} style={{ background: 'rgba(0, 0, 0, 0.7)', left: '0', borderRight: '10px solid #c60c30', zIndex: 999999, width: '49.4vw' }} >
+        <img src="/img/game/icon.png" style={{ height: '250px', imageRendering: 'pixelated' }} onClick={() => router.push('/play/arena')} />
+        <br /><br />
+        <h1 style={{ fontSize: '40pt' }}>Play</h1>
+        <p style={{ fontSize: '20pt' }}>Battle against other dragons in a variety of multiplayer and singleplayer modes.</p>
+        <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/play/arena')}>Play (Arena)</span>
+        <span className={styles.link} onClick={() => router.push('/play')}>Other Modes</span>
       </div>
-      <MenuOption name="Play" href="/play" />
-      <MenuOption name="Profile" href="/profile" />
-      {/* <MenuOption name="Options" href="/options" /> */}
-      <MenuOption name="Credits" href="/credits" />
-      <MenuOption name="How to Play" href="/how_to_play" />
-    </div>
+      <div className={styles.homeSelection} style={{ background: 'rgba(0, 0, 0, 0.9)', left: '50vw' }} >
+        <img src="/img/skins/basic.png" style={{ height: '250px', imageRendering: 'pixelated' }} onClick={() => router.push('/profile')} />
+        <br /><br />
+        <h1 style={{ fontSize: '40pt' }}>Dragon</h1>
+        <p style={{ fontSize: '20pt' }}>Suit up for battle with a special ability, and get new skins and modes from the Gem Store.</p>
+        <span className={styles.link} onClick={() => router.push('/profile')}>Profile</span>
+        <span className={styles.link} onClick={() => router.push('/store')}>Store</span>
+        <span className={styles.link} onClick={() => router.push('/settings')}>Settings</span>
+      </div>
+    </>
   )
 }

@@ -92,29 +92,8 @@ const ANIMATION_SPEED = 0.08
 export const Dragon = (props: IProps) => {
   const dragonTextures = useMemo(() => {
     // TODO: Create textures from spites
-    let dragonImages
-    if (props.team == 0) {
-      switch (props.player.skinType) {
-        case 'light':
-          dragonImages = [
-            lightDragon1,
-            lightDragon2,
-            lightDragon3,
-            lightDragon4,
-          ]
-          break
-        case 'gold':
-          dragonImages = [goldDragon1, goldDragon2, goldDragon3, goldDragon4]
-          break
-        default:
-          dragonImages = [dragon1, dragon2, dragon3, dragon4]
-      }
-    } else if (props.team == 1) {
-      dragonImages = [redDragon1, redDragon2, redDragon3, redDragon4]
-    } else {
-      dragonImages = [blueDragon1, blueDragon2, blueDragon3, blueDragon4]
-    }
-    //let dragonImages = [blankDragon];
+    let dragonImages = [dragon1, dragon2, dragon3, dragon4]
+
     let textures: any = []
 
     Promise.all(

@@ -17,19 +17,15 @@ import gameConfig from '../config/dragondungeon.config'
 import * as admin from 'firebase-admin'
 import { v4 } from 'uuid'
 
-const botnames = require('./botnames.json')
+const botNames = require('./botnames.json')
 const botwords = require('./wordlists/nouns.json')
 const MAX_COINS_HELD = 30
-
-const serviceAccount = require('../config/private/adminsdk.json')
-
-admin.initializeApp({ credential: admin.credential.cert(serviceAccount) })
 
 class ServerPlayer extends Player {
   colyseusClient: Client = null
   constructor(
     ballType: string,
-    skinType: string,
+    skinType: number,
     teamNum: number,
     client: Client,
   ) {
@@ -49,12 +45,12 @@ export class BaseRoom extends Room<GameState> {
 
   gameInt: NodeJS.Timeout
 
+  firstBlood = false
+
   onCreate() {
     this.setState(new GameState())
     this.registerMessages()
     this.startGameLoop()
-    this.state.skulls.set(v4(), new Skull(gameConfig.gameSize / 2 + 80, gameConfig.gameSize / 2, 1))
-    this.state.skulls.set(v4(), new Skull(60, gameConfig.gameSize / 2, 1))
   }
 
   manageBat() {
@@ -80,52 +76,27 @@ export class BaseRoom extends Room<GameState> {
   }
 
   async onJoin(client: Client, options: { token: string }, _2: any) {
+    client.send('sfx', '/audio/welcome.m4a')
     for (let batCreationIndex = 0; batCreationIndex < 70; batCreationIndex++) {
       this.manageBat()
     }
 
     const user = await admin.auth().verifyIdToken(options.token)
     const db = admin.firestore()
-    let ballType = 'fireball'
-    let dragonSkin = 'default'
+    let ability = 'fire'
+    let dragonSkin = 0
 
-    const userDoc = await db.collection(user.uid).doc('gameplay').get()
-    if (userDoc.data()?.ballType) {
-      ballType = userDoc.data()?.ballType
+    const userDoc = await db.collection(user.uid).doc('dragon').get()
+    if (userDoc.data()?.ability) {
+      ability = userDoc.data()?.ability.toLowerCase().replace('ball', '')
     } else {
-      switch (Math.floor(Math.random() * 5)) {
-        case 0:
-          ballType = 'fire'
-          break
-        case 1:
-          ballType = 'ice'
-          break
-        case 2:
-          ballType = 'poison'
-          break
-        case 3:
-          ballType = 'mud'
-          break
-        case 4:
-          ballType = 'electric'
-          break
-      }
+      ability = 'fire'
     }
 
-    if (userDoc.data()?.dragonSkin) {
-      dragonSkin = userDoc.data()?.dragonSkin
+    if (userDoc.data()?.skin) {
+      dragonSkin = userDoc.data()?.skin
     } else {
-      switch (Math.floor(Math.random() * 3)) {
-        case 0:
-          dragonSkin = 'default'
-          break
-        case 1:
-          dragonSkin = 'light'
-          break
-        case 2:
-          dragonSkin = 'gold'
-          break
-      }
+      dragonSkin = 0
     }
 
     var teamnum
@@ -153,7 +124,7 @@ export class BaseRoom extends Room<GameState> {
       }
     }
     this.state.players[client.id] = new ServerPlayer(
-      ballType,
+      ability,
       dragonSkin,
       teamnum,
       client,
@@ -199,10 +170,16 @@ export class BaseRoom extends Room<GameState> {
     this.state.gameOver = true
     this.state.players.forEach(async (player: Player) => {
       if (!player.isBot) {
-        let playerLifetimeStatsRef = admin.firestore().collection(player.onlineID).doc('stats')
+        let playerLifetimeStatsRef = admin
+          .firestore()
+          .collection(player.onlineID)
+          .doc('stats')
         let playerLifetimeStats = await playerLifetimeStatsRef.get()
-        let coins = parseInt(playerLifetimeStats.data().coins, 10) + player.score
-        let fireballs = parseInt(playerLifetimeStats.data().fireballs, 10) + player.fireballCount
+        let coins =
+          parseInt(playerLifetimeStats.data().coins, 10) + player.score
+        let fireballs =
+          parseInt(playerLifetimeStats.data().fireballs, 10) +
+          player.fireballCount
         playerLifetimeStatsRef.update({ coins, fireballs })
       }
       player.dead = true
@@ -605,8 +582,6 @@ export class BaseRoom extends Room<GameState> {
   tick() {
     if (this.state.players.size < 2) {
       for (let botIndex = 0; botIndex < 3; botIndex++) {
-        let botNames = require('./botnames.json')
-
         let ballType = 'fire'
         switch (Math.floor(Math.random() * 5)) {
           case 0:
@@ -626,7 +601,7 @@ export class BaseRoom extends Room<GameState> {
             break
         }
 
-        let botPlayer = new Player(ballType, 'light', 0)
+        let botPlayer = new Player(ballType, 0, 0)
         botPlayer.onlineName =
           botNames[Math.floor(Math.random() * botNames.length)]
         botPlayer.isBot = true
@@ -677,6 +652,16 @@ export class BaseRoom extends Room<GameState> {
               player.health = 0
               try {
                 player.colyseusClient.send('chatlog', 'You are very dead')
+                if (!this.firstBlood) {
+                  this.firstBlood = true
+                  this.broadcast(
+                    'chatlog',
+                    `${playerHit.onlineName} got First Blood!`,
+                  )
+                  playerHit.colyseusClient.send('sfx', '/audio/firstblood.m4a')
+                } else {
+                  playerHit.colyseusClient.send('sfx', '/audio/amazing.m4a')
+                }
                 player.x = -40000
                 player.y = -40000
                 player.coins = 0
@@ -720,7 +705,7 @@ export class BaseRoom extends Room<GameState> {
             } catch {}
 
             if (fireBall.type === 'electric') {
-              if (playerHit.fireballs.length < 10 && Math.random() > 0.9) {
+              if (playerHit.fireballs.length < 10) {
                 const angle = Math.random() * Math.PI * 2
                 const newX = player.x + 50 * Math.cos(angle)
                 const newY = player.y + 50 * Math.sin(angle)
@@ -738,21 +723,26 @@ export class BaseRoom extends Room<GameState> {
                 }
               }
             } else if (fireBall.type === 'ice') {
-              player.deceleration = 2
+              player.deceleration = 0.0001
+              setTimeout(() => {
+                player.deceleration = 1
+              }, 4000)
+            } else if (fireBall.type === 'fire') {
+              fireBall.lifetime = 70
             }
           }
-        if (
+          if (
             fireBall.type === 'mud' &&
             fireBall.width < 500 &&
             fireBall.height < 935
           ) {
-            fireBall.width += 0.05
-            fireBall.height += 0.0935
-            fireBall.speed += 0.005
+            fireBall.width += 0.5
+            fireBall.height += 0.935
+            fireBall.speed += 0.001
           }
         }
       })
-      
+
       for (let coinJarId of this.state.coinJars.keys()) {
         if (
           this.state.coinJars[coinJarId].checkHit(

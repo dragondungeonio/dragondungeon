@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import {
@@ -6,15 +7,26 @@ import {
   onAuthStateChanged,
   signInWithPopup,
   GoogleAuthProvider,
+  getIdToken,
 } from 'firebase/auth'
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 
+import styles from '../styles/navigation.module.css'
 import '../styles/globals.css'
-import styles from '../styles/index.module.css'
+
+function MenuOption(props) {
+  let router = useRouter()
+  return (
+    <span className={styles.link} onClick={() => router.push(props.href)}>
+      {props.name}
+    </span>
+  )
+}
 
 function DragonDungeon({ Component, pageProps }) {
   let [gameStarted, setGameStarted] = useState<boolean>(false)
   let [signInNeeded, setSignInNeeded] = useState<boolean>(false)
+  let router = useRouter()
 
   useMemo(() => {
     if (typeof window !== undefined) {
@@ -53,37 +65,36 @@ function DragonDungeon({ Component, pageProps }) {
       <meta name="twitter:creator" content="@dragondungeonio" />
       <meta name="twitter:image" content="https://dragondungeon.io/img/dragons/basicDragon.png" />
     </Head>
-    <p style={{ color: '#f9e300', fontFamily: 'sans-serif', position: 'fixed', bottom: '0', right: '15px', fontSize: '13pt' }}>{require('package.json').version}</p>
-    {!gameStarted && <div className={styles.home} style={{ textAlign: 'center' }}>
-      <img className={styles.heroImage} src="/img/dragons/basicDragon.png" />
-      <br /><br /><br />
-      <h1>DRAGON DUNGEON</h1>
-      {!signInNeeded && <h2>Loading...</h2>}
-      {signInNeeded && <>
-        <h2 className={styles.link} style={{ fontSize: '25pt' }} onClick={async () => {
+    <p style={{ color: '#f9e300', position: 'fixed', bottom: '0', right: '15px', fontSize: '13pt' }}>Build {require('package.json').version}</p>
+    {!gameStarted && <div className={styles.pageContent} style={{ textAlign: 'center' }}>
+      {!signInNeeded && <div className={styles.loginWindow}><h2>Loading...</h2></div>}
+      {signInNeeded && <div className={styles.loginWindow}>
+        <h1 style={{ fontSize: '40pt' }}>DRAGON DUNGEON</h1>
+        <img src="/img/dragons/basicDragon.png" height={180} style={{ imageRendering: 'pixelated' }} />
+        <h2 style={{ fontSize: '20pt' }} onClick={async () => {
           let auth = getAuth()
           let info = await signInWithPopup(auth, new GoogleAuthProvider())
           if (info.user) {
             let db = getFirestore()
-            let userStatsRef = doc(db, info.user.uid, 'stats')
-            let userStats = await getDoc(userStatsRef)
-            if (!userStats.exists()) {
-              await setDoc(userStatsRef, {
-                level: 1,
-                coins: 0,
-                fireballs: 0
-              })
+            let userStoreDoc = await getDoc(doc(db, info.user.uid, 'store'))
+            if (!userStoreDoc.exists()) {
+              await fetch(`${window.location.protocol}//${window.location.hostname}:1337/init?user=${await getIdToken(info.user)}`)
             }
             setSignInNeeded(false)
             setGameStarted(true)
           }
-        }}>Start</h2>
-        <a style={{ textDecoration: 'none' }} href="https://lit.games" className={styles.link}>lit.games</a><br /><br />
-        <a style={{ textDecoration: 'none' }} href="https://jointheleague.org" className={styles.link}>The LEAGUE</a><br /><br />
-        <a style={{ textDecoration: 'none' }} href="https://github.com/dragondungeonio/dragondungeon" className={styles.link}>GitHub</a>
-      </>}
+        }}>Click Here To Begin</h2>
+      </div>}
     </div>}
-    {gameStarted && <Component {...pageProps} />}
+    {gameStarted && <>
+      {(!router.pathname.startsWith('/play/') && router.pathname !== '/') && <div className={styles.nav}>
+        <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/play')}>Play</span>
+        <MenuOption name="Profile" href="/profile" />
+        <MenuOption name="Store" href="/store" />
+        <MenuOption name="Settings" href="/settings" />
+      </div>}
+      <Component {...pageProps} />
+    </>}
   </>
 }
 

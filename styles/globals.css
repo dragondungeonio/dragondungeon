@@ -1,4 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Varela Round&display=swap');
+
+::-webkit-scrollbar {
+  width: 0;
+}
 
 :root {
   --primary_color: red;
@@ -6,7 +10,6 @@
   --secondary_color: red;
   --secondary_variant: red;
   --text_color: #ffffff;
-  overflow: hidden;
 }
 
 a {
@@ -14,12 +17,13 @@ a {
 }
 
 * {
-  font-family: 'Press Start 2P', sans-serif;
+  font-family: 'Varela Round', sans-serif;
   cursor: url(/img/ui/cursor.png), auto !important;
 }
 
 html {
-  background: url('/img/game/background-tile.png') !important;
+  background: linear-gradient(rgba(0, 0, 0, 0.8)), url('/img/game/background-tile.png') !important;
+  overflow-x: hidden;
 }
 
 body {

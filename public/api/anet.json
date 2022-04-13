@@ -1,0 +1,17 @@
+[
+    {
+        "scope": 0,
+        "req": "Die 100 Times",
+        "res": "Skin: Null & Void"
+    },
+    {
+        "scope": 0,
+        "req": "Reach Level 10",
+        "res": "Random Skin"
+    },
+    {
+        "scope": 0,
+        "req": "Reach Level 80",
+        "res": "Random Skin"
+    }
+]

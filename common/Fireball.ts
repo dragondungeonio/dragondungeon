@@ -30,7 +30,7 @@ class Fireball extends Schema {
   team: number = 0
 
   @type('float32')
-  speed: number = 12
+  speed: number = 24
 
   constructor(
     x: number,

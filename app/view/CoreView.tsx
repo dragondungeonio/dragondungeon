@@ -8,7 +8,7 @@ import { GameView } from './GameView'
 import { MapSchema } from '@colyseus/schema'
 import { Player } from 'common'
 
-import styles from '../../styles/index.module.css'
+import styles from '../../styles/menu.module.css'
 
 function MenuOption(props) {
   let router = useRouter()
@@ -30,7 +30,7 @@ let stateManager = new StateManager(
     window.location.protocol == 'http:' ? 'ws' : 'wss',
     window.location.hostname + ':1337',
   ),
-  'random',
+  'arena',
 )
 
 function renderTableData(players: MapSchema<Player>) {
@@ -56,7 +56,11 @@ function renderTableData(players: MapSchema<Player>) {
   return leaderboardData
 }
 
-export default function CoreView() {
+export default function CoreView({
+  isPlayingMusic,
+}: {
+  isPlayingMusic: boolean
+}) {
   const [room, setRoom] = useState<Room<GameState> | null>(null)
   const [state, setState] = useState<GameState | null>(null)
   const [gameOver, setGameOver] = useState<boolean>(false)
@@ -96,7 +100,7 @@ export default function CoreView() {
 
   if (gameOver) {
     return (
-      <div style={{ padding: '30px' }} className={styles.home}>
+      <div style={{ padding: '30px' }} className={styles.pageContent}>
         <img
           src="/img/game/coinJar.png"
           className={styles.heroImage}
@@ -112,5 +116,11 @@ export default function CoreView() {
     )
   }
 
-  return <GameView stateManager={stateManager} state={state} />
+  return (
+    <GameView
+      stateManager={stateManager}
+      state={state}
+      playingMusic={isPlayingMusic}
+    />
+  )
 }
