@@ -66,6 +66,25 @@
   bottom: 20px;
   right: 0;
   font-size: 15pt;
+
+  background: black;
+  border: 2px solid red;
+  display: none;
+  
   z-index: 99999999;
   display: block;
+}
+
+.CTCboard{
+  text-align: center;
+  display: block;
+  margin: auto;
+  position: fixed;
+  top: 20px;   
+  left: 50%;
+  font-size: 30px;
+  background: black;
+  color: whitesmoke;
+  border: 3px solid red;
+  padding: 16px;
 }

@@ -69,7 +69,7 @@ export class BaseRoom extends Room<GameState> {
         bat.y -= Math.floor(Math.random() * 20)
       }
 
-      if (this.checkWalls(bat.x, bat.y, 1, false)) {
+      if (this.checkWalls(bat.x, bat.y, 0, 1, false)) {
         bat.angle == 0 ? (bat.angle = 1) : (bat.angle = 0)
       }
     }, 100)
@@ -118,7 +118,7 @@ export class BaseRoom extends Room<GameState> {
       teamnum = 0
       xPos = this.state.gamewidth * Math.random()
       yPos = this.state.gameheight * Math.random()
-      while (this.checkWalls(xPos, yPos, 45, false)) {
+      while (this.checkWalls(xPos, yPos, 0, 45, false)) {
         xPos = this.state.gamewidth * Math.random()
         yPos = this.state.gameheight * Math.random()
       }
@@ -221,12 +221,12 @@ export class BaseRoom extends Room<GameState> {
     }
     var teamNum
     if (this.state.gamemode == 'CTC') {
-      teamNum = 1
+      teamNum = 2
       if (this.state.coins.size % 2 == 0) {
         xPos = Math.random() * 700 + 100
         yPos = Math.random() * 800 + 1100
       } else if (this.state.coins.size % 2 == 1) {
-        teamNum = 2
+        teamNum = 1
         xPos = Math.random() * 800 + 2100
         yPos = Math.random() * 800 + 1100
       }
@@ -234,7 +234,7 @@ export class BaseRoom extends Room<GameState> {
       teamNum = 0
       xPos = Math.random() * this.state.gamewidth
       yPos = Math.random() * this.state.gameheight
-      while (this.checkWalls(xPos, yPos, size, false)) {
+      while (this.checkWalls(xPos, yPos, 0, size, false)) {
         xPos = Math.random() * this.state.gamewidth
         yPos = Math.random() * this.state.gameheight
       }
@@ -253,7 +253,7 @@ export class BaseRoom extends Room<GameState> {
       newX = Math.random() * 100
       newY = Math.random() * 100
     } while (
-      this.checkWalls(newX, newY, 45, false) ||
+      this.checkWalls(newX, newY, player.team, 45, false) ||
       (newX > 500 && newY > 500 && newX < 3500 && newY < 3500)
     )
     player.x = newX
@@ -296,6 +296,7 @@ export class BaseRoom extends Room<GameState> {
             false,
             10,
             'CTC',
+            1
           ),
         )
       }
@@ -308,6 +309,7 @@ export class BaseRoom extends Room<GameState> {
           false,
           10,
           'CTC',
+          1
         ),
       )
       walls.push(
@@ -319,6 +321,7 @@ export class BaseRoom extends Room<GameState> {
           true,
           10,
           'CTC',
+          1
         ),
       )
       //right side
@@ -331,6 +334,7 @@ export class BaseRoom extends Room<GameState> {
           false,
           10,
           'CTC',
+          2
         ),
       )
       walls.push(
@@ -342,6 +346,7 @@ export class BaseRoom extends Room<GameState> {
           false,
           10,
           'CTC',
+          2
         ),
       )
       walls.push(
@@ -353,6 +358,7 @@ export class BaseRoom extends Room<GameState> {
           true,
           10,
           'CTC',
+          2
         ),
       )
     } else {
@@ -366,6 +372,7 @@ export class BaseRoom extends Room<GameState> {
           true,
           2,
           'coingrab',
+          0
         ),
       )
       walls.push(
@@ -377,6 +384,7 @@ export class BaseRoom extends Room<GameState> {
           false,
           2,
           'coingrab',
+          0
         ),
       )
       //bottom left
@@ -389,6 +397,7 @@ export class BaseRoom extends Room<GameState> {
           true,
           2,
           'coingrab',
+          0
         ),
       )
       walls.push(
@@ -400,6 +409,7 @@ export class BaseRoom extends Room<GameState> {
           false,
           2,
           'coingrab',
+          0
         ),
       )
       //top left
@@ -412,6 +422,7 @@ export class BaseRoom extends Room<GameState> {
           true,
           2,
           'coingrab',
+          0
         ),
       )
       walls.push(
@@ -423,6 +434,7 @@ export class BaseRoom extends Room<GameState> {
           false,
           2,
           'coingrab',
+          0
         ),
       )
       //top right
@@ -435,6 +447,7 @@ export class BaseRoom extends Room<GameState> {
           true,
           2,
           'coingrab',
+          0
         ),
       )
       walls.push(
@@ -446,6 +459,7 @@ export class BaseRoom extends Room<GameState> {
           false,
           2,
           'coingrab',
+          0
         ),
       )
     }
@@ -483,10 +497,10 @@ export class BaseRoom extends Room<GameState> {
       const newX = player.x + speedX
       const newY = player.y + speedY
 
-      if (!this.checkWalls(player.x, newY, 45, false)) {
+      if (!this.checkWalls(player.x, newY, player.team, 45, false)) {
         player.y = newY
       }
-      if (!this.checkWalls(newX, player.y, 45, false)) {
+      if (!this.checkWalls(newX, player.y, player.team, 45, false)) {
         player.x = newX
       }
     }
@@ -496,6 +510,7 @@ export class BaseRoom extends Room<GameState> {
   checkWalls(
     objectX: number,
     objectY: number,
+    objectTeam: number,
     radius: number,
     isFireball: boolean,
   ) {
@@ -529,6 +544,7 @@ export class BaseRoom extends Room<GameState> {
               objectX + radius > wall.x &&
               objectX - radius < wall.x + xLen)
           ) {
+            if(objectTeam == wall.team && objectTeam != 0){return false}
             if (isFireball && wall.gamemode == 'CTC') {
               //if(isFireball){
               wall.health -= 1
@@ -550,12 +566,12 @@ export class BaseRoom extends Room<GameState> {
         fireball.x + fireball.speed * Math.cos(fireball.angle - Math.PI)
       var newY =
         fireball.y + fireball.speed * Math.sin(fireball.angle - Math.PI)
-      if (!this.checkWalls(newX, fireball.y, 22.5, true)) {
+      if (!this.checkWalls(newX, fireball.y, fireball.team, 22.5, true)) {
         fireball.x = newX
       } else {
         fireball.lifetime -= 0.3
       }
-      if (!this.checkWalls(fireball.x, newY, 22.5, true)) {
+      if (!this.checkWalls(fireball.x, newY, fireball.team, 22.5, true)) {
         fireball.y = newY
       } else {
         fireball.lifetime -= 0.3
@@ -669,10 +685,10 @@ export class BaseRoom extends Room<GameState> {
               const newY =
                 oldY + fireBall.speed * Math.sin(fireBall.angle - Math.PI)
 
-              if (!this.checkWalls(oldX, newY, 45, true)) {
+              if (!this.checkWalls(oldX, newY, player.team, 45, true)) {
                 player.y = newY
               }
-              if (!this.checkWalls(newX, oldY, 45, true)) {
+              if (!this.checkWalls(newX, oldY, player.team, 45, true)) {
                 player.x = newX
               }
 
@@ -693,7 +709,7 @@ export class BaseRoom extends Room<GameState> {
                 const angle = Math.random() * Math.PI * 2
                 const newX = player.x + 50 * Math.cos(angle)
                 const newY = player.y + 50 * Math.sin(angle)
-                if (!this.checkWalls(newX, newY, 22.5, true)) {
+                if (!this.checkWalls(newX, newY, player.team, 22.5, true)) {
                   playerHit.fireballs.push(
                     new Fireball(
                       newX,

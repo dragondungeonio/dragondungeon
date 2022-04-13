@@ -25,6 +25,11 @@ export class Wall extends Schema {
   @type('boolean')
   isRotated: boolean = false
 
+  @type('number')
+  team: number = 0
+
+
+  
   gamemode: string
 
   constructor(
@@ -35,6 +40,7 @@ export class Wall extends Schema {
     isRotated: boolean,
     health: number,
     gamemode: string,
+    team: number,
     key?: string,
   ) {
     super()
@@ -46,6 +52,7 @@ export class Wall extends Schema {
     this.gamemode = gamemode
     this.isRotated = isRotated
     this.key = key
+    this.team = team
     if (isRotated == true) {
       this.angle = Math.PI / 2
     }
