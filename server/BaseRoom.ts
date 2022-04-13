@@ -720,9 +720,9 @@ export class BaseRoom extends Room<GameState> {
             fireBall.width < 500 &&
             fireBall.height < 935
           ) {
-            fireBall.width += 0.2
-            fireBall.height += 0.374
-            fireBall.speed += 0.005
+            fireBall.width += 0.5
+            fireBall.height += 0.935
+            fireBall.speed += 0.001
           }
         }
       })
