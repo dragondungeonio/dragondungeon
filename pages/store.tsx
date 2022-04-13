@@ -176,7 +176,7 @@ export default function MyDragon() {
   return (
     <div className={styles.pageContent}>
       <h1>Store</h1>
-      <h2><img src="/img/ui/gem.png" className={styles.heroImage} style={{ height: '40px', verticalAlign: 'middle' }} /> {gems}&nbsp;<a onClick={() => (document.querySelector('#buygems') as HTMLDivElement).style.display = 'block'} style={{ fontSize: '13pt', textDecoration: 'none' }}>Get More</a> </h2>
+      <h2><img src="/img/ui/gem.png" style={{ height: '40px', verticalAlign: 'middle' }} /> {gems}&nbsp;<a onClick={() => (document.querySelector('#buygems') as HTMLDivElement).style.display = 'block'} style={{ fontSize: '13pt', textDecoration: 'none' }}>Get More</a> </h2>
       <p>It may take up to <b>3 minutes</b> for Gem and Store purchases to appear in your account.</p>
       <br />
       <div id="buygems" className={styles.form}>

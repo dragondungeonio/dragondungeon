@@ -160,7 +160,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             player={player}
             key={player.onlineID}
             team={0}
-            celebration={dragonCelebrating}
+            celebration={dragonCelebrating || player.turboMode}
           />,
         )
       } else {

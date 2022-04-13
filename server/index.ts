@@ -15,7 +15,7 @@ import Stripe from 'stripe'
 import 'colors'
 
 // 1st Party Imports
-import { ArenaRoom } from './MultiplayerRooms'
+import { ArenaRoom, CaptureRoom } from './MultiplayerRooms'
 import { AP22DiscoveryRoom } from './SingleplayerRooms'
 
 // Friendly Logs
@@ -306,7 +306,7 @@ const colyseusServer = new Server({
 })
 
 colyseusServer.define('arena', ArenaRoom)
-colyseusServer.define('ap22discovery', AP22DiscoveryRoom)
+colyseusServer.define('ctc', CaptureRoom)
 
 colyseusServer.listen(1337)
 console.log(

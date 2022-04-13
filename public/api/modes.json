@@ -5,19 +5,5 @@
         "name": "Arena",
         "description": "The classic Dragon Dungeon Mode. Find coins and become the richest dragon of all.",
         "thumbnail": "/img/game/icon.png"
-    },
-    {
-        "id": "ctc",
-        "gemCost": 600,
-        "name": "Capture",
-        "description": "[Not available in Beta] A fast-paced version of Capture the Flag. Defend your castle and steal coins from the other team!",
-        "thumbnail": "/img/game/coinJar.png"
-    },
-    {
-        "id": "ap22",
-        "gemCost": 1000,
-        "name": "Annual Pass 2022",
-        "description": "[Not available in Beta] Experience the epic Dragon Dungeon campaign mode and get exclusive rewards.",
-        "thumbnail": "/img/game/icon.png"
     }
 ]
