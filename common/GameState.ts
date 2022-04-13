@@ -59,7 +59,7 @@ export class GameState extends Schema {
 
 	//"CTC" or "coinCapture"
 	@type("string")
-	gamemode: string = "CTC"
+	gamemode: string = "coinCapture"
 
 	constructor() {
 		super();
