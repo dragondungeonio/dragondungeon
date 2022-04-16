@@ -255,6 +255,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           yLength={yLen}
           angle={Math.PI / 2}
           team = {0}
+          
         />,
       )
     }
