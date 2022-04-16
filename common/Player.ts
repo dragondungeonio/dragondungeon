@@ -74,6 +74,12 @@ export class Player extends Schema {
   @type('number')
   team: number = 0
 
+  @type('boolean')
+  turboModeAllowed: boolean = true
+
+  @type('boolean')
+  turboMode: boolean = false
+
   direction: Geometry.Vector = new Geometry.Vector(0, 0)
 
   activeInputs: IInputs = {
@@ -85,6 +91,7 @@ export class Player extends Schema {
     autoshoot: false,
     angle: 0.0,
     space: false,
+    turbo: false,
   }
   colyseusClient: any
   constructor(ballType: string, skinType: number, teamNum: number) {
@@ -107,6 +114,22 @@ export class Player extends Schema {
 	} */
 
   inputs(i: IInputs) {
+    if (i.turbo && this.turboModeAllowed) {
+      this.turboModeAllowed = false
+      this.turboMode = true
+      this.speed = 200
+      this.colyseusClient.send('chatlog', 'Turbo Mode Activated!')
+      if (Math.random() < 0.6) {
+        this.colyseusClient.send('sfx', '/audio/turbomode.m4a')
+      }
+      setTimeout(() => {
+        this.speed = 20
+        this.turboMode = false
+      }, 300)
+      setTimeout(() => {
+        this.turboModeAllowed = true
+      }, 2000)
+    }
     if (i.autoshoot && !this.activeInputs.autoshoot) {
       this.autoshootOn = !this.autoshootOn
     }

@@ -14,7 +14,8 @@ const controlsDown: { [key: string]: object } = {
   "s": { down: true },
   "d": { right: true },
   " ": { space: true },
-  "x": { autoshoot: true }
+  "x": { autoshoot: true },
+  "t": { turbo: true }
 }
 
 const mouseActivity: { [key: string]: object } = {
@@ -29,7 +30,8 @@ let activeControls = {
   shoot: false,
   autoshoot: false,
   angle: 0.0,
-  space: false
+  space: false,
+  turbo: false
 };
 
 export const Controls = (props: ControlProps) => {
@@ -47,10 +49,12 @@ export const Controls = (props: ControlProps) => {
     const keydown = (e: KeyboardEvent) => {
       if (e.key == ' ') { updateAndSend({ space: true, shoot: true }) }
       if (e.key == 'x') { updateAndSend({ autoshoot: true }) }
+      if (e.key == 'v') { updateAndSend({ turbo: true }) }
     }
     const keyup = (e: KeyboardEvent) => {
       if (e.key == ' ') { updateAndSend({ space: false, shoot: false }) }
       if (e.key == 'x') { updateAndSend({ autoshoot: false }) }
+      if (e.key == 'v') { updateAndSend({ turbo: false }) }
     }
     const mouseMove = (e: MouseEvent) => {
       try {

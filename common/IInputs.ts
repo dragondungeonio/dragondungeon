@@ -7,4 +7,5 @@ export interface IInputs {
 	autoshoot: boolean;
 	angle: number;
 	space: boolean;
+	turbo: boolean;
 }

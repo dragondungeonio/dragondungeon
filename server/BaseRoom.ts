@@ -270,6 +270,7 @@ export class BaseRoom extends Room<GameState> {
       autoshoot: false,
       angle: 1,
       space: false,
+      turbo: false,
     })
   }
 

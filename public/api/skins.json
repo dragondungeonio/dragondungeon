@@ -81,5 +81,17 @@
         "assets": [
             ""
         ]
+    },
+    {
+        "rarity": 3,
+        "id": 6,
+        "gemCost": 600,
+        "name": "Neon Dragon",
+        "description": "[Not available in Beta] It's a dot matrix.",
+        "thumbnail": "/img/skins/neon.png",
+        "perk": "Temporarily blinds other dragons that you damage",
+        "assets": [
+            ""
+        ]
     }
 ]
