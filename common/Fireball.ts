@@ -53,8 +53,8 @@ class Fireball extends Schema {
     this.lifetime = lifetime
     this.team = teamNum
     if (this.type === 'mud') {
-      this.width *= 1.2
-      this.height *= 1.2
+      this.width *= 2.4
+      this.height *= 2.4
     }
   }
 

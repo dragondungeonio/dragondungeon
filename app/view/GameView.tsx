@@ -16,7 +16,7 @@ import { Wall } from './entities/wall'
 import { CoinJar } from './entities/coinJar'
 import { Bar } from './entities/healthBar/healthBar'
 import { Leaderboard } from 'components'
-import { CTCLeaderboard} from 'components'
+import { CTCLeaderboard } from 'components'
 import { Skull } from './entities/skull'
 import { Bat } from './entities/bat'
 import Router from 'next/router'
@@ -79,14 +79,16 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     })
 
     this.props.stateManager.room.onMessage('chatlog', (chatMessage) => {
-      ;(document.querySelector('#chatlog') as any).style.display = 'block'
-      document.querySelector('#chatlog').innerHTML = chatMessage
-      setTimeout(
-        () =>
-          ((document.querySelector('#chatlog') as any).style.display = 'none'),
-        2000,
-      )
-      setTimeout(() => (SFXPlayTimeout = false), 1000)
+      if (document.querySelector('#chatlog')) {
+        ; (document.querySelector('#chatlog') as any).style.display = 'block'
+        document.querySelector('#chatlog').innerHTML = chatMessage
+        setTimeout(
+          () =>
+            ((document.querySelector('#chatlog') as any).style.display = 'none'),
+          2000,
+        )
+        // setTimeout(() => (SFXPlayTimeout = false), 1000)
+      }
     })
     setTimeout(() => this.setState({ showMusicElement: false }), 10_000)
     this.props.stateManager.room.onLeave(() => {
@@ -132,7 +134,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
               xLength={newLen}
               yLength={wall.yLength}
               angle={wall.angle}
-              team = {wall.team}
+              team={wall.team}
             />,
           )
         } else {
@@ -143,7 +145,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
               xLength={newLen}
               yLength={wall.yLength}
               angle={wall.angle}
-              team = {wall.team}
+              team={wall.team}
             />,
           )
         }
@@ -173,19 +175,21 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           />,
         )
       }
-      hudBars.push(
-        <Bar
-          key={v4()}
-          health={player.health}
-          x={player.x - 35}
-          y={player.y - 80}
-          width={70}
-          height={18}
-          color={0xe30b1d}
-          coins={player.coins}
-          name={player.onlineName}
-        />,
-      )
+      if (window.localStorage. ddImmersiveMode == 'false') {
+        hudBars.push(
+          <Bar
+            key={v4()}
+            health={player.health}
+            x={player.x - 35}
+            y={player.y - 80}
+            width={70}
+            height={18}
+            color={0xe30b1d}
+            coins={player.coins}
+            name={player.onlineName }
+          />,
+        ) 
+      }
     })
 
     //moves the center of the viewport to the player
@@ -193,7 +197,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
       try {
         this.viewport.x = -me.x + window.innerWidth / 2
         this.viewport.y = -me.y + window.innerHeight / 2
-      } catch {}
+      } catch { }
     }
 
     var tileAmt = 19
@@ -224,7 +228,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           xLength={xLen}
           yLength={yLen}
           angle={0}
-          team = {0}
+          team={0}
         />,
       )
       walls.push(
@@ -234,7 +238,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           xLength={xLen}
           yLength={yLen}
           angle={0}
-          team = {0}
+          team={0}
         />,
       )
       walls.push(
@@ -244,7 +248,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           xLength={xLen}
           yLength={yLen}
           angle={Math.PI / 2}
-          team = {0}
+          team={0}
         />,
       )
       walls.push(
@@ -254,7 +258,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           xLength={xLen}
           yLength={yLen}
           angle={Math.PI / 2}
-          team = {0}
+          team={0}
         />,
       )
     }
@@ -329,26 +333,26 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           viewport={this.viewport}
         />
 
-        
+        {window.localStorage.ddImmersiveMode == 'false' && <>
+          <div style={{ marginLeft: '3vw', display: 'flex' }}>
+            <Leaderboard
+              players={this.props.state.players}
+              countdown={this.props.state.countdown}
+            ></Leaderboard>
+            {!this.props.playingMusic && this.state.showMusicElement && (
+              <div style={{ backgroundColor: 'transparent' }} id="musicwarning">
+                Please turn on autoplay and refresh for background music to play.
+              </div>
+            )}
+          </div>
 
-        <div style={{ marginLeft: '3vw', display: 'flex' }}>
-          <Leaderboard
-            players={this.props.state.players}
-            countdown={this.props.state.countdown}
-          ></Leaderboard>
-          {!this.props.playingMusic && this.state.showMusicElement && (
-            <div style={{ backgroundColor: 'transparent' }} id="musicwarning">
-              Please turn on autoplay and refresh for background music to play.
-            </div>
-          )}
-        </div>
-       
-        <div style={{ marginLeft: '3vw', display: 'flex' }}>
-          
-          { this.props.state.gamemode == "CTC" && <CTCLeaderboard
-            players={this.props.state.players}
-          ></CTCLeaderboard>}
-        </div>
+          <div style={{ marginLeft: '3vw', display: 'flex' }}>
+
+            {this.props.state.gamemode == "CTC" && <CTCLeaderboard
+              players={this.props.state.players}
+            ></CTCLeaderboard>}
+          </div>
+        </>}
         <div
           ref={(thisDiv) => {
             component.gameCanvas = thisDiv!

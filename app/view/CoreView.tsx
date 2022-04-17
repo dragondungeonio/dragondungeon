@@ -101,11 +101,6 @@ export default function CoreView({
   if (gameOver) {
     return (
       <div style={{ padding: '30px' }} className={styles.pageContent}>
-        <img
-          src="/img/game/coinJar.png"
-          className={styles.heroImage}
-          style={{ transform: 'scaleX(-1)' }}
-        />
         <h1>Game Over</h1>
         {renderTableData(state.players)}
         <br />

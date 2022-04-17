@@ -8,20 +8,6 @@ interface ControlProps {
   viewport: Viewport
 }
 
-const controlsDown: { [key: string]: object } = {
-  "w": { up: true },
-  "a": { left: true },
-  "s": { down: true },
-  "d": { right: true },
-  " ": { space: true },
-  "x": { autoshoot: true },
-  "t": { turbo: true }
-}
-
-const mouseActivity: { [key: string]: object } = {
-  "position": { x: 0.0, y: 0.0 }
-}
-
 let activeControls = {
   left: false,
   up: false,
@@ -109,14 +95,6 @@ export const Controls = (props: ControlProps) => {
     }
   }, [props.actionCallback, updateAndSend, props.viewport])
   return <>
-    <div style={{
-      position: 'fixed',
-      width: '100vw',
-      height: '100vh'
-    }} onClick={() => {
-      var change = controlsDown[' '] || {};
-      updateAndSend(change);
-    }} />
     <ReactNipple
       options={{ color: 'transparent', mode: 'dynamic', position: { bottom: '50%', right: '50%' } }}
       style={{
