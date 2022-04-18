@@ -58,6 +58,14 @@
   text-align: center;
 }
 
+.selfbar {
+  position: fixed;
+  top: 30px;
+  left: 30px; 
+  width: 300px;
+  height: 50px;
+}
+
 .chatlog {
   text-align: center;
   position: fixed;

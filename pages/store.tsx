@@ -55,7 +55,7 @@ function GemStoreItem(props) {
       break;
   }
 
-  return <div className={styles.borderSliceApplied} style={{ border: borderImage ? '5px solid transparent' : `5px solid ${rarityBorder}`, borderImage: borderImage ? rarityBorder : '', padding: '20px', width: '200px', background: 'rgba(0, 0, 0, 0.9)' }} onClick={() => {
+  return <div className={styles.borderSliceApplied} style={{ border: borderImage ? '5px solid transparent' : `5px solid ${rarityBorder}`, borderImage: borderImage ? rarityBorder : '', padding: '20px', width: '200px', background: 'black' }} onClick={() => {
     if (props.owned) {
       alert('You already own this item.')
     } else if (props.rarity == 6) {

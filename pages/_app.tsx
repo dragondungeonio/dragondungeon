@@ -102,34 +102,35 @@ function DragonDungeon({ Component, pageProps }) {
       <meta name="twitter:creator" content="@dragondungeonio" />
       <meta name="twitter:image" content="https://dragondungeon.io/img/dragons/basicDragon.png" />
     </Head>
-    <p style={{ color: '#f9e300', position: 'fixed', bottom: '0', right: '15px', fontSize: '13pt' }}>Build {require('package.json').version}</p>
-    {!gameStarted && <div className={styles.pageContent} style={{ textAlign: 'center' }}>
-      <div className={styles.loginWindow}>
-        <h1 style={{ fontSize: '40pt' }}>DRAGON DUNGEON</h1>
-        <img src="/img/dragons/basicDragon.png" height={180} style={{ imageRendering: 'pixelated' }} />
-        {(controlScheme == 0) && <p className={styles.startPrompt}>Press <img src="/prompts/mnk/Enter_Key_Dark.png" alt="Enter" height={60} style={{ verticalAlign: 'middle' }} /> to begin</p>}
-        {(controlScheme == 1) && <p onClick={async () => {
-          if (!isLoggedIn) {
-            if (await startGame() == true) {
+    <div className={styles.dragondungeon}>
+      {!gameStarted && <div className={styles.pageContent} style={{ textAlign: 'center' }}>
+        <div className={styles.loginWindow}>
+          <h1 style={{ fontSize: '40pt' }}>DRAGON DUNGEON</h1>
+          <img src="/img/dragons/basicDragon.png" height={180} style={{ imageRendering: 'pixelated' }} />
+          {(controlScheme == 0) && <p className={styles.startPrompt}>Press <img src="/prompts/mnk/Enter_Key_Dark.png" alt="Enter" height={60} style={{ verticalAlign: 'middle' }} /> to begin</p>}
+          {(controlScheme == 1) && <p onClick={async () => {
+            if (!isLoggedIn) {
+              if (await startGame() == true) {
+                setGameStarted(true)
+              }
+            } else {
               setGameStarted(true)
             }
-          } else {
-            setGameStarted(true)
-          }
-        }} className={styles.startPrompt}>Tap here to begin</p>}
-        {(controlScheme == 2) && <p className={styles.startPrompt}>Press <img src="/prompts/mshid/XboxSeriesX_A.png" alt="A" height={60} style={{ verticalAlign: 'middle' }} /> to begin</p>}
-        {(controlScheme == 3) && <p className={styles.startPrompt}>Press <img src="/prompts/sonyhid/PS5_Cross.png" alt="Cross" height={60} style={{ verticalAlign: 'middle' }} /> to begin</p>}
-      </div>
-    </div>}
-    {gameStarted && <>
-      {(!router.pathname.startsWith('/play/') && router.pathname !== '/') && <div className={styles.nav}>
-        <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/play')}>Play</span>
-        <MenuOption name="Profile" href="/profile" />
-        <MenuOption name="Store" href="/store" />
-        <MenuOption name="Settings" href="/settings" />
+          }} className={styles.startPrompt}>Tap here to begin</p>}
+          {(controlScheme == 2) && <p className={styles.startPrompt}>Press <img src="/prompts/mshid/XboxSeriesX_A.png" alt="A" height={60} style={{ verticalAlign: 'middle' }} /> to begin</p>}
+          {(controlScheme == 3) && <p className={styles.startPrompt}>Press <img src="/prompts/sonyhid/PS5_Cross.png" alt="Cross" height={60} style={{ verticalAlign: 'middle' }} /> to begin</p>}
+        </div>
       </div>}
-      <Component {...pageProps} controls={controlScheme} />
-    </>}
+      {gameStarted && <>
+        {(!router.pathname.startsWith('/play/') && router.pathname !== '/') && <div className={styles.nav}>
+          <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/play')}>Play</span>
+          <MenuOption name="Profile" href="/profile" />
+          <MenuOption name="Store" href="/store" />
+          <MenuOption name="Settings" href="/settings" />
+        </div>}
+        <Component {...pageProps} controls={controlScheme} />
+      </>}
+    </div>
   </>
 }
 

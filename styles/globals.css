@@ -22,7 +22,10 @@ a {
 }
 
 html {
-  background: url('/img/game/background-tile.png') !important;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.9), 
+    rgba(0, 0, 0, 0.9)
+  ), url('/img/game/background-tile.png') !important;
   overflow-x: hidden;
 }
 

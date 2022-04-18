@@ -186,7 +186,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             height={18}
             color={0xe30b1d}
             coins={player.coins}
-            name={player.onlineName }
+            name={player == me ? '' :  player.onlineName}
           />,
         ) 
       }
@@ -301,10 +301,8 @@ export class GameView extends Component<GameViewProps, GameViewState> {
         {walls}
         {coins}
         {coinJars}
-        {dragons}
         {hudBars}
-        {/* {bats} */}
-        {skulls}
+        {dragons}
       </>,
       this.viewport,
     )

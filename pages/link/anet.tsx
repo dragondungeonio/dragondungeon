@@ -11,7 +11,7 @@ function RewardItem(props) {
         } else {
             alert('You cannot claim this reward.')
         }
-    }} style={{ border: '5px solid red', padding: '20px', width: '300px', background: 'rgba(0, 0, 0, 0.9)' }}>
+    }} style={{ border: '5px solid red', padding: '20px', width: '300px', background: 'black' }}>
         <span>{ props.scope == 0 ? `On character ${props.name}`: 'Account-wide' }</span><br />
         <span style={{ fontSize: '18pt' }}>{props.requirements}</span><br />
         <span style={{ fontSize: '16pt', color: '#f9e300' }}>{props.perk}</span>

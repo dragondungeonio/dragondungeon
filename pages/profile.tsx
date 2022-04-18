@@ -35,7 +35,7 @@ function ProfileSelectItem(props) {
         borderImage: borderImage ? rarityBorder : '',
         padding: '20px',
         width: '130px',
-        background: 'rgba(0, 0, 0, 0.9)',
+        background: 'black',
       }}
       onClick={async () => {
         if (props.type == 'ability') {
