@@ -103,9 +103,12 @@ function DragonDungeon({ Component, pageProps }) {
       <meta name="twitter:image" content="https://dragondungeon.io/img/dragons/basicDragon.png" />
     </Head>
     <div className={styles.dragondungeon}>
+      {typeof window == 'object' &&
+        <p style={{ color: '#f9e300', position: 'fixed', top: 0, left: 0, width: '100vw', textAlign: 'center' }}>Beta {require('../package.json').version} @ {window.location.host}<br />{navigator.userAgent}</p>
+      }
       {!gameStarted && <div className={styles.pageContent} style={{ textAlign: 'center' }}>
         <div className={styles.loginWindow}>
-          <h1 style={{ fontSize: '40pt' }}>DRAGON DUNGEON</h1>
+          <h1 style={{ fontSize: '40pt' }}>dragondungeon.io</h1>
           <img src="/img/dragons/basicDragon.png" height={180} style={{ imageRendering: 'pixelated' }} />
           {(controlScheme == 0) && <p className={styles.startPrompt}>Press <img src="/prompts/mnk/Enter_Key_Dark.png" alt="Enter" height={60} style={{ verticalAlign: 'middle' }} /> to begin</p>}
           {(controlScheme == 1) && <p onClick={async () => {

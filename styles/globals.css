@@ -44,7 +44,7 @@ body {
   user-select: auto;
 }
 
-h1 {
+h1, h1 span {
 	color: red;
   font-family: 'Press Start 2P', sans-serif;
   font-size: 25pt;
