@@ -17,6 +17,7 @@ import 'colors'
 // 1st Party Imports
 import { ArenaRoom, CaptureRoom } from './MultiplayerRooms'
 import { AP22DiscoveryRoom } from './SingleplayerRooms'
+import { CoreRoom } from './CoreRoom'
 
 // Friendly Logs
 console.log('DragonDungeon'.red)
@@ -307,6 +308,7 @@ const colyseusServer = new Server({
 
 colyseusServer.define('arena', ArenaRoom)
 colyseusServer.define('ctc', CaptureRoom)
+colyseusServer.define('essentials', CoreRoom)
 
 colyseusServer.listen(1337)
 console.log(

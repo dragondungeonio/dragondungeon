@@ -7,6 +7,8 @@ import TileImage3 from './sprites/tile3.png';
 import TileImage4 from './sprites/tile4.png';
 import TileImage5 from './sprites/tile5.png';
 import TileImage6 from './sprites/tile6.png';
+import DirtTile from './sprites/dirt.png';
+import TechnoTile from './sprites/techno.png'
 
 interface IProps {
     x: number;
@@ -19,7 +21,7 @@ export const MovingBackground = (props: IProps) => {
   ANIMATION_SPEED = Math.random()/100;
   const tileTextures = useMemo(() => {
     let tileImages = [TileImage1,TileImage2,TileImage3,TileImage4,TileImage5,TileImage6];
-    let textures: PIXI.AnimatedSprite["textures"] = [PIXI.Texture.from(tileImages[Math.floor(Math.random()*5)].src)];
+    let textures: PIXI.AnimatedSprite["textures"] = [PIXI.Texture.from(tileImages[Math.floor(Math.random() * tileImages.length)].src)];
     return textures;
   }, []);
 

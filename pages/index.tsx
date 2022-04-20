@@ -15,7 +15,7 @@ export default function Home() {
 
   return (
     <>
-      <div className={styles.homeSelection} style={{ background: 'rgba(0, 0, 0, 0.7)', left: '0', borderRight: '10px solid #c60c30', zIndex: 999999, width: '49.4vw' }} >
+      <div className={styles.homeSelection} style={{ left: '0', borderRight: '10px solid #c60c30', zIndex: 999999, width: '49.4vw' }} >
         <img src="/img/game/icon.png" style={{ height: '250px', imageRendering: 'pixelated' }} onClick={() => router.push('/play/arena')} />
         <br /><br />
         <h1 style={{ fontSize: '40pt' }}>Play</h1>
@@ -23,7 +23,7 @@ export default function Home() {
         <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/play/arena')}>Play (Arena)</span>
         <span className={styles.link} onClick={() => router.push('/play')}>Other Modes</span>
       </div>
-      <div className={styles.homeSelection} style={{ background: 'rgba(0, 0, 0, 0.9)', left: '50vw' }} >
+      <div className={styles.homeSelection} style={{ left: '50vw' }} >
         <img src="/img/skins/basic.png" style={{ height: '250px', imageRendering: 'pixelated' }} onClick={() => router.push('/profile')} />
         <br /><br />
         <h1 style={{ fontSize: '40pt' }}>Dragon</h1>

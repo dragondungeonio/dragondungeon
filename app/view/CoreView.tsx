@@ -58,8 +58,10 @@ function renderTableData(players: MapSchema<Player>) {
 
 export default function CoreView({
   isPlayingMusic,
+  controls,
 }: {
-  isPlayingMusic: boolean
+  isPlayingMusic: boolean,
+  controls: number
 }) {
   const [room, setRoom] = useState<Room<GameState> | null>(null)
   const [state, setState] = useState<GameState | null>(null)
@@ -101,11 +103,6 @@ export default function CoreView({
   if (gameOver) {
     return (
       <div style={{ padding: '30px' }} className={styles.pageContent}>
-        <img
-          src="/img/game/coinJar.png"
-          className={styles.heroImage}
-          style={{ transform: 'scaleX(-1)' }}
-        />
         <h1>Game Over</h1>
         {renderTableData(state.players)}
         <br />
@@ -121,6 +118,7 @@ export default function CoreView({
       stateManager={stateManager}
       state={state}
       playingMusic={isPlayingMusic}
+      controls={controls}
     />
   )
 }

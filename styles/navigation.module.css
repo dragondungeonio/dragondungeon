@@ -4,7 +4,7 @@
     border: 3px solid #c60c30;
     width: 18%;
     margin-left: 2%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.9);
 }
 
 .nav {
@@ -17,12 +17,24 @@
     z-index: 999999999;
 }
 
+.dragondungeon {
+    /* background-color: rgba(0, 0, 0, 0.9); */
+    height: 100vh;
+    width: 100vw;
+}
+
 .loginWindow {
-    background: rgba(0, 0, 0, 0.8);
     width: 100vw;
     height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
-    padding: 50px;
+    padding: 0;
+    padding-top: 50px;
+}
+
+.startPrompt {
+    font-size: 30pt;
+    color: #f9e300;
+    vertical-align: middle;
 }

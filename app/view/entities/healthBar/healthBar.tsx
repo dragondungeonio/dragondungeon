@@ -22,12 +22,12 @@ function propsEqual(oldProps: BarProps, newProps: BarProps) {
     oldProps.height === newProps.height &&
     oldProps.health === newProps.health &&
     oldProps.coins === newProps.coins &&
-    oldProps.name === newProps.name 
+    oldProps.name === newProps.name
   );
 }
 
 export const Bar = CustomPIXIComponent<PIXI.Graphics, BarProps>(
-  { 
+  {
     customDisplayObject: (_) => new PIXI.Graphics(),
     customApplyProps: (instance, oldProps, newProps) => {
       if (!propsEqual(oldProps, newProps)) {
@@ -41,28 +41,44 @@ export const Bar = CustomPIXIComponent<PIXI.Graphics, BarProps>(
           newProps.y + 80,
           50
         );*/
-        instance.beginFill(0xf9e300);
-        instance.drawRect(
-          newProps.x,
-          newProps.y - 35,
-          newProps.coins * 7.5,
-          newProps.height - 3
-        );
-        instance.beginFill(0xc60c30);
-        instance.drawRect(
-          newProps.x,
-          newProps.y - 30,
-          newProps.health * 7.5,
-          newProps.height - 3
-        );
-        let name = new PIXI.Text(newProps.name, {fontFamily : 'Press Start 2P', fontSize: 20, align : 'center', fill: '#ffffff' });
+        if (newProps.coins != 0) {
+          instance.beginFill(0x565a5c, 0.7)
+          instance.drawCircle(
+            newProps.x + 30,
+            newProps.y + 80,
+            70,
+          )
+        }
+        instance.beginFill(0xf9e300, 0.7)
+        instance.drawCircle(
+          newProps.x + 30,
+          newProps.y + 80,
+          newProps.coins * 7,
+        )
+        if (newProps.health !== 10) {
+          instance.beginFill(0x000000)
+          instance.drawRect(
+            newProps.x - 5,
+            newProps.y + 140,
+              75,
+            newProps.height
+          )
+          instance.beginFill(0xc60c30)
+          instance.drawRect(
+            newProps.x - 5,
+            newProps.y + 140,
+            newProps.health * 7.5,
+            newProps.height
+          )
+        }
+        let name = new PIXI.Text(newProps.name, { fontFamily: 'Press Start 2P', fontSize: 20, align: 'center', fill: '#ffffff' });
         name.x = newProps.x - (name.width / 2) + 35;
-        name.y = newProps.y - 5;
+        name.y = newProps.y - 30;
         instance.addChild(name);
         instance.endFill();
       }
     },
-    
+
   },
   "Bar"
 );
