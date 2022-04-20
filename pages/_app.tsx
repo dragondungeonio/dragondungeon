@@ -104,13 +104,15 @@ function DragonDungeon({ Component, pageProps }) {
     </Head>
     <div className={styles.dragondungeon}>
       {typeof window == 'object' &&
-        <p style={{ color: '#f9e300', position: 'fixed', top: 0, left: 0, width: '100vw', textAlign: 'center' }}>Beta {require('../package.json').version} @ {window.location.host}<br />{navigator.userAgent}</p>
+        <p style={{ color: '#f9e300', position: 'fixed', top: 0, left: 0, width: '100vw', textAlign: 'center' }}>Beta {require('../package.json').version} on {(navigator as any).userAgentData.platform == 'Windows' ? 'Microsoft Windows' : (navigator as any).userAgentData.platform}<br />
+        {navigator.userAgent}</p>
       }
       {!gameStarted && <div className={styles.pageContent} style={{ textAlign: 'center' }}>
         <div className={styles.loginWindow}>
+          <p style={{ position: 'fixed', bottom: 0, left: 0, textAlign: 'left', paddingLeft: '20px', paddingBottom: '4px' }}>This is a beta build. Expect instability.<br />Make sure to report any issues on GitHub.<br />And make sure to have fun!</p>
           <h1 style={{ fontSize: '40pt' }}>dragondungeon.io</h1>
           <img src="/img/dragons/basicDragon.png" height={180} style={{ imageRendering: 'pixelated' }} />
-          {(controlScheme == 0) && <p className={styles.startPrompt}>Press <img src="/prompts/mnk/Enter_Key_Dark.png" alt="Enter" height={60} style={{ verticalAlign: 'middle' }} /> to begin</p>}
+          {(controlScheme == 0) && <p className={styles.startPrompt}>Press <img src="/prompts/mnk/Enter_Key_Dark.png" alt="Enter" height={60} style={{ verticalAlign: 'middle' }} /> to start beta</p>}
           {(controlScheme == 1) && <p onClick={async () => {
             if (!isLoggedIn) {
               if (await startGame() == true) {
@@ -119,14 +121,14 @@ function DragonDungeon({ Component, pageProps }) {
             } else {
               setGameStarted(true)
             }
-          }} className={styles.startPrompt}>Tap here to begin</p>}
-          {(controlScheme == 2) && <p className={styles.startPrompt}>Press <img src="/prompts/mshid/XboxSeriesX_A.png" alt="A" height={60} style={{ verticalAlign: 'middle' }} /> to begin</p>}
-          {(controlScheme == 3) && <p className={styles.startPrompt}>Press <img src="/prompts/sonyhid/PS5_Cross.png" alt="Cross" height={60} style={{ verticalAlign: 'middle' }} /> to begin</p>}
+          }} className={styles.startPrompt}>Tap here to begin beta</p>}
+          {(controlScheme == 2) && <p className={styles.startPrompt}>Press <img src="/prompts/mshid/XboxSeriesX_A.png" alt="A" height={60} style={{ verticalAlign: 'middle' }} /> to start beta</p>}
+          {(controlScheme == 3) && <p className={styles.startPrompt}>Press <img src="/prompts/sonyhid/PS5_Cross.png" alt="Cross" height={60} style={{ verticalAlign: 'middle' }} /> to start beta</p>}
         </div>
       </div>}
       {gameStarted && <>
         {(!router.pathname.startsWith('/play/') && router.pathname !== '/') && <div className={styles.nav}>
-          <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/play')}>Play</span>
+          <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/play/arena')}>Play</span>
           <MenuOption name="Profile" href="/profile" />
           <MenuOption name="Store" href="/store" />
           <MenuOption name="Settings" href="/settings" />

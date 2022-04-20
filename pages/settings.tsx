@@ -7,16 +7,14 @@ export default function Credits() {
 
     return (
         <div className={styles.pageContent}>
-            <h1>Settings &amp; About</h1>
-            <h2>Account Linking</h2>
+            <h1>About</h1>
+            <h2><Link href={'https://github.com/dragondungeonio/dragondungeon/issues'}>Submit Feedback</Link></h2>
+            {/* <h2>Account Linking</h2>
             <a href="https://www.bungie.net/en/OAuth/Authorize?client_id=34616&response_type=code">Link with Bungie.net</a>
             <br /><br />
-            <Link href="/link/anet">Link with ArenaNet (Guild Wars 2)</Link>
-            <h2>About</h2>
-            <h3>Dragon Dungeon {require('../package.json').version}</h3>
-            <h4 onClick={() => {
-                router.push('/credits')
-            }}>Game Credits</h4>
+            <Link href="/link/anet">Link with ArenaNet (Guild Wars 2)</Link> */}
+            <h3>Dragon Dungeon Public Beta {require('../package.json').version}</h3>
+            <Link href={'/credits'}>Game Credits</Link><br /><br />
             <a href="https://jointheleague.org"><img src="/img/ui/jtl.png" alt="The LEAGUE of Amazing Programmers" height={60} /></a><br /><br />
             <a href="https://lit.games"><img src="/img/ui/lit.png" alt="lit.games" height={50} /></a>
         </div>

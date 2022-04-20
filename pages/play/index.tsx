@@ -18,8 +18,8 @@ export default function ModeSelect() {
       <h1>Play</h1>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '5px' }}>
           <ModeItem enabled={true} name="Arena (Beta)" img="/img/dragons/basicDragon.png" color="red" href="/play/arena" router={router} />
-          <ModeItem enabled={false} name="Capture" img="/img/game/coinJar.png" color="#00a1de" router={router} />
-          <ModeItem enabled={false} name="Annual Pass" img="/img/game/skull.png" color="#009b3a" router={router} />
+          {/* <ModeItem enabled={false} name="Capture" img="/img/game/coinJar.png" color="#00a1de" router={router} /> */}
+          {/* <ModeItem enabled={false} name="Annual Pass" img="/img/game/skull.png" color="#009b3a" router={router} /> */}
       </div>
     </div>
   )

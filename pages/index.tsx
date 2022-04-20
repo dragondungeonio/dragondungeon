@@ -21,7 +21,7 @@ export default function Home() {
         <h1 style={{ fontSize: '40pt' }}>Play</h1>
         <p style={{ fontSize: '20pt' }}>Battle against other dragons in a variety of multiplayer and singleplayer modes.</p>
         <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/play/arena')}>Play (Arena)</span>
-        <span className={styles.link} onClick={() => router.push('/play')}>Other Modes</span>
+        {/* <span className={styles.link} onClick={() => router.push('/play')}>Other Modes</span> */}
       </div>
       <div className={styles.homeSelection} style={{ left: '50vw' }} >
         <img src="/img/skins/basic.png" style={{ height: '250px', imageRendering: 'pixelated' }} onClick={() => router.push('/profile')} />

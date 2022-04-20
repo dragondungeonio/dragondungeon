@@ -654,7 +654,18 @@ export class BaseRoom extends Room<GameState> {
             if (player.health < 0) {
               player.health = 0
               try {
-                player.colyseusClient.send('chatlog', 'You are very dead')
+                player.x = -40000
+                player.y = -40000
+                player.coins = 0
+
+                setTimeout(() => {
+                  player.x = 200
+                  player.y = 200
+                  player.health = 10
+                }, 5000)
+                
+                this.broadcast('chatlog', `${player.onlineName} died`)
+
                 if (!this.firstBlood) {
                   this.firstBlood = true
                   this.broadcast(
@@ -665,15 +676,6 @@ export class BaseRoom extends Room<GameState> {
                 } else {
                   playerHit.colyseusClient.send('sfx', '/audio/amazing.m4a')
                 }
-                player.x = -40000
-                player.y = -40000
-                player.coins = 0
-
-                setTimeout(() => {
-                  player.x = 200
-                  player.y = 200
-                  player.health = 10
-                }, 5000)
               } catch {}
             }
 
@@ -792,10 +794,10 @@ export class BaseRoom extends Room<GameState> {
               coins++
               break
             case 25:
-              coins += 2
+              coins++
               break
             case 30:
-              coins += 4
+              coins++
               break
             case 100:
               player.score += 20
