@@ -16,6 +16,7 @@ interface IProps {
   yLength: number;
   angle: number;
   team: number;
+  health: number;
 }
  
  
@@ -24,7 +25,11 @@ export const Wall = (props: IProps) => {
     let textures: any = []
     switch(props.team){
       case 1:
-        textures = [PIXI.Texture.from(RedWallImage.src)]
+        if(props.health > 0){
+          textures = [PIXI.Texture.from(RedWallImage.src)]
+        } else{
+          textures = [PIXI.Texture.from(WallImage.src)]
+        }
         break
       case 2:
         textures = [PIXI.Texture.from(BlueWallImage.src)]
@@ -33,7 +38,7 @@ export const Wall = (props: IProps) => {
         textures = [PIXI.Texture.from(WallImage.src)]
     }
     return textures
-  }, []);
+  }, [props.health]);
 
   return (
     <AnimatedSprite
@@ -46,6 +51,7 @@ export const Wall = (props: IProps) => {
       rotation={props.angle}
       loop={true}
       y={props.y}
+      
     />
   )
 
