@@ -28,6 +28,7 @@ interface GameViewProps {
   stateManager: StateManager
   state: GameState
   playingMusic: boolean
+  controls: number
 }
 
 interface GameViewState {
@@ -175,7 +176,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           />,
         )
       }
-      if (window.localStorage. ddImmersiveMode == 'false') {
+      if (window.localStorage. ddImmersiveMode != 'true') {
         hudBars.push(
           <Bar
             key={v4()}
@@ -258,7 +259,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           xLength={xLen}
           yLength={yLen}
           angle={Math.PI / 2}
-          team={0}
+          team = {0}
         />,
       )
     }
@@ -329,9 +330,10 @@ export class GameView extends Component<GameViewProps, GameViewState> {
         <Controls
           actionCallback={(v: IInputs) => this.actionCallback(v)}
           viewport={this.viewport}
+          scheme={this.props.controls}
         />
 
-        {window.localStorage.ddImmersiveMode == 'false' && <>
+        {window.localStorage.ddImmersiveMode != 'true' && <>
           <div style={{ marginLeft: '3vw', display: 'flex' }}>
             <Leaderboard
               players={this.props.state.players}

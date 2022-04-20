@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 const CoreView = dynamic(() => import('app/view/CoreView'), { ssr: false })
 
-export default function Game() {
+export default function Game(props) {
   const router = useRouter()
   const [musicPlaying, setMusicPlaying] = useState<boolean>()
   useMemo(() => {
@@ -23,5 +23,6 @@ export default function Game() {
       window.localStorage.gameType = router.query.mode
     }
   }, [router.query.mode])
-  return <CoreView isPlayingMusic={musicPlaying} />
+  console.log('PLAYING MUSIC: ' + musicPlaying)
+  return <CoreView isPlayingMusic={musicPlaying} controls={props.controls} />
 }

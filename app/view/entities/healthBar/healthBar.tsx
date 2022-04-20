@@ -41,13 +41,28 @@ export const Bar = CustomPIXIComponent<PIXI.Graphics, BarProps>(
           newProps.y + 80,
           50
         );*/
-         instance.beginFill(0xf9e300, 0.7)
+        if (newProps.coins != 0) {
+          instance.beginFill(0x565a5c, 0.7)
+          instance.drawCircle(
+            newProps.x + 30,
+            newProps.y + 80,
+            70,
+          )
+        }
+        instance.beginFill(0xf9e300, 0.7)
         instance.drawCircle(
           newProps.x + 30,
           newProps.y + 80,
           newProps.coins * 7,
-        );
-        if (newProps.health !== 20) {
+        )
+        if (newProps.health !== 10) {
+          instance.beginFill(0x000000)
+          instance.drawRect(
+            newProps.x - 5,
+            newProps.y + 140,
+              75,
+            newProps.height
+          )
           instance.beginFill(0xc60c30)
           instance.drawRect(
             newProps.x - 5,

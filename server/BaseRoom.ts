@@ -549,8 +549,8 @@ export class BaseRoom extends Room<GameState> {
               return false
             }
             if (isFireball && wall.gamemode == 'CTC') {
-              //if(isFireball){
               wall.health -= 1
+
             }
             result = true
           }
@@ -572,12 +572,12 @@ export class BaseRoom extends Room<GameState> {
       if (!this.checkWalls(newX, fireball.y, fireball.team, 22.5, true)) {
         fireball.x = newX
       } else {
-        fireball.lifetime -= 0.3
+        fireball.lifetime -= 10
       }
       if (!this.checkWalls(fireball.x, newY, fireball.team, 22.5, true)) {
         fireball.y = newY
       } else {
-        fireball.lifetime -= 0.3
+        fireball.lifetime -= 10
       }
     }
   }

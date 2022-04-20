@@ -71,10 +71,10 @@ function DragonDungeon({ Component, pageProps }) {
           window.addEventListener('keypress', async (e) => {
             setControlScheme(0)
             try {
-              if (user) {
-                setGameStarted(true)
-              } else {
-                if (e.code == 'Enter') {
+              if (e.code == 'Enter') {
+                if (user) {
+                  setGameStarted(true)
+                } else {
                   if (await startGame() == true) {
                     setGameStarted(true)
                   }
