@@ -23,6 +23,5 @@ export default function Game() {
       window.localStorage.gameType = router.query.mode
     }
   }, [router.query.mode])
-  console.log('PLAYING MUSIC: ' + musicPlaying)
   return <CoreView isPlayingMusic={musicPlaying} />
 }

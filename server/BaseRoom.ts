@@ -268,7 +268,7 @@ export class BaseRoom extends Room<GameState> {
       right: Math.random() > 0.5 ? true : false,
       shoot: false,
       autoshoot: false,
-      angle: 1,
+      angle: Math.random() * Math.PI * 2,
       space: false,
       turbo: false,
     })
@@ -297,7 +297,7 @@ export class BaseRoom extends Room<GameState> {
             false,
             10,
             'CTC',
-            1
+            1,
           ),
         )
       }
@@ -310,7 +310,7 @@ export class BaseRoom extends Room<GameState> {
           false,
           10,
           'CTC',
-          1
+          1,
         ),
       )
       walls.push(
@@ -322,7 +322,7 @@ export class BaseRoom extends Room<GameState> {
           true,
           10,
           'CTC',
-          1
+          1,
         ),
       )
       //right side
@@ -335,7 +335,7 @@ export class BaseRoom extends Room<GameState> {
           false,
           10,
           'CTC',
-          2
+          2,
         ),
       )
       walls.push(
@@ -347,7 +347,7 @@ export class BaseRoom extends Room<GameState> {
           false,
           10,
           'CTC',
-          2
+          2,
         ),
       )
       walls.push(
@@ -359,7 +359,7 @@ export class BaseRoom extends Room<GameState> {
           true,
           10,
           'CTC',
-          2
+          2,
         ),
       )
     } else {
@@ -373,7 +373,7 @@ export class BaseRoom extends Room<GameState> {
           true,
           2,
           'coingrab',
-          0
+          0,
         ),
       )
       walls.push(
@@ -385,7 +385,7 @@ export class BaseRoom extends Room<GameState> {
           false,
           2,
           'coingrab',
-          0
+          0,
         ),
       )
       //bottom left
@@ -398,7 +398,7 @@ export class BaseRoom extends Room<GameState> {
           true,
           2,
           'coingrab',
-          0
+          0,
         ),
       )
       walls.push(
@@ -410,7 +410,7 @@ export class BaseRoom extends Room<GameState> {
           false,
           2,
           'coingrab',
-          0
+          0,
         ),
       )
       //top left
@@ -423,7 +423,7 @@ export class BaseRoom extends Room<GameState> {
           true,
           2,
           'coingrab',
-          0
+          0,
         ),
       )
       walls.push(
@@ -435,7 +435,7 @@ export class BaseRoom extends Room<GameState> {
           false,
           2,
           'coingrab',
-          0
+          0,
         ),
       )
       //top right
@@ -448,7 +448,7 @@ export class BaseRoom extends Room<GameState> {
           true,
           2,
           'coingrab',
-          0
+          0,
         ),
       )
       walls.push(
@@ -460,7 +460,7 @@ export class BaseRoom extends Room<GameState> {
           false,
           2,
           'coingrab',
-          0
+          0,
         ),
       )
     }
@@ -545,7 +545,9 @@ export class BaseRoom extends Room<GameState> {
               objectX + radius > wall.x &&
               objectX - radius < wall.x + xLen)
           ) {
-            if(objectTeam == wall.team && objectTeam != 0){return false}
+            if (objectTeam == wall.team && objectTeam != 0) {
+              return false
+            }
             if (isFireball && wall.gamemode == 'CTC') {
               //if(isFireball){
               wall.health -= 1
