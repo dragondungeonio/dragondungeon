@@ -104,8 +104,7 @@ function DragonDungeon({ Component, pageProps }) {
     </Head>
     <div className={styles.dragondungeon}>
       {typeof window == 'object' &&
-        <p style={{ color: '#f9e300', position: 'fixed', top: 0, left: 0, width: '100vw', textAlign: 'center' }}>Beta {require('../package.json').version} on {(navigator as any).userAgentData.platform == 'Windows' ? 'Microsoft Windows' : (navigator as any).userAgentData.platform}<br />
-        {navigator.userAgent}</p>
+        <p style={{ color: '#f9e300', position: 'fixed', top: 0, left: 0, width: '100vw', textAlign: 'center' }}>{navigator.userAgent}<br /><b>dragondungeon.io Public Beta Build {require('../package.json').version}</b></p>
       }
       {!gameStarted && <div className={styles.pageContent} style={{ textAlign: 'center' }}>
         <div className={styles.loginWindow}>
