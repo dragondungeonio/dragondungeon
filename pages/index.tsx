@@ -15,7 +15,7 @@ export default function Home() {
 
   return (
     <>
-      <div className={styles.homeSelection} style={{ left: '0', borderRight: '10px solid #c60c30', zIndex: 999999, width: '49.4vw' }} >
+      <div className={styles.homeSelection} style={{ left: '0', borderRight: '10px solid #c60c30', width: '49.4vw' }} >
         <img src="/img/game/icon.png" style={{ height: '250px', imageRendering: 'pixelated' }} onClick={() => router.push('/play/arena')} />
         <br /><br />
         <h1 style={{ fontSize: '40pt' }}>Play</h1>

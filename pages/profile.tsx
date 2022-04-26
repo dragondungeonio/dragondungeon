@@ -135,12 +135,15 @@ export default function Profile() {
             }}
           ></div>
           <div
-            style={{ display: 'inline-block', fontSize: '0.8em' }}
+            style={{ display: 'inline-block', fontSize: '18pt', padding: '10px', border: '3px solid #f9e300', color: '#f9e300' }}
             onClick={() => {
               const displayName = prompt('Enter your new Dragon Name:')
               if (displayName) {
-                updateProfile(user, { displayName })
-                user.displayName = displayName
+                updateProfile(user, { displayName }).then(() => {
+                  window.location.reload()
+                }).catch(() => {
+                  alert('Couldn\'t change your Dragon Name.')
+                })
               }
             }}
           >
