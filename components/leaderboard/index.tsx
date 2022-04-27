@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react'
 function renderCountdown(countdown: Countdown) {
   if (countdown.done) {
     return '0:00'
+  } else if (countdown.minutes == 100000000000000) {
+    return ''
   } else {
     return `${countdown.minutes}:${Math.floor(countdown.seconds)
       .toString()
