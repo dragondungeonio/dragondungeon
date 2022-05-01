@@ -372,10 +372,6 @@ export class CoreRoom extends Room<GameState> {
 
                 if (!this.firstBlood) {
                   this.firstBlood = true
-                  this.broadcast(
-                    'chatlog',
-                    `${playerHit.onlineName} got First Blood!`,
-                  )
                   playerHit.colyseusClient.send('sfx', '/audio/firstblood.m4a')
                 } else {
                   playerHit.colyseusClient.send('sfx', '/audio/amazing.m4a')
