@@ -13,14 +13,23 @@ import TechnoTile from './sprites/techno.png'
 interface IProps {
     x: number;
     y: number;
+    map: string;
 }
 
 
 let ANIMATION_SPEED = 0;
 export const MovingBackground = (props: IProps) => {
   ANIMATION_SPEED = Math.random()/100;
+  let tileImages;
   const tileTextures = useMemo(() => {
-    let tileImages = [TileImage1,TileImage2,TileImage3,TileImage4,TileImage5,TileImage6];
+    switch(props.map) {
+      case 'techno':
+        tileImages = [TechnoTile]
+      case 'dirt':
+        tileImages = [DirtTile]
+      default:
+        tileImages = [TileImage1, TileImage2, TileImage3, TileImage4, TileImage5, TileImage6]
+    }
     let textures: PIXI.AnimatedSprite["textures"] = [PIXI.Texture.from(tileImages[Math.floor(Math.random() * tileImages.length)].src)];
     return textures;
   }, []);

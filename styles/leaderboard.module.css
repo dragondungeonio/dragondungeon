@@ -3,13 +3,15 @@
   display: block;
   margin: auto;
   position: fixed;
-  bottom: 0;
-  left: 0;
+  bottom: 20px;
+  left: 20px;
   background-color: black;
   color: whitesmoke;
-  padding: 10px;
-  font-size: 20pt;
-  width: 100vw;
+  padding: 8px;
+  font-size: 17pt;
+  border: 3px solid #c60c30;
+  height: fit-content;
+  /* width: 100vw; */
 }
 
 @media only screen and (max-width: 1000px) {
@@ -23,22 +25,17 @@
 
 .countdown {
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 20px;
   background-color: transparent;
   color: whitesmoke;
+  background: black;
+  padding: 10px;
+  border: 3px solid #c60c30;
   font-size: 20pt;
   height: 4vh;
   z-index: 999999;
   font-family: 'Press Start 2P';
-}
-
-@media only screen and (min-width:1000px) {
-  .leaderboardContainer {
-    border-top: 3px solid var(--primary_color);
-    height: 8vh;
-    min-width: 30%;
-  }
 }
 
 .leaderboardContainer tr, .leaderboardContainer th {
@@ -69,18 +66,13 @@
 .chatlog {
   text-align: center;
   position: fixed;
-  width: 10vw;
+  width: 100vw;
   height: 5vh;
-  bottom: 20px;
-  right: 0;
+  left: 0;
+  top: 45%;
   font-size: 15pt;
-
-  background: black;
-
   display: none;
-  
   z-index: 99999999;
-  display: block;
 }
 
 .CTCboard{

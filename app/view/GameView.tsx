@@ -56,7 +56,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     this.setState({ showMusicElement: true })
     this.gameCanvas!.appendChild(this.app.view)
     this.viewport = new Viewport()
-    this.viewport.zoom(30, true)
+    this.viewport.zoom(60, true)
     this.app.stage.addChild(this.viewport)
     this.app.start()
     this.app.ticker.add(() => this.renderScene())
@@ -201,8 +201,8 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     //moves the center of the viewport to the player
     if (me !== null && this.viewport !== null) {
       try {
-        this.viewport.x = -me.x + window.innerWidth / 2
-        this.viewport.y = -me.y + window.innerHeight / 2
+        this.viewport.x = -me.x + window.innerWidth / 1.7
+        this.viewport.y = -me.y + window.innerHeight / 1.7
       } catch { }
     }
 
@@ -213,6 +213,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
         if (typeof me !== 'undefined') {
           tiles.push(
             <MovingBackground
+              map={this.props.state.map.toString()}
               key={`${i}-${j}`}
               x={(me.x - midpoint) / 2 + i * 177 * 1.2 - (177 * 1.2 * 5) / 7}
               y={(me.y - midpoint) / 2 + j * 177 * 1.2 - (177 * 1.2 * 5) / 7}

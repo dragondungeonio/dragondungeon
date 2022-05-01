@@ -64,7 +64,7 @@ export function CTCLeaderboard(props: {
         <>
           <div
             id="chatlog"
-            className={styles.CTCboard}
+            className={styles.chatlog}
             style={{ display: 'none' }}
           ></div>
           <Box>{renderMobileTableData(players)}</Box>

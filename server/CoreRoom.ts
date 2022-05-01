@@ -39,6 +39,7 @@ export class CoreRoom extends Room<GameState> {
 
   constructor(state: GameState) {
     super()
+    state.map = 'dirt'
     this.state = state
     this.setState(state)
 
@@ -353,7 +354,7 @@ export class CoreRoom extends Room<GameState> {
           ) {
             playerHit.hitsDealt++
             player.hitsRecived++
-            player.health -= 0.05
+            player.health -= 0.3
             if (player.health < 0) {
               player.health = 0
               try {
@@ -367,7 +368,7 @@ export class CoreRoom extends Room<GameState> {
                   player.health = 10
                 }, 5000)
 
-                this.broadcast('chatlog', `${player.onlineName} died`)
+                this.broadcast('chatlog', `${playerHit.onlineName}  <img src='/img/abilities/${playerHit.ballType}ball.png' height='20px' height='20px' style='image-rendering:pixelated' />  ${player.onlineName}`)
 
                 if (!this.firstBlood) {
                   this.firstBlood = true
