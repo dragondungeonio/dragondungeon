@@ -27,12 +27,12 @@ let SFXPlayTimeout = false
 interface GameViewProps {
   stateManager: StateManager
   state: GameState
-  playingMusic: boolean
   controls: number
 }
 
 interface GameViewState {
-  showMusicElement: boolean
+  showMusicElement: boolean,
+  music: HTMLAudioElement
 }
 
 export class GameView extends Component<GameViewProps, GameViewState> {
@@ -42,7 +42,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
 
   constructor(props) {
     super(props)
-    this.state = { showMusicElement: true }
+    this.state = { showMusicElement: true, music: new Audio() }
   }
   /**
    * After mounting, add the Pixi Renderer to the div and start the Application.
@@ -60,6 +60,11 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     this.app.stage.addChild(this.viewport)
     this.app.start()
     this.app.ticker.add(() => this.renderScene())
+
+    this.props.stateManager.room.onMessage('music', (musicURL) => {
+      this.state.music.src = musicURL
+      this.state.music.play()
+    })
 
     this.props.stateManager.room.onMessage('sfx', (audioURL) => {
       if (audioURL == '/audio/coinjar.wav') {
@@ -339,11 +344,6 @@ export class GameView extends Component<GameViewProps, GameViewState> {
               players={this.props.state.players}
               countdown={this.props.state.countdown}
             ></Leaderboard>
-            {!this.props.playingMusic && this.state.showMusicElement && (
-              <div style={{ backgroundColor: 'transparent' }} id="musicwarning">
-                Please turn on autoplay and refresh for background music to play.
-              </div>
-            )}
           </div>
 
           <div style={{ marginLeft: '3vw', display: 'flex' }}>

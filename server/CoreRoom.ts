@@ -46,7 +46,6 @@ export class CoreRoom extends Room<GameState> {
 
   onCreate() {
     // this.setState(new GameState())
-    this.registerMessages()
     this.startGameLoop()
   }
 
@@ -123,11 +122,14 @@ export class CoreRoom extends Room<GameState> {
 
   registerMessages() {
     this.onMessage('input', (client: Client, message: IInputs) => {
-      this.state.players[client.sessionId].inputs(message)
+      try {
+        this.state.players[client.sessionId].inputs(message)   
+      } catch {}
     })
   }
 
   startGameLoop() {
+    this.registerMessages()
     this.gameInt = setInterval(() => {
       this.clock.tick()
       this.tick()

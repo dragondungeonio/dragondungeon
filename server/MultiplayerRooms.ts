@@ -1,6 +1,7 @@
 import { Countdown, GameState, CoinJar, Player, Wall } from '../common'
 import { CoreRoom } from './CoreRoom'
 import { v4 } from 'uuid'
+import { Client } from 'colyseus'
 
 let botNames = require('./botnames.json')
 
@@ -133,6 +134,11 @@ export class ArenaRoom extends CoreRoom {
         )
 
         super(state)
+    }
+
+    async onJoin(client: Client, options: { token: string }, _2: any): Promise<void> {
+        super.broadcast('music', '/music/risingtide.mp3')
+        super.onJoin(client, options, _2)
     }
 
     tick(): void {

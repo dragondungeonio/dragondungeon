@@ -57,10 +57,8 @@ function renderTableData(players: MapSchema<Player>) {
 }
 
 export default function CoreView({
-  isPlayingMusic,
   controls,
 }: {
-  isPlayingMusic: boolean,
   controls: number
 }) {
   const [room, setRoom] = useState<Room<GameState> | null>(null)
@@ -117,7 +115,6 @@ export default function CoreView({
     <GameView
       stateManager={stateManager}
       state={state}
-      playingMusic={isPlayingMusic}
       controls={controls}
     />
   )
