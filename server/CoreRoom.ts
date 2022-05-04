@@ -26,7 +26,7 @@ class ServerPlayer extends Player {
   }
 }
 
-export class CoreRoom extends Room<GameState> {
+export default class CoreRoom extends Room<GameState> {
   counter = 0
   maxClients = 6
 
@@ -42,7 +42,6 @@ export class CoreRoom extends Room<GameState> {
     state.map = 'dirt'
     this.state = state
     this.setState(state)
-
   }
 
   onCreate() {
@@ -119,12 +118,12 @@ export class CoreRoom extends Room<GameState> {
     this.state.players[client.id].onlineID = user.uid
   }
 
-  onLeave(client: Client, _consent: boolean) { }
+  onLeave(client: Client, _consent: boolean) {}
 
   registerMessages() {
     this.onMessage('input', (client: Client, message: IInputs) => {
       try {
-        this.state.players[client.sessionId].inputs(message)   
+        this.state.players[client.sessionId].inputs(message)
       } catch {}
     })
   }
@@ -224,13 +223,13 @@ export class CoreRoom extends Room<GameState> {
       )
       const speedX = Maths.round2Digits(
         player.direction.x *
-        (((player.speed + player.coins) * (1 / player.deceleration) * ticks) /
-          magnitude),
+          (((player.speed + player.coins) * (1 / player.deceleration) * ticks) /
+            magnitude),
       )
       const speedY = Maths.round2Digits(
         player.direction.y *
-        (((player.speed + player.coins) * (1 / player.deceleration) * ticks) /
-          magnitude),
+          (((player.speed + player.coins) * (1 / player.deceleration) * ticks) /
+            magnitude),
       )
       const newX = player.x + speedX
       const newY = player.y + speedY
@@ -287,7 +286,6 @@ export class CoreRoom extends Room<GameState> {
             }
             if (isFireball && wall.gamemode == 'CTC') {
               wall.health -= 1
-
             }
             result = true
           }
@@ -368,7 +366,10 @@ export class CoreRoom extends Room<GameState> {
                   player.health = 10
                 }, 5000)
 
-                this.broadcast('chatlog', `${playerHit.onlineName}  <img src='/img/abilities/${playerHit.ballType}ball.png' height='20px' height='20px' style='image-rendering:pixelated' />  ${player.onlineName}`)
+                this.broadcast(
+                  'chatlog',
+                  `${playerHit.onlineName}  <img src='/img/abilities/${playerHit.ballType}ball.png' height='20px' height='20px' style='image-rendering:pixelated' />  ${player.onlineName}`,
+                )
 
                 if (!this.firstBlood) {
                   this.firstBlood = true
@@ -376,7 +377,7 @@ export class CoreRoom extends Room<GameState> {
                 } else {
                   playerHit.colyseusClient.send('sfx', '/audio/amazing.m4a')
                 }
-              } catch { }
+              } catch {}
             }
 
             const coinChance = 0.2 // the possibility of removing a coin on collision with a fireball, this is done to spread out the coins more
@@ -407,7 +408,7 @@ export class CoreRoom extends Room<GameState> {
                   this.createCoin(player.x, player.y)
                 }
               }
-            } catch { }
+            } catch {}
 
             if (fireBall.type === 'electric') {
               if (playerHit.fireballs.length < 10) {
@@ -468,7 +469,7 @@ export class CoreRoom extends Room<GameState> {
                 'chatlog',
                 `${this.state.players[id].onlineName} <img src='/img/game/coinJar.png' height='20px' height='20px' style='image-rendering:pixelated' /> ${this.state.players[id].coins}`,
               )
-            } catch { }
+            } catch {}
           }
           this.state.players[id].coins = 0 // remove coins
         }
@@ -488,7 +489,7 @@ export class CoreRoom extends Room<GameState> {
           var coins = this.state.players[id].coins
           try {
             player.colyseusClient.send('sfx', '/audio/coin.wav')
-          } catch { }
+          } catch {}
           switch (this.state.coins[cid].getSize()) {
             case 20:
               coins++
@@ -511,7 +512,7 @@ export class CoreRoom extends Room<GameState> {
                 'chatlog',
                 '<img src="/img/game/icon.png" width="20px" height="20px" /> out of space',
               )
-            } catch { }
+            } catch {}
           }
           player.coinsPickedUp += Math.min(coins, 10) - player.coins
           player.coins = Math.min(coins, 10)

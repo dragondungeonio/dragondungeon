@@ -1,4 +1,4 @@
-import { BaseRoom } from './CoreRoom'
+import BaseRoom from './CoreRoom'
 
 export class TutorialRoom extends BaseRoom {}
 
