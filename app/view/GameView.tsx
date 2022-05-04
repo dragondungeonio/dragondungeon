@@ -16,7 +16,6 @@ import { Wall } from './entities/wall'
 import { CoinJar } from './entities/coinJar'
 import { Bar } from './entities/healthBar/healthBar'
 import { Leaderboard } from 'components'
-import { CTCLeaderboard } from 'components'
 import { Skull } from './entities/skull'
 import { Bat } from './entities/bat'
 import Router from 'next/router'
@@ -141,6 +140,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
               yLength={wall.yLength}
               angle={wall.angle}
               team={wall.team}
+              health = {wall.health}
             />,
           )
         } else {
@@ -152,6 +152,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
               yLength={wall.yLength}
               angle={wall.angle}
               team={wall.team}
+              health = {wall.health}
             />,
           )
         }
@@ -236,6 +237,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           yLength={yLen}
           angle={0}
           team={0}
+          health = {10}
         />,
       )
       walls.push(
@@ -246,6 +248,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           yLength={yLen}
           angle={0}
           team={0}
+          health = {10}
         />,
       )
       walls.push(
@@ -256,6 +259,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           yLength={yLen}
           angle={Math.PI / 2}
           team={0}
+          health = {10}
         />,
       )
       walls.push(
@@ -266,6 +270,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           yLength={yLen}
           angle={Math.PI / 2}
           team = {0}
+          health = {10}
         />,
       )
     }
@@ -329,7 +334,10 @@ export class GameView extends Component<GameViewProps, GameViewState> {
   /**
    * Simply render the div that will contain the Pixi Renderer.
    */
+   
+
   render() {
+
     let component = this
     return (
       <>
@@ -347,12 +355,6 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             ></Leaderboard>
           </div>
 
-          <div style={{ marginLeft: '3vw', display: 'flex' }}>
-
-            {this.props.state.gamemode == "CTC" && <CTCLeaderboard
-              players={this.props.state.players}
-            ></CTCLeaderboard>}
-          </div>
         </>}
         <div
           ref={(thisDiv) => {

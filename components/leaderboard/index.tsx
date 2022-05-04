@@ -4,7 +4,7 @@ import { Countdown } from 'common/Countdown'
 import { Box } from 'components'
 
 import styles from 'styles/leaderboard.module.css'
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
 function renderCountdown(countdown: Countdown) {
   if (countdown.done) {
@@ -25,20 +25,6 @@ function renderTableData(players: MapSchema<Player>) {
     let name = player.onlineName
     const ballType = player.ballType
     leaderboardData.push(
-      // <tr key={key}>
-      //   <td className="playerData">
-      //     <img
-      //       src={`/img/abilities/${ballType}ball.png`}
-      //       style={{ height: '40px' }}
-      //     />
-      //   </td>
-      //   <td className="playerData">{name}</td>
-      //   <td className="playerData">
-      //     <b>
-      //       <big>{score}</big>
-      //     </b>
-      //   </td>
-      // </tr>,
       <span>
         &nbsp;&nbsp;&nbsp;
         {/* <img src={`/img/abilities/${ballType}ball.png`} style={{ height: '40px', verticalAlign: 'bottom' }} /> */}
@@ -72,10 +58,10 @@ function renderMobileTableData(players: MapSchema<Player>) {
 export function Leaderboard(props: {
   players: MapSchema<Player>
   countdown: Countdown
+  isCTC: boolean
 }) {
   const [countdownRender, setCountdownState] = useState<String>('5:00')
   const [players, setPlayerState] = useState<MapSchema<Player>>(props.players)
-
   useEffect(() => {
     let clockInterval = setInterval(() => {
       setCountdownState(renderCountdown(props.countdown))

@@ -138,7 +138,117 @@ export class ArenaRoom extends CoreRoom {
   }
 }
 
-export class CaptureRoom extends CoreRoom {}
+export class CaptureRoom extends CoreRoom {
+  constructor() {
+    let state = new GameState()
+    state.gamemode = 'CTC'
+    state.countdown.minutes = 3
+
+    let setWallTeam = (i: number, isRedTeam: boolean) => {
+      if (i == 0 || i == 3) {
+        return 0
+      } else {
+        if (isRedTeam) { return 1 }
+        else { return 2 }
+      }
+    }
+
+    for (let i = 0; i < 4; i++) {
+      state.walls.set(
+        v4(),
+        new Wall(
+          i * (3000 / 3 / 4),
+          3000 / 3,
+          3000 / 3 / 4,
+          30,
+          false,
+          10,
+          'CTC',
+          setWallTeam(i, true),
+        ),
+      )
+    }
+
+    for (let i = 0; i < 4; i++) {
+      state.walls.set(
+        v4(),
+        new Wall(
+          3000 / 3,
+          (i * (3000 / 3 / 4)) + (3000 / 3),
+          3000 / 3 / 4,
+          30,
+          true,
+          10,
+          'CTC',
+          setWallTeam(i, true),
+        ),
+      )
+    }
+    for (let i = 0; i < 4; i++) {
+      state.walls.set(
+        v4(),
+        new Wall(
+          i * (3000 / 3 / 4),
+          (3000 / 3) * 2,
+          3000 / 3 / 4,
+          30,
+          false,
+          10,
+          'CTC',
+          setWallTeam(i, true),
+        ),
+      )
+    }
+    //RIGHT SIDE
+    for (let i = 0; i < 4; i++) {
+      state.walls.set(
+        v4(),
+        new Wall(
+          i * (3000 / 3 / 4) + (3000 / 1.5),
+          3000 / 3,
+          3000 / 3 / 4,
+          30,
+          false,
+          10,
+          'CTC',
+          setWallTeam(i, false),
+        ),
+      )
+    }
+    for (let i = 0; i < 4; i++) {
+      state.walls.set(
+        v4(),
+        new Wall(
+          3000 / 3 + (3000 / 3),
+          (i * (3000 / 3 / 4)) + (3000 / 3),
+          3000 / 3 / 4,
+          30,
+          true,
+          10,
+          'CTC',
+          setWallTeam(i, false),
+        ),
+      )
+    }
+    for (let i = 0; i < 4; i++) {
+      state.walls.set(
+        v4(),
+        new Wall(
+          i * (3000 / 3 / 4) + (3000 / 1.5),
+          (3000 / 3) * 2,
+          3000 / 3 / 4,
+          30,
+          false,
+          10,
+          'CTC',
+          setWallTeam(i, false),
+        ),
+      )
+    }
+
+    super(state)
+  }
+}
 
 export class EssentialRoom extends CoreRoom {
   constructor() {

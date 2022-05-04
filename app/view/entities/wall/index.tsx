@@ -5,7 +5,7 @@ import { AnimatedSprite } from '../../entities/AnimatedSprite';
 // import WallImage3 from './sprites/Wall(3.2).jpg';
 // import WallImage2 from './sprites/Wall(2.2).png';
 import WallImage from './sprites/WallSec.png'
-
+import BrokenWallImage from './sprites/brokenWallSec.png'
 import RedWallImage from './sprites/RedWallSec.jpg'
 import BlueWallImage from './sprites/BlueWallSec.jpg'
 
@@ -28,11 +28,15 @@ export const Wall = (props: IProps) => {
         if(props.health > 0){
           textures = [PIXI.Texture.from(RedWallImage.src)]
         } else{
-          textures = [PIXI.Texture.from(WallImage.src)]
+          textures = [PIXI.Texture.from(BrokenWallImage.src)]
         }
         break
       case 2:
-        textures = [PIXI.Texture.from(BlueWallImage.src)]
+        if(props.health > 0){
+          textures = [PIXI.Texture.from(BlueWallImage.src)]
+        } else{
+          textures = [PIXI.Texture.from(BrokenWallImage.src)]
+        }
         break
       default:
         textures = [PIXI.Texture.from(WallImage.src)]

@@ -284,7 +284,7 @@ export default class CoreRoom extends Room<GameState> {
             if (objectTeam == wall.team && objectTeam != 0) {
               return false
             }
-            if (isFireball && wall.gamemode == 'CTC') {
+            if (isFireball && wall.gamemode == 'CTC' && wall.team !== 0) {
               wall.health -= 1
             }
             result = true
