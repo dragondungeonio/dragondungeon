@@ -1,5 +1,5 @@
-import BaseRoom from './CoreRoom'
+import CoreRoom from './CoreRoom'
 
-export class TutorialRoom extends BaseRoom {}
+export class TutorialRoom extends CoreRoom {}
 
-export class AP22DiscoveryRoom extends BaseRoom {}
+export class AP22DiscoveryRoom extends CoreRoom {}
