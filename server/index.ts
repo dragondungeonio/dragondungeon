@@ -42,17 +42,17 @@ const handle = app.getRequestHandler()
 app.prepare().then(() => {
   let clientServer = !secureServer
     ? createServer((req, res) => {
-        handle(req, res, parse(req.url, true))
-      })
+      handle(req, res, parse(req.url, true))
+    })
     : createSecureServer(secureServerOptions, (req, res) => {
-        handle(req, res, parse(req.url, true))
-      })
+      handle(req, res, parse(req.url, true))
+    })
 
   clientServer.listen(8080, () => {
     console.log(
       'client'.green +
-        ' - [::]:8080 - ' +
-        (secureServer ? 'https'.green : 'http'.yellow),
+      ' - [::]:8080 - ' +
+      (secureServer ? 'https'.green : 'http'.yellow),
     )
   })
 })
@@ -116,46 +116,26 @@ gameServerApp.get('/purchase/:id', async (req, res) => {
       .get()
     let playerEntitlements = playerEntitlementsDoc.data()
 
-    if (req.query.type == 'mode') {
-      let modeList = require('../public/api/modes.json')
-      modeList.forEach(async (mode) => {
-        if (mode.id == req.params.id) {
-          if (playerEntitlements.gems >= mode.gemCost) {
-            playerEntitlements.modeEntitlements.push(mode.id)
-            await admin
-              .firestore()
-              .doc(`${userClaims.uid}/store`)
-              .update({
-                gems: playerEntitlements.gems - mode.gemCost,
-                modeEntitlements: playerEntitlements.modeEntitlements,
-              })
-          } else {
-            res.status(400)
-            res.send('Not enough gems')
-          }
+    let skinList = require('../public/api/skins.json')
+    skinList.forEach(async (skin) => {
+      if (skin.id == parseInt(req.params.id, 10)) {
+        if (playerEntitlements.gems >= skin.gemCost) {
+          console.log('has enough gems')
+          playerEntitlements.skinEntitlements.push(skin.id)
+          await admin
+            .firestore()
+            .doc(`${userClaims.uid}/store`)
+            .update({
+              gems: playerEntitlements.gems - skin.gemCost,
+              skinEntitlements: playerEntitlements.skinEntitlements,
+            })
+        } else {
+          res.status(400)
+          res.send('Not enough gems')
         }
-      })
-    } else {
-      let skinList = require('../public/api/skins.json')
-      skinList.forEach(async (skin) => {
-        if (skin.id == parseInt(req.params.id, 10)) {
-          if (playerEntitlements.gems >= skin.gemCost) {
-            console.log('has enough gems')
-            playerEntitlements.skinEntitlements.push(skin.id)
-            await admin
-              .firestore()
-              .doc(`${userClaims.uid}/store`)
-              .update({
-                gems: playerEntitlements.gems - skin.gemCost,
-                skinEntitlements: playerEntitlements.skinEntitlements,
-              })
-          } else {
-            res.status(400)
-            res.send('Not enough gems')
-          }
-        }
-      })
-    }
+      }
+    })
+
 
     res.status(200)
     res.send('Success')
@@ -255,7 +235,6 @@ gameServerApp.get('/init', async (req, res) => {
       userStoreDoc.set({
         gems: 0,
         skinEntitlements: [0],
-        modeEntitlements: ['arena'],
       })
       userStatsDoc.set({
         level: 0,
@@ -342,6 +321,6 @@ colyseusServer.define('tutorial', TutorialRoom)
 colyseusServer.listen(1337)
 console.log(
   'server'.green +
-    ' - [::]:1337 - ' +
-    (secureServer ? 'https'.green : 'http'.yellow),
+  ' - [::]:1337 - ' +
+  (secureServer ? 'https'.green : 'http'.yellow),
 )
