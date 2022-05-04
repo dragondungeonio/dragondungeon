@@ -143,7 +143,6 @@ export class CaptureRoom extends CoreRoom {}
 export class EssentialRoom extends CoreRoom {
   constructor() {
     let state = new GameState()
-    state.countdown = new Countdown(10, 0)
     super(state)
   }
 }
