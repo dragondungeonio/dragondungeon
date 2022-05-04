@@ -285,83 +285,93 @@ export class BaseRoom extends Room<GameState> {
 
     var walls: Wall[] = []
     if (this.state.gamemode == 'CTC') {
-      //left side
-      //walls.push(new Wall(0, (gameheight/3), (gamewidth/3), wallWidth, false, 10, "CTC"))
-      for (let i = 0; i < 5; i++) {
+      //LEFT SIDE
+      for (let i = 0; i < 4; i++) {
         walls.push(
           new Wall(
-            i * (gamewidth / 3 / 5),
+            i * (gamewidth / 3 / 4),
             gameheight / 3,
-            gamewidth / 3 / 5,
+            gamewidth / 3 / 4,
             wallWidth,
             false,
             10,
             'CTC',
-            1,
+            this.setWallTeam(i, true),
           ),
         )
       }
-      walls.push(
-        new Wall(
-          0,
-          gameheight / 1.5,
-          gamewidth / 3,
-          wallWidth,
-          false,
-          10,
-          'CTC',
-          1,
-        ),
-      )
-      walls.push(
-        new Wall(
-          gamewidth / 3,
-          gameheight / 3,
-          gamewidth / 3,
-          wallWidth,
-          true,
-          10,
-          'CTC',
-          1,
-        ),
-      )
-      //right side
-      walls.push(
-        new Wall(
-          gamewidth / 1.5,
-          gameheight / 3,
-          gamewidth / 3,
-          wallWidth,
-          false,
-          10,
-          'CTC',
-          2,
-        ),
-      )
-      walls.push(
-        new Wall(
-          gamewidth / 1.5,
-          gameheight / 1.5,
-          gamewidth / 3,
-          wallWidth,
-          false,
-          10,
-          'CTC',
-          2,
-        ),
-      )
-      walls.push(
-        new Wall(
-          gamewidth / 1.5,
-          gameheight / 3,
-          gamewidth / 3,
-          wallWidth,
-          true,
-          10,
-          'CTC',
-          2,
-        ),
-      )
+      
+      for (let i = 0; i < 4; i++) {
+        walls.push(
+          new Wall(
+            gamewidth/3,
+            (i * (gameheight / 3 / 4))+(gameheight/3),
+            gamewidth / 3 / 4,
+            wallWidth,
+            true,
+            10,
+            'CTC',
+            this.setWallTeam(i, true),
+          ),
+        )
+      }
+      for (let i = 0; i < 4; i++) {
+        walls.push(
+          new Wall(
+            i * (gamewidth / 3 / 4),
+            (gameheight / 3)*2,
+            gamewidth / 3 / 4,
+            wallWidth,
+            false,
+            10,
+            'CTC',
+            this.setWallTeam(i, true),
+          ),
+        )
+      }
+      //RIGHT SIDE
+      for (let i = 0; i < 4; i++) {
+        walls.push(
+          new Wall(
+            i * (gamewidth / 3 / 4)+(gamewidth/1.5),
+            gameheight / 3,
+            gamewidth / 3 / 4,
+            wallWidth,
+            false,
+            10,
+            'CTC',
+            this.setWallTeam(i, false),
+          ),
+        )
+      }
+      for (let i = 0; i < 4; i++) {
+        walls.push(
+          new Wall(
+            gamewidth/3+(gamewidth/3),
+            (i * (gameheight / 3 / 4))+(gameheight/3),
+            gamewidth / 3 / 4,
+            wallWidth,
+            true,
+            10,
+            'CTC',
+            this.setWallTeam(i, false),
+          ),
+        )
+      }
+      for (let i = 0; i < 4; i++) {
+        walls.push(
+          new Wall(
+            i * (gamewidth / 3 / 4)+(gamewidth/1.5),
+            (gameheight / 3)*2,
+            gamewidth / 3 / 4,
+            wallWidth,
+            false,
+            10,
+            'CTC',
+            this.setWallTeam(i, false),
+          ),
+        )
+      }
     } else {
       //bottom right
       walls.push(
@@ -469,6 +479,16 @@ export class BaseRoom extends Room<GameState> {
     }
   }
 
+  //this is a dumb little method i made to make selecting which wall is neutral and on a team slightly easier
+  setWallTeam(i: number, isRedTeam: boolean){
+    if(i == 0 || i==3){
+      return 0
+    } else{
+      if(isRedTeam){return 1} 
+      else{return 2}
+    }
+  }
+
   removeDeadWalls() {
     for (const wall of this.state.walls.values()) {
       if (wall.health <= 0) {
@@ -548,7 +568,7 @@ export class BaseRoom extends Room<GameState> {
             if (objectTeam == wall.team && objectTeam != 0) {
               return false
             }
-            if (isFireball && wall.gamemode == 'CTC') {
+            if (isFireball && wall.team != 0) {
               wall.health -= 1
 
             }

@@ -23,20 +23,6 @@ function renderTableData(players: MapSchema<Player>) {
     let name = player.onlineName
     const ballType = player.ballType
     leaderboardData.push(
-      // <tr key={key}>
-      //   <td className="playerData">
-      //     <img
-      //       src={`/img/abilities/${ballType}ball.png`}
-      //       style={{ height: '40px' }}
-      //     />
-      //   </td>
-      //   <td className="playerData">{name}</td>
-      //   <td className="playerData">
-      //     <b>
-      //       <big>{score}</big>
-      //     </b>
-      //   </td>
-      // </tr>,
       <span>
         &nbsp;&nbsp;&nbsp;
         <img src={`/img/abilities/${ballType}ball.png`} style={{ height: '40px', verticalAlign: 'bottom' }} />
@@ -47,6 +33,23 @@ function renderTableData(players: MapSchema<Player>) {
     )
   })
   return leaderboardData
+}
+
+function renderCTCData(players: MapSchema<Player>){
+  var redScore = 0
+  var blueScore = 0
+  let CTCData = []
+  players.forEach((player: Player, key: any)=> {
+    const score = player.score
+    const team = player.team
+    if(team == 1){
+      redScore+=score
+    } else if(team == 2){
+      blueScore+=score
+    }
+    CTCData.push({redScore}+" "+{blueScore})
+    return CTCData
+  })
 }
 
 function renderMobileTableData(players: MapSchema<Player>) {
@@ -70,10 +73,10 @@ function renderMobileTableData(players: MapSchema<Player>) {
 export function Leaderboard(props: {
   players: MapSchema<Player>
   countdown: Countdown
+  isCTC: boolean
 }) {
   const [countdownRender, setCountdownState] = useState<String>('5:00')
   const [players, setPlayerState] = useState<MapSchema<Player>>(props.players)
-
   useEffect(() => {
     let clockInterval = setInterval(() => {
       setCountdownState(renderCountdown(props.countdown))
@@ -104,6 +107,9 @@ export function Leaderboard(props: {
           ></div>
           <Box>{renderMobileTableData(players)}</Box>
         </>
+      )}
+      {this.isCTC && (
+      <p className={styles.countdown}>{renderCTCData(props.players)}</p>
       )}
     </>
   )
