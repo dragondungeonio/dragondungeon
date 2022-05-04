@@ -415,7 +415,10 @@ export default class CoreRoom extends Room<GameState> {
                 const angle = Math.random() * Math.PI * 2
                 const newX = player.x + 50 * Math.cos(angle)
                 const newY = player.y + 50 * Math.sin(angle)
-                if (!this.checkWalls(newX, newY, player.team, 22.5, true)) {
+                if (
+                  !this.checkWalls(newX, newY, player.team, 22.5, true) &&
+                  Math.random() < 0.2
+                ) {
                   playerHit.fireballs.push(
                     new Fireball(
                       newX,
