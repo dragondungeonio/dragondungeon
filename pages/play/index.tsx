@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import styles from '../../styles/menu.module.css'
+import { PageLayout } from 'components'
 
 function ModeItem(props) {
     return <div style={{ border: `5px solid ${props.color}`, padding: '20px', width: '160px', textAlign: 'center' }} onClick={() => { if (props.href) { props.router.push(props.href) } }}>
@@ -14,13 +15,13 @@ export default function ModeSelect() {
   let router = useRouter()
 
   return (
-    <div className={styles.pageContent}>
+    <PageLayout>
       <h1>Play</h1>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '5px' }}>
           <ModeItem enabled={true} name="Arena (Beta)" img="/img/skins/basic.png" color="red" href="/play/arena" router={router} />
           {/* <ModeItem enabled={false} name="Capture" img="/img/game/coinJar.png" color="#00a1de" router={router} /> */}
           {/* <ModeItem enabled={false} name="Annual Pass" img="/img/game/skull.png" color="#009b3a" router={router} /> */}
       </div>
-    </div>
+    </PageLayout>
   )
 }

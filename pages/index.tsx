@@ -1,3 +1,4 @@
+import { PageLayout } from 'components'
 import { useRouter } from 'next/router'
 import styles from 'styles/menu.module.css'
 
@@ -14,14 +15,16 @@ export default function Home() {
   let router = useRouter()
 
   return (
-    <div className={styles.centeredContent}>
-      <h1>dragondungeon.io</h1>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '5px' }}>
-        <ModeItem description="Fight dragons. Collect coins." name="Arena" img="/img/skins/basic.png" href="/play/arena" router={router} />
-        <ModeItem description="Defend your base. Capture coins." name="Capture" img="/img/game/coinJar.png" href="/play/ctc" router={router} />
-        <ModeItem description="Mix it up!" name="Random" img="/img/game/icon.png" href="/play" router={router} />
-        <ModeItem description="Learn the ropes!" name="Tutorial" img="/img/game/bat.png" href="/play/tutorial" router={router} />
+    <PageLayout>
+      <div className={styles.centeredContent}>
+        <h1>dragondungeon.io</h1>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '5px' }}>
+          <ModeItem description="Fight dragons. Collect coins." name="Arena" img="/img/skins/basic.png" href="/play/arena" router={router} />
+          <ModeItem description="Defend your base. Capture coins." name="Capture" img="/img/game/coinJar.png" href="/play/ctc" router={router} />
+          {/* <ModeItem description="Mix it up!" name="Random" img="/img/game/icon.png" href="/play" router={router} /> */}
+          <ModeItem description="Learn the ropes!" name="Tutorial" img="/img/game/bat.png" href="/play/tutorial" router={router} />
+        </div>
       </div>
-    </div>
+    </PageLayout>
   )
 }

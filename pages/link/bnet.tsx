@@ -1,6 +1,7 @@
 import styles from '../../styles/menu.module.css'
 import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
+import { PageLayout } from 'components'
 
 export default function BNETlink() {
     let router = useRouter()
@@ -21,9 +22,9 @@ export default function BNETlink() {
     }, [])
 
     return (
-        <div className={styles.pageContent}>
+        <PageLayout>
             <h1>Accounts // Bungie</h1>
             { response }
-        </div>
+        </PageLayout>
     )
 }

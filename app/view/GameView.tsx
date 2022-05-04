@@ -31,13 +31,15 @@ interface GameViewProps {
 
 interface GameViewState {
   showMusicElement: boolean,
-  music: HTMLAudioElement
+  music: HTMLAudioElement,
 }
 
 export class GameView extends Component<GameViewProps, GameViewState> {
   app!: PIXI.Application
   gameCanvas!: HTMLDivElement
   viewport!: Viewport
+
+  chatlogClearInt!: NodeJS.Timeout
 
   constructor(props) {
     super(props)
@@ -87,12 +89,11 @@ export class GameView extends Component<GameViewProps, GameViewState> {
       if (document.querySelector('#chatlog')) {
         ; (document.querySelector('#chatlog') as any).style.display = 'block'
         document.querySelector('#chatlog').innerHTML = chatMessage
-        setTimeout(
+        this.chatlogClearInt = setTimeout(
           () =>
             ((document.querySelector('#chatlog') as any).style.display = 'none'),
-          2000,
+          5000,
         )
-        // setTimeout(() => (SFXPlayTimeout = false), 1000)
       }
     })
     setTimeout(() => this.setState({ showMusicElement: false }), 10_000)

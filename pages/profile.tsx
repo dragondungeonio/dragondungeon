@@ -6,6 +6,7 @@ import {
 } from 'firebase/auth'
 import { useMemo, useState } from 'react'
 import { getFirestore, getDoc, doc } from 'firebase/firestore'
+import { PageLayout } from 'components'
 
 import styles from 'styles/menu.module.css'
 
@@ -118,7 +119,7 @@ export default function Profile() {
   }, [])
 
   return (
-    <div className={styles.pageContent}>
+    <PageLayout>
       <h2>
         <img
           src={user.photoURL}
@@ -235,6 +236,6 @@ export default function Profile() {
       </div>
       <br />
       <br />
-    </div>
+    </PageLayout>
   )
 }

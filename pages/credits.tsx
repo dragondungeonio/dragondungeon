@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
-import styles from '../styles/menu.module.css'
+import { PageLayout } from 'components'
 
 export default function Credits() {
   let router = useRouter()
 
   return (
-    <div className={styles.pageContent}>
+    <PageLayout>
       <h1 onDoubleClick={() => router.push('/award')}>Game Credits</h1>
       <h2>Development</h2>
       <p>Keith Groves</p>
@@ -24,6 +24,6 @@ export default function Credits() {
       <h2>Assets</h2>
       <p>Toybox 2020 Competition</p>
       <p>Kevin Macleod (imcompetech.com)</p>
-    </div>
+    </PageLayout>
   )
 }

@@ -6,6 +6,7 @@ import { Line } from './line'
 import { Input } from './input'
 import { Leaderboard } from './leaderboard'
 import { LoadingIcon } from './loadingicon'
+import { PageLayout } from './pageLayout'
 
 export {
   Button,
@@ -15,5 +16,6 @@ export {
   Line,
   Input,
   Leaderboard,
-  LoadingIcon
+  LoadingIcon,
+  PageLayout
 }

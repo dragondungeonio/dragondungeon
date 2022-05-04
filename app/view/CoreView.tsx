@@ -16,7 +16,6 @@ function MenuOption(props) {
     <div
       className={styles.link}
       onClick={() => {
-        window.location.reload()
         router.push(props.href)
       }}
     >
@@ -106,7 +105,7 @@ export default function CoreView({
         <br />
         <br />
         <br />
-        <MenuOption name="New Game" href="/play" />
+        <MenuOption name="New Game" href="/" />
       </div>
     )
   }

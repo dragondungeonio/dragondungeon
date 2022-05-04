@@ -2,6 +2,7 @@ import styles from '../../styles/menu.module.css'
 import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { PageLayout } from 'components'
 
 function RewardItem(props) {
     return <div onClick={async () => {
@@ -38,7 +39,7 @@ export default function ANETlink() {
     }, [])
 
     return (
-        <div className={styles.pageContent}>
+        <PageLayout>
             <h1>Accounts // ArenaNet</h1>
             { token == '' && <>
                 <input type="text" placeholder='API Token' id='arenaTokenInput' style={{ fontSize: '20pt', color: 'white', width: '1199px', background: 'rgba(0, 0, 0, 0.9)', borderRadius: '10px', border: 'none', padding: '10px' }} />
@@ -65,6 +66,6 @@ export default function ANETlink() {
                     }) }
                 </div> }
             </> }
-        </div>
+        </PageLayout>
     )
 }

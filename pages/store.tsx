@@ -2,6 +2,7 @@ import { getAuth, onAuthStateChanged, getIdToken } from 'firebase/auth'
 import { useMemo, useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { getFirestore, doc, getDoc } from 'firebase/firestore/lite'
+import { PageLayout } from 'components'
 
 import styles from 'styles/menu.module.css'
 
@@ -115,7 +116,7 @@ export default function MyDragon() {
   }, [])
 
   return (
-    <div className={styles.pageContent}>
+    <PageLayout>
       <h1>Store</h1>
       <h2><img src="/img/ui/gem.png" style={{ height: '40px', verticalAlign: 'middle' }} /> {gems}
       <br /><br /><a onClick={() => (document.querySelector('#buygems') as HTMLDivElement).style.display = 'block'} style={{ fontSize: '20pt', textDecoration: 'none', color: '#f9e300', border: '3px solid #f9e300', padding: '10px' }}>Get More</a><br /><br /></h2>
@@ -142,6 +143,6 @@ export default function MyDragon() {
         })}
       </GemStoreSection>}
       <br /><br />
-    </div>
+    </PageLayout>
   )
 }

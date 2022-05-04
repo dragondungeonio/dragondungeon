@@ -71,28 +71,15 @@ export function Leaderboard(props: {
 
   return (
     <>
-      { props.countdown.minutes !=  100000000000000 && <p className={styles.countdown}>{countdownRender}</p>}
-      {window.innerWidth >= 1000 && (
-        <>
-          <div id="chatlog" className={styles.chatlog}></div>
-          <div className={styles.leaderboardContainer}>
-            <table>
-              <tbody id="leaderboard">{renderTableData(props.players)}</tbody>
-            </table>
-          </div>
-        </>
-      )}
-
-      {window.innerWidth <= 1000 && (
-        <>
-          <div
-            id="chatlog"
-            className={styles.chatlog}
-            style={{ display: 'none' }}
-          ></div>
-          <Box>{renderMobileTableData(players)}</Box>
-        </>
-      )}
+      {props.countdown.minutes != 100000000000000 && <p className={styles.countdown}>{countdownRender}</p>}
+      <>
+        <div id="chatlog" className={styles.chatlog}></div>
+        <div className={styles.leaderboardContainer}>
+          <table>
+            <tbody id="leaderboard">{renderTableData(props.players)}</tbody>
+          </table>
+        </div>
+      </>
     </>
   )
 }

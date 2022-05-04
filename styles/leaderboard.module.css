@@ -14,15 +14,6 @@
   /* width: 100vw; */
 }
 
-@media only screen and (max-width: 1000px) {
-  .leaderboardContainer {
-    border-bottom: 3px solid var(--primary_color);
-    width: 100vw;
-    max-height: 40px;
-    padding: 6px;
-  }
-}
-
 .countdown {
   position: fixed;
   top: 0;

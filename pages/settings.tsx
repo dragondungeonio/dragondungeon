@@ -1,12 +1,13 @@
 import styles from '../styles/menu.module.css'
 import { useRouter } from 'next/router'
+import { PageLayout } from 'components'
 import Link from 'next/link'
 
 export default function Credits() {
     let router = useRouter()
 
     return (
-        <div className={styles.pageContent}>
+        <PageLayout>
             <h1>About</h1>
             <h2><Link href={'https://github.com/dragondungeonio/dragondungeon/issues'}>Submit Feedback</Link></h2>
             {/* <h2>Account Linking</h2>
@@ -20,6 +21,6 @@ export default function Credits() {
             <br /><br /><button onClick={() => {
                 throw 'You asked for this!'
             }}>Throw Debug Error</button>
-        </div>
+        </PageLayout>
     )
 }

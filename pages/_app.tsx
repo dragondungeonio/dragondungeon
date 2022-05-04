@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
 import { initializeApp } from 'firebase/app'
+import { AnimatePresence } from 'framer-motion'
 import {
   getAuth,
   onAuthStateChanged,
@@ -133,7 +134,13 @@ function DragonDungeon({ Component, pageProps }) {
           <MenuOption name="Store" href="/store" />
           <MenuOption name="Settings" href="/settings" />
         </div>}
-        <Component {...pageProps} controls={controlScheme} />
+        <AnimatePresence
+          exitBeforeEnter
+          initial={false}
+          onExitComplete={() => window.scrollTo(0, 0)}
+        >
+            <Component {...pageProps} controls={controlScheme} />
+        </AnimatePresence>
       </>}
     </div>
   </>
