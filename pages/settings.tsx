@@ -17,6 +17,9 @@ export default function Credits() {
             <Link href={'/credits'}>Game Credits</Link><br /><br />
             <a href="https://jointheleague.org"><img src="/img/ui/jtl.png" alt="The LEAGUE of Amazing Programmers" height={60} /></a><br /><br />
             <a href="https://lit.games"><img src="/img/ui/lit.png" alt="lit.games" height={50} /></a>
+            <br /><br /><button onClick={() => {
+                throw 'You asked for this!'
+            }}>Throw Debug Error</button>
         </div>
     )
 }

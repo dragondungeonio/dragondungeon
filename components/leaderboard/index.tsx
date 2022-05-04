@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react'
 function renderCountdown(countdown: Countdown) {
   if (countdown.done) {
     return '0:00'
+  } else if (countdown.minutes == 100000000000000) {
+    return ''
   } else {
     return `${countdown.minutes}:${Math.floor(countdown.seconds)
       .toString()
@@ -25,7 +27,7 @@ function renderTableData(players: MapSchema<Player>) {
     leaderboardData.push(
       <span>
         &nbsp;&nbsp;&nbsp;
-        <img src={`/img/abilities/${ballType}ball.png`} style={{ height: '40px', verticalAlign: 'bottom' }} />
+        {/* <img src={`/img/abilities/${ballType}ball.png`} style={{ height: '40px', verticalAlign: 'bottom' }} /> */}
         &nbsp;&nbsp;
         <span>{name}</span>&nbsp;&nbsp;
         <b>{score}</b>&nbsp;&nbsp;&nbsp;

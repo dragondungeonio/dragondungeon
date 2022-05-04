@@ -26,12 +26,12 @@ let SFXPlayTimeout = false
 interface GameViewProps {
   stateManager: StateManager
   state: GameState
-  playingMusic: boolean
   controls: number
 }
 
 interface GameViewState {
-  showMusicElement: boolean
+  showMusicElement: boolean,
+  music: HTMLAudioElement
 }
 
 export class GameView extends Component<GameViewProps, GameViewState> {
@@ -41,7 +41,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
 
   constructor(props) {
     super(props)
-    this.state = { showMusicElement: true }
+    this.state = { showMusicElement: true, music: new Audio() }
   }
   /**
    * After mounting, add the Pixi Renderer to the div and start the Application.
@@ -55,10 +55,15 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     this.setState({ showMusicElement: true })
     this.gameCanvas!.appendChild(this.app.view)
     this.viewport = new Viewport()
-    this.viewport.zoom(30, true)
+    this.viewport.zoom(60, true)
     this.app.stage.addChild(this.viewport)
     this.app.start()
     this.app.ticker.add(() => this.renderScene())
+
+    this.props.stateManager.room.onMessage('music', (musicURL) => {
+      this.state.music.src = musicURL
+      this.state.music.play()
+    })
 
     this.props.stateManager.room.onMessage('sfx', (audioURL) => {
       if (audioURL == '/audio/coinjar.wav') {
@@ -197,8 +202,8 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     //moves the center of the viewport to the player
     if (me !== null && this.viewport !== null) {
       try {
-        this.viewport.x = -me.x + window.innerWidth / 2
-        this.viewport.y = -me.y + window.innerHeight / 2
+        this.viewport.x = -me.x + window.innerWidth / 1.7
+        this.viewport.y = -me.y + window.innerHeight / 1.7
       } catch { }
     }
 
@@ -209,6 +214,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
         if (typeof me !== 'undefined') {
           tiles.push(
             <MovingBackground
+              map={this.props.state.map.toString()}
               key={`${i}-${j}`}
               x={(me.x - midpoint) / 2 + i * 177 * 1.2 - (177 * 1.2 * 5) / 7}
               y={(me.y - midpoint) / 2 + j * 177 * 1.2 - (177 * 1.2 * 5) / 7}
@@ -347,11 +353,6 @@ export class GameView extends Component<GameViewProps, GameViewState> {
               players={this.props.state.players}
               countdown={this.props.state.countdown}
             ></Leaderboard>
-            {!this.props.playingMusic && this.state.showMusicElement && (
-              <div style={{ backgroundColor: 'transparent' }} id="musicwarning">
-                Please turn on autoplay and refresh for background music to play.
-              </div>
-            )}
           </div>
 
         </>}

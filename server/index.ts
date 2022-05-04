@@ -15,9 +15,9 @@ import Stripe from 'stripe'
 import 'colors'
 
 // 1st Party Imports
-import { ArenaRoom, CaptureRoom } from './MultiplayerRooms'
+import { ArenaRoom, CaptureRoom, EssentialRoom } from './MultiplayerRooms'
 import { AP22DiscoveryRoom } from './SingleplayerRooms'
-import { CoreRoom } from './CoreRoom'
+import CoreRoom from './CoreRoom'
 
 // Friendly Logs
 console.log('DragonDungeon'.red)
@@ -42,17 +42,17 @@ const handle = app.getRequestHandler()
 app.prepare().then(() => {
   let clientServer = !secureServer
     ? createServer((req, res) => {
-      handle(req, res, parse(req.url, true))
-    })
+        handle(req, res, parse(req.url, true))
+      })
     : createSecureServer(secureServerOptions, (req, res) => {
-      handle(req, res, parse(req.url, true))
-    })
+        handle(req, res, parse(req.url, true))
+      })
 
   clientServer.listen(8080, () => {
     console.log(
       'client'.green +
-      ' - [::]:8080 - ' +
-      (secureServer ? 'https'.green : 'http'.yellow),
+        ' - [::]:8080 - ' +
+        (secureServer ? 'https'.green : 'http'.yellow),
     )
   })
 })
@@ -64,7 +64,7 @@ gameServerApp.use(cors())
 
 const stripeAccount = require('../config/private/stripesdk.json')
 const stripe = new Stripe(stripeAccount.secretKey, {
-  apiVersion: '2020-08-27'
+  apiVersion: '2020-08-27',
 })
 
 const serviceAccount = require('../config/private/adminsdk.json')
@@ -76,15 +76,23 @@ gameServerApp.get('/equip/:id', async (req, res) => {
 
     if (req.query.type == 'ability') {
       await admin.firestore().doc(`${userClaims.uid}/dragon`).update({
-        ability: req.params.id
+        ability: req.params.id,
       })
     } else {
-      let userEntitlementsDoc = await admin.firestore().doc(`${userClaims.uid}/store`).get()
+      let userEntitlementsDoc = await admin
+        .firestore()
+        .doc(`${userClaims.uid}/store`)
+        .get()
       let userEntitlements = userEntitlementsDoc.data()
-      if (userEntitlements.skinEntitlements.includes(parseInt(req.params.id, 10))) {
-        await admin.firestore().doc(`${userClaims.uid}/dragon`).update({
-          skin: parseInt(req.params.id, 10)
-        })
+      if (
+        userEntitlements.skinEntitlements.includes(parseInt(req.params.id, 10))
+      ) {
+        await admin
+          .firestore()
+          .doc(`${userClaims.uid}/dragon`)
+          .update({
+            skin: parseInt(req.params.id, 10),
+          })
       } else {
         res.status(400)
         res.send('Skin is not in user entitlements')
@@ -102,19 +110,25 @@ gameServerApp.get('/equip/:id', async (req, res) => {
 gameServerApp.get('/purchase/:id', async (req, res) => {
   try {
     let userClaims = await admin.auth().verifyIdToken(req.query.user as string)
-    let playerEntitlementsDoc = await admin.firestore().doc(`${userClaims.uid}/store`).get()
+    let playerEntitlementsDoc = await admin
+      .firestore()
+      .doc(`${userClaims.uid}/store`)
+      .get()
     let playerEntitlements = playerEntitlementsDoc.data()
 
     if (req.query.type == 'mode') {
       let modeList = require('../public/api/modes.json')
-      modeList.forEach(async mode => {
+      modeList.forEach(async (mode) => {
         if (mode.id == req.params.id) {
           if (playerEntitlements.gems >= mode.gemCost) {
             playerEntitlements.modeEntitlements.push(mode.id)
-            await admin.firestore().doc(`${userClaims.uid}/store`).update({
-              gems: playerEntitlements.gems - mode.gemCost,
-              modeEntitlements: playerEntitlements.modeEntitlements
-            })
+            await admin
+              .firestore()
+              .doc(`${userClaims.uid}/store`)
+              .update({
+                gems: playerEntitlements.gems - mode.gemCost,
+                modeEntitlements: playerEntitlements.modeEntitlements,
+              })
           } else {
             res.status(400)
             res.send('Not enough gems')
@@ -123,15 +137,18 @@ gameServerApp.get('/purchase/:id', async (req, res) => {
       })
     } else {
       let skinList = require('../public/api/skins.json')
-      skinList.forEach(async skin => {
+      skinList.forEach(async (skin) => {
         if (skin.id == parseInt(req.params.id, 10)) {
           if (playerEntitlements.gems >= skin.gemCost) {
             console.log('has enough gems')
             playerEntitlements.skinEntitlements.push(skin.id)
-            await admin.firestore().doc(`${userClaims.uid}/store`).update({
-              gems: playerEntitlements.gems - skin.gemCost,
-              skinEntitlements: playerEntitlements.skinEntitlements
-            })
+            await admin
+              .firestore()
+              .doc(`${userClaims.uid}/store`)
+              .update({
+                gems: playerEntitlements.gems - skin.gemCost,
+                skinEntitlements: playerEntitlements.skinEntitlements,
+              })
           } else {
             res.status(400)
             res.send('Not enough gems')
@@ -151,21 +168,21 @@ gameServerApp.get('/purchase/:id', async (req, res) => {
 gameServerApp.get('/pay/:gemAmount', async (req, res) => {
   let linePrice = 99
 
-  switch(req.params.gemAmount) {
-    case "500":
+  switch (req.params.gemAmount) {
+    case '500':
       linePrice = 499
-      break;
-    case "1000":
+      break
+    case '1000':
       linePrice = 999
-      break;
-    case "10000":
+      break
+    case '10000':
       linePrice = 9999
-      break;
+      break
   }
 
   const paymentIntent = await stripe.paymentIntents.create({
     amount: linePrice,
-    currency: "usd",
+    currency: 'usd',
     description: req.query.uid.toString(),
     automatic_payment_methods: { enabled: true },
   })
@@ -173,49 +190,56 @@ gameServerApp.get('/pay/:gemAmount', async (req, res) => {
   res.send({ clientSecret: paymentIntent.client_secret })
 })
 
-gameServerApp.post('/pay/webhook', express.raw({ type: 'application/json' }), async (request, response) => {  
-  try {
-    let event: Stripe.Event = JSON.parse(request.body)
-    console.log('stripe'.gray + ' - ' + event.type)
-    if (event.type == 'charge.succeeded') {
-      let gemCharge = event.data.object as Stripe.Charge
-      let gemCredit = 100
- 
-      switch (gemCharge.amount) {
-        case 499:
-          gemCredit = 550
-          break
-        case 999:
-          gemCredit = 1100
-          break
-        case 9999:
-          gemCredit = 11000
-          break
-      }
+gameServerApp.post(
+  '/pay/webhook',
+  express.raw({ type: 'application/json' }),
+  async (request, response) => {
+    try {
+      let event: Stripe.Event = JSON.parse(request.body)
+      console.log('stripe'.gray + ' - ' + event.type)
+      if (event.type == 'charge.succeeded') {
+        let gemCharge = event.data.object as Stripe.Charge
+        let gemCredit = 100
 
-      let authedCharge = await stripe.charges.retrieve(gemCharge.id)
-      // Fraud protection - makes sure request isn't forged
-      if (authedCharge.amount == gemCharge.amount) {
-        let playerGemDoc = admin.firestore().collection(gemCharge.description).doc('store')
-        let playerGems = await playerGemDoc.get()
-        if (playerGems.exists) {
-          playerGemDoc.update({
-            gems: (playerGems.data().gems || 0) + gemCredit
-          })
-        } else {
-          playerGemDoc.create({
-            gems: gemCredit
-          })
+        switch (gemCharge.amount) {
+          case 499:
+            gemCredit = 550
+            break
+          case 999:
+            gemCredit = 1100
+            break
+          case 9999:
+            gemCredit = 11000
+            break
+        }
+
+        let authedCharge = await stripe.charges.retrieve(gemCharge.id)
+        // Fraud protection - makes sure request isn't forged
+        if (authedCharge.amount == gemCharge.amount) {
+          let playerGemDoc = admin
+            .firestore()
+            .collection(gemCharge.description)
+            .doc('store')
+          let playerGems = await playerGemDoc.get()
+          if (playerGems.exists) {
+            playerGemDoc.update({
+              gems: (playerGems.data().gems || 0) + gemCredit,
+            })
+          } else {
+            playerGemDoc.create({
+              gems: gemCredit,
+            })
+          }
         }
       }
+    } catch (err) {
+      console.log(err.message)
+      return response.status(400).send(err.message)
     }
-  } catch (err) {
-    console.log(err.message)
-    return response.status(400).send(err.message)
-  }
 
-  response.status(200);
-});
+    response.status(200)
+  },
+)
 
 gameServerApp.get('/init', async (req, res) => {
   try {
@@ -226,41 +250,45 @@ gameServerApp.get('/init', async (req, res) => {
     if (!(await userStoreDoc.get()).exists) {
       userDragonDoc.set({
         ability: 'Fireball',
-        skin: 0
+        skin: 0,
       })
       userStoreDoc.set({
         gems: 0,
         skinEntitlements: [0],
-        modeEntitlements: ["arena"]
+        modeEntitlements: ['arena'],
       })
       userStatsDoc.set({
         level: 0,
         fireballs: 0,
-        coins: 0
+        coins: 0,
       })
     }
     res.status(200)
     res.send('Done')
   } catch {
     res.status(400)
-    res.send('Couldn\'t initialize user')
+    res.send("Couldn't initialize user")
   }
 })
 
 gameServerApp.get('/claim/anet/:cid', async (req, res) => {
   try {
     let userClaims = await admin.auth().verifyIdToken(req.query.user.toString())
-    let characterData = await (await fetch(`https://api.guildwars2.com/v2/characters/${req.query.char}?access_token=${req.query.token}`)).json()
+    let characterData = await (
+      await fetch(
+        `https://api.guildwars2.com/v2/characters/${req.query.char}?access_token=${req.query.token}`,
+      )
+    ).json()
     let userStoreDoc = admin.firestore().doc(`${userClaims.uid}/store`)
     let userStoreData = await userStoreDoc.get()
     let skinEntitlements = userStoreData.data().skinEntitlements
 
-    switch(req.params.cid) {
+    switch (req.params.cid) {
       case 'Die 100 Times':
         if (characterData.deaths >= 10) {
           skinEntitlements.push(5)
           userStoreDoc.update({
-            skinEntitlements
+            skinEntitlements,
           })
           res.status(200)
           res.send('Claimed')
@@ -308,11 +336,11 @@ const colyseusServer = new Server({
 
 colyseusServer.define('arena', ArenaRoom)
 colyseusServer.define('ctc', CaptureRoom)
-colyseusServer.define('essentials', CoreRoom)
+colyseusServer.define('essentials', EssentialRoom)
 
 colyseusServer.listen(1337)
 console.log(
   'server'.green +
-  ' - [::]:1337 - ' +
-  (secureServer ? 'https'.green : 'http'.yellow),
+    ' - [::]:1337 - ' +
+    (secureServer ? 'https'.green : 'http'.yellow),
 )

@@ -48,7 +48,7 @@ export class Player extends Schema {
   skinType: number
 
   @type('number')
-  speed: number = 20
+  speed: number = 25
 
   @type('number')
   deceleration: number = 1

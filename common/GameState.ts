@@ -26,8 +26,11 @@ export class GameState extends Schema {
   @type({ map: BorderFence })
   fences = new MapSchema<BorderFence>()
 
+  @type('string')
+  map: String = 'classic'
+
   @type(Countdown)
-  countdown = new Countdown(3, 0)
+  countdown: Countdown = new Countdown(100000000000000, 0)
 
   @type({ map: Bat })
   bats = new MapSchema<Bat>()
