@@ -30,6 +30,7 @@ import redDragon3 from './sprites/redDragon4.png'
 import redDragon4 from './sprites/redDragon5.png'
 
 import blankDragon from './sprites/blankDragon.png'
+
 import { Player } from '../../../../common/Player'
 import { FireballView } from '../fireball'
 
@@ -38,6 +39,7 @@ interface IProps {
   player: Player
   team: number
   celebration: boolean
+  skin: number
 }
 
 type TeamOrbProps = {
@@ -92,7 +94,26 @@ const ANIMATION_SPEED = 0.08
 export const Dragon = (props: IProps) => {
   const dragonTextures = useMemo(() => {
     // TODO: Create textures from spites
-    let dragonImages = [dragon1, dragon2, dragon3, dragon4]
+    let dragonImages
+    switch (props.skin) {
+      case 1:
+        dragonImages = [lightDragon1, lightDragon2, lightDragon3, lightDragon4]
+        break;
+      case 2:
+        dragonImages = [redDragon1, redDragon2, redDragon3, redDragon4]
+        break;
+      case 3:
+        dragonImages = [blueDragon1, blueDragon2, blueDragon3, blueDragon4]
+        break;
+      case 4:
+        dragonImages = [goldDragon1, goldDragon2, goldDragon3, goldDragon4]
+        break;
+      case 5:
+        dragonImages = [blankDragon]
+        break;
+      default:
+        dragonImages = [dragon1, dragon2, dragon3, dragon4]
+    }
 
     let textures: any = []
 

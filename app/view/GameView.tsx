@@ -169,6 +169,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             player={player}
             key={player.onlineID}
             team={0}
+            skin={player.skinType}
             celebration={dragonCelebrating || player.turboMode}
           />,
         )
@@ -178,7 +179,8 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             player={player}
             key={player.onlineID}
             team={0}
-            celebration={false}
+            skin={player.skinType}
+            celebration={player.turboMode}
           />,
         )
       }
