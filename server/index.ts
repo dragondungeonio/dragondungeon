@@ -16,7 +16,7 @@ import 'colors'
 
 // 1st Party Imports
 import { ArenaRoom, CaptureRoom, EssentialRoom } from './MultiplayerRooms'
-import { AP22DiscoveryRoom } from './SingleplayerRooms'
+import { TutorialRoom } from './SingleplayerRooms'
 import CoreRoom from './CoreRoom'
 
 // Friendly Logs
@@ -337,6 +337,7 @@ const colyseusServer = new Server({
 colyseusServer.define('arena', ArenaRoom)
 colyseusServer.define('ctc', CaptureRoom)
 colyseusServer.define('essentials', EssentialRoom)
+colyseusServer.define('tutorial', TutorialRoom)
 
 colyseusServer.listen(1337)
 console.log(

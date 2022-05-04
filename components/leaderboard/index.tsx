@@ -1,7 +1,7 @@
-import { Player } from 'common'
+import { Player } from '../../common'
 import { MapSchema } from '@colyseus/schema'
-import { Countdown } from 'common/Countdown'
-import { Box } from 'components'
+import { Countdown } from '../../common/Countdown'
+import { Box } from '../../components'
 
 import styles from 'styles/leaderboard.module.css'
 import { ReactNode, useEffect, useState } from 'react'
@@ -60,7 +60,7 @@ export function Leaderboard(props: {
   countdown: Countdown
   isCTC: boolean
 }) {
-  const [countdownRender, setCountdownState] = useState<String>('5:00')
+  const [countdownRender, setCountdownState] = useState<String>('Loading...')
   const [players, setPlayerState] = useState<MapSchema<Player>>(props.players)
   useEffect(() => {
     let clockInterval = setInterval(() => {
@@ -71,7 +71,7 @@ export function Leaderboard(props: {
 
   return (
     <>
-      <p className={styles.countdown}>{countdownRender}</p>
+      { props.countdown.minutes !=  100000000000000 && <p className={styles.countdown}>{countdownRender}</p>}
       {window.innerWidth >= 1000 && (
         <>
           <div id="chatlog" className={styles.chatlog}></div>

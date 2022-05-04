@@ -92,7 +92,7 @@ export default function CoreView({
             height: '150px',
             imageRendering: 'pixelated',
           }}
-          src="/img/dragons/basicDragon.png"
+          src="/img/skins/basic.png"
         />
       </div>
     )

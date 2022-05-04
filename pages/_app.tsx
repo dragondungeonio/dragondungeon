@@ -96,11 +96,11 @@ function DragonDungeon({ Component, pageProps }) {
       <meta property="og:title" content="Dragon Dungeon" />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://dragondungeon.io" />
-      <meta property="og:image" content="https://dragondungeon.io/img/dragons/basicDragon.png" />
+      <meta property="og:image" content="https://dragondungeon.io/img/skins/basic.png" />
       <meta property="og:description" content="Compete against dragons from all over the world and become the richest dragon of all in this award-winning game from the LEAGUE of Amazing Programmers." />
       <meta name="description" content="Compete against dragons from all over the world and become the richest dragon of all in this award-winning game from the LEAGUE of Amazing Programmers." />
       <meta name="twitter:creator" content="@dragondungeonio" />
-      <meta name="twitter:image" content="https://dragondungeon.io/img/dragons/basicDragon.png" />
+      <meta name="twitter:image" content="https://dragondungeon.io/img/skins/basic.png" />
       <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     </Head>
     <div className={styles.dragondungeon}>
