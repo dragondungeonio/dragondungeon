@@ -140,10 +140,12 @@ export class ArenaRoom extends CoreRoom {
 
 export class CaptureRoom extends CoreRoom {
   constructor() {
+    
     let state = new GameState()
     state.gamemode = 'CTC'
     state.countdown.minutes = 3
-
+    state.coinJars.set(v4(), new CoinJar(200, 1500, 1))
+    state.coinJars.set(v4(), new CoinJar(2800, 1500, 2))
     let setWallTeam = (i: number, isRedTeam: boolean) => {
       if (i == 0 || i == 3) {
         return 0
@@ -248,6 +250,15 @@ export class CaptureRoom extends CoreRoom {
 
     super(state)
   }
+
+  tick(): void {
+    super.tick()
+    if(super.getState().coins.size<100) {
+      super.spawnCoin()
+    }
+  }
+
+
 }
 
 export class EssentialRoom extends CoreRoom {
