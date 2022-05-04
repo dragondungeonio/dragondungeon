@@ -4,7 +4,7 @@ import { Countdown } from 'common/Countdown'
 import { Box } from 'components'
 
 import styles from 'styles/leaderboard.module.css'
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
 function renderCountdown(countdown: Countdown) {
   if (countdown.done) {
@@ -35,23 +35,6 @@ function renderTableData(players: MapSchema<Player>) {
     )
   })
   return leaderboardData
-}
-
-function renderCTCData(players: MapSchema<Player>){
-  var redScore = 0
-  var blueScore = 0
-  let CTCData = []
-  players.forEach((player: Player, key: any)=> {
-    const score = player.score
-    const team = player.team
-    if(team == 1){
-      redScore+=score
-    } else if(team == 2){
-      blueScore+=score
-    }
-    CTCData.push({redScore}+" "+{blueScore})
-    return CTCData
-  })
 }
 
 function renderMobileTableData(players: MapSchema<Player>) {
@@ -109,9 +92,6 @@ export function Leaderboard(props: {
           ></div>
           <Box>{renderMobileTableData(players)}</Box>
         </>
-      )}
-      {this.isCTC && (
-      <p className={styles.countdown}>{renderCTCData(props.players)}</p>
       )}
     </>
   )
