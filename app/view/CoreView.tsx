@@ -101,10 +101,9 @@ export default function CoreView({
     return (
       <div style={{ padding: '30px' }} className={styles.pageContent}>
         <h1>Game Over</h1>
-        {renderTableData(state.players)}
-        <br />
-        <br />
-        <br />
+        <p style={{ color: '#f9e300', fontSize: '25pt' }}>{state.gameOverMessage}</p>
+        { state.leaderboardEnabled && renderTableData(state.players)}
+        <br /><br />
         <MenuOption name="New Game" href="/" />
       </div>
     )

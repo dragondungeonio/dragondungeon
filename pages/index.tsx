@@ -18,8 +18,9 @@ export default function Home() {
     <PageLayout>
       <div className={styles.centeredContent}>
         <h1>dragondungeon.io</h1>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '5px' }}>
-          <ModeItem description="Fight dragons. Collect coins." name="Arena" img="/img/skins/basic.png" href="/play/arena" router={router} />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '5px' }}>
+          <ModeItem description="Fight dragons. Collect coins." name="Arena" img="/img/game/coinJar.png" href="/play/arena" router={router} />
+          <ModeItem description="Become the Last Dragon Standing." name="Survival" img="/img/skins/basic.png" href="/play/lds" router={router} />
           {/* <ModeItem description="Defend your base. Capture coins." name="Capture" img="/img/game/coinJar.png" href="/play/ctc" router={router} /> */}
           {/* <ModeItem description="Mix it up!" name="Random" img="/img/game/icon.png" href="/play" router={router} /> */}
           <ModeItem description="Learn the ropes!" name="Tutorial" img="/img/game/bat.png" href="/play/tutorial" router={router} />

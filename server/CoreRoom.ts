@@ -137,9 +137,12 @@ export default class CoreRoom extends Room<GameState> {
     }, 1000 / 60)
   }
 
-  gameOver() {
+  gameOver(message?: string) {
     this.clock.clear()
     this.state.gameOver = true
+    if (message) {
+      this.state.gameOverMessage = message
+    }
     this.state.players.forEach(async (player: Player) => {
       if (!player.isBot) {
         let playerLifetimeStatsRef = admin
@@ -351,8 +354,10 @@ export default class CoreRoom extends Room<GameState> {
             playerHit.fireballs[i].checkHit(player.x, player.y, player.team)
           ) {
             playerHit.hitsDealt++
-            player.hitsRecived++
-            player.health -= 0.2
+            if (player.isGhost == false) {
+              player.hitsRecived++
+              player.health -= 0.2
+            }
             if (player.health < 0) {
               player.health = 10
               try {
@@ -360,15 +365,26 @@ export default class CoreRoom extends Room<GameState> {
                 player.y = -40000
                 player.coins = 0
 
+                if (this.state.gamemode == 'LDS') {
+                  player.isGhost = true
+                }
+
                 setTimeout(() => {
                   player.x = 400
                   player.y = 400
                 }, 3000)
 
-                this.broadcast(
-                  'chatlog',
-                  `${playerHit.onlineName}  <img src='/img/abilities/${playerHit.ballType}ball.png' height='20px' height='20px' style='image-rendering:pixelated' />  ${player.onlineName}`,
-                )
+                if (this.state.gamemode == 'LDS') {
+                  this.broadcast(
+                    'chatlog',
+                    `${player.onlineName} has been eliminated!`,
+                  )
+                } else {
+                  this.broadcast(
+                    'chatlog',
+                    `${playerHit.onlineName}  <img src='/img/abilities/${playerHit.ballType}ball.png' height='20px' height='20px' style='image-rendering:pixelated' />  ${player.onlineName}`,
+                  )
+                }
 
                 if (!this.firstBlood) {
                   this.firstBlood = true
@@ -485,7 +501,8 @@ export default class CoreRoom extends Room<GameState> {
             this.state.players[id].y,
             0,
           ) &&
-          this.state.players[id].coins < 10
+          this.state.players[id].coins < 10 &&
+          this.state.players[id].isGhost == false
         ) {
           let prevCoins = this.state.players[id].coins
           var coins = this.state.players[id].coins

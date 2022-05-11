@@ -35,6 +35,12 @@ export class GameState extends Schema {
   @type({ map: Bat })
   bats = new MapSchema<Bat>()
 
+  @type('string')
+  gameOverMessage: string = ''
+
+  @type('boolean')
+  leaderboardEnabled: boolean = true
+
   @type({ map: Skull })
   skulls = new MapSchema<Skull>()
 
