@@ -114,7 +114,7 @@ function DragonDungeon({ Component, pageProps }) {
             </div>
             <Component {...pageProps} controls={0} />
           </>}
-          {(!gameStarted && !signInNeeded) && <>Loading....</>}
+          {(!gameStarted && !signInNeeded) && <></>}
         </AnimatePresence>
       </div>
     </div>
