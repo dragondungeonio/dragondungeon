@@ -68,7 +68,7 @@ export const TeamOrb = CustomPIXIComponent<PIXI.Graphics, TeamOrbProps>(
       let textures: PIXI.AnimatedSprite["textures"] = [];
       dragonImages.forEach(image =>{
         let texture = PIXI.Texture.from(image);
-         textures.push(texture);
+         textures.push(texture as any);
       });
       return textures;
     }, []);  */
@@ -98,19 +98,19 @@ export const Dragon = (props: IProps) => {
     switch (props.skin) {
       case 1:
         dragonImages = [lightDragon1, lightDragon2, lightDragon3, lightDragon4]
-        break;
+        break
       case 2:
         dragonImages = [redDragon1, redDragon2, redDragon3, redDragon4]
-        break;
+        break
       case 3:
         dragonImages = [blueDragon1, blueDragon2, blueDragon3, blueDragon4]
-        break;
+        break
       case 4:
         dragonImages = [goldDragon1, goldDragon2, goldDragon3, goldDragon4]
-        break;
+        break
       case 5:
         dragonImages = [blankDragon]
-        break;
+        break
       default:
         dragonImages = [dragon1, dragon2, dragon3, dragon4]
     }
@@ -120,7 +120,7 @@ export const Dragon = (props: IProps) => {
     Promise.all(
       dragonImages.map(async (image) => {
         let texture = await PIXI.Texture.fromURL(image.src)
-        textures.push(texture)
+        textures.push(texture as any)
       }),
     )
     return textures

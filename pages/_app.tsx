@@ -10,10 +10,20 @@ import {
   GoogleAuthProvider,
   getIdToken,
 } from 'firebase/auth'
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
+import { getFirestore, doc, getDoc } from 'firebase/firestore'
+import { PageLayout } from 'components'
 
 import styles from '../styles/navigation.module.css'
 import '../styles/globals.css'
+
+function ModeItem(props) {
+  return <div style={{ padding: '20px', width: '160px', textAlign: 'center' }} onClick={() => { if (props.href) { props.router.push(props.href) } }}>
+    <img src={props.img} alt={props.name} style={{ imageRendering: 'pixelated', height: '50px' }} />
+    <br /><br />
+    <span style={{ fontSize: '20pt' }}>{props.name}</span><br /><br />
+    {props.description && <span style={{ color: '#f9e300' }}>{props.description}</span>}
+  </div>
+}
 
 function MenuOption(props) {
   let router = useRouter()
@@ -24,25 +34,9 @@ function MenuOption(props) {
   )
 }
 
-async function startGame() {
-  let auth = getAuth()
-  let info = await signInWithPopup(auth, new GoogleAuthProvider())
-  if (info.user) {
-    let db = getFirestore()
-    let userStoreDoc = await getDoc(doc(db, info.user.uid, 'store'))
-    if (!userStoreDoc.exists()) {
-      await fetch(`${window.location.protocol}//${window.location.hostname}:1337/init?user=${await getIdToken(info.user)}`)
-    }
-    return true
-  } else {
-    return false
-  }
-}
-
 function DragonDungeon({ Component, pageProps }) {
   let [gameStarted, setGameStarted] = useState<boolean>(false)
-  let [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
-  let [controlScheme, setControlScheme] = useState<number>(0)
+  let [signInNeeded, setSignInNeeded] = useState<boolean>(false)
 
   let router = useRouter()
 
@@ -62,29 +56,10 @@ function DragonDungeon({ Component, pageProps }) {
       if (typeof window == 'object') {
         onAuthStateChanged(auth, (user) => {
           if (user) {
-            setIsLoggedIn(true)
+            setGameStarted(true)
+          } else {
+            setSignInNeeded(true)
           }
-
-          window.addEventListener('touchstart', () => {
-            setControlScheme(1)
-          })
-
-          window.addEventListener('keypress', async (e) => {
-            setControlScheme(0)
-            try {
-              if (e.code == 'Enter') {
-                if (user) {
-                  setGameStarted(true)
-                } else {
-                  if (await startGame() == true) {
-                    setGameStarted(true)
-                  }
-                }
-              }
-            } catch { }
-          })
-
-          window.addEventListener("gamepadconnected", (e) => { })
         })
       }
     }
@@ -105,29 +80,7 @@ function DragonDungeon({ Component, pageProps }) {
       <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     </Head>
     <div className={styles.dragondungeon}>
-      {typeof window == 'object' &&
-        <p style={{ color: '#f9e300', position: 'fixed', top: 0, left: 0, width: '100vw', textAlign: 'center', pointerEvents: 'none', zIndex: 99999999999999999999 }}>{navigator.userAgent}<br /><b>dragondungeon.io Public Beta Build {require('../package.json').version}</b></p>
-      }
-      {!gameStarted && <div className={styles.pageContent} style={{ textAlign: 'center' }}>
-        <div className={styles.loginWindow}>
-          <p style={{ position: 'fixed', bottom: 0, left: 0, textAlign: 'left', paddingLeft: '20px', paddingBottom: '4px' }}>This is a beta build. Expect instability.<br />Make sure to report any issues on GitHub.<br />And make sure to have fun!</p>
-          <h1 style={{ fontSize: '40pt' }}>dragondungeon.io</h1>
-          <img src="/img/dragons/basicDragon.png" height={180} style={{ imageRendering: 'pixelated' }} />
-          {(controlScheme == 0) && <p className={styles.startPrompt}>Press <img src="/prompts/mnk/Enter_Key_Dark.png" alt="Enter" height={60} style={{ verticalAlign: 'middle' }} /> to start beta</p>}
-          {(controlScheme == 1) && <p onClick={async () => {
-            if (!isLoggedIn) {
-              if (await startGame() == true) {
-                setGameStarted(true)
-              }
-            } else {
-              setGameStarted(true)
-            }
-          }} className={styles.startPrompt}>Tap here to begin beta</p>}
-          {(controlScheme == 2) && <p className={styles.startPrompt}>Press <img src="/prompts/mshid/XboxSeriesX_A.png" alt="A" height={60} style={{ verticalAlign: 'middle' }} /> to start beta</p>}
-          {(controlScheme == 3) && <p className={styles.startPrompt}>Press <img src="/prompts/sonyhid/PS5_Cross.png" alt="Cross" height={60} style={{ verticalAlign: 'middle' }} /> to start beta</p>}
-        </div>
-      </div>}
-      {gameStarted && <>
+      <div className={styles.centeredContent}>
         {!router.pathname.startsWith('/play/') && <div className={styles.nav}>
           <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/')}>Play</span>
           <MenuOption name="Profile" href="/profile" />
@@ -139,10 +92,35 @@ function DragonDungeon({ Component, pageProps }) {
           initial={false}
           onExitComplete={() => window.scrollTo(0, 0)}
         >
-            <Component {...pageProps} controls={controlScheme} />
+          {gameStarted && <Component {...pageProps} controls={0} />}
+          {(!gameStarted && signInNeeded) && <>
+            <div style={{ width: '100vw', height: '100vh', background: 'rgba(0, 0, 0, 0.7)', position: 'fixed', zIndex: '999999999999999999', top: 0, left: 0 }}>
+              <span className={styles.link} style={{ position: 'fixed', left: '37%', top: '45%', textAlign: 'center', fontSize: '25pt', padding: '20px' }} onClick={async () => {
+                let auth = getAuth()
+                let info = await signInWithPopup(auth, new GoogleAuthProvider())
+                if (info.user) {
+                  let db = getFirestore()
+                  let userStoreDoc = await getDoc(doc(db, info.user.uid, 'store'))
+                  if (!userStoreDoc.exists()) {
+                    await fetch(`${window.location.protocol}//${window.location.hostname}:1337/init?user=${await getIdToken(info.user)}`)
+                  }
+                  return true
+                } else {
+                  return false
+                }
+              }}>
+                Log In with Google
+              </span>
+            </div>
+            <Component {...pageProps} controls={0} />
+          </>}
+          {(!gameStarted && !signInNeeded) && <>Loading....</>}
         </AnimatePresence>
-      </>}
+      </div>
     </div>
+    {typeof window == 'object' &&
+      <p style={{ color: '#f9e300', position: 'fixed', top: 0, left: 0, width: '100vw', textAlign: 'center', pointerEvents: 'none', zIndex: 99999999999999999999 }}>{navigator.userAgent}<br /><b>dragondungeon.io Public Beta Build {require('../package.json').version}</b></p>
+    }
   </>
 }
 
