@@ -321,6 +321,17 @@ export default class CoreRoom extends Room<GameState> {
     return this.state
   }
 
+  moveBots() {
+    this.state.players.forEach((player: Player) => {
+      if (player.isBot) {
+        player.inputs(player.activeInputs)
+        if (Math.random() > 0.95) {
+          player.angle = Math.random() * 360
+          player.activeInputs.angle = Math.random() * 360
+        }
+      }
+    })
+  }
   tick() {
     this.counter++
     const dx = this.clock.deltaTime
