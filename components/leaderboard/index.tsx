@@ -61,7 +61,7 @@ export function Leaderboard(props: {
   isCTC?: boolean
 }) {
   const { isCTC = false } = props
-  const [countdownRender, setCountdownState] = useState<String>('Loading...')
+  const [countdownRender, setCountdownState] = useState<String>('')
   const [players, setPlayerState] = useState<MapSchema<Player>>(props.players)
   useEffect(() => {
     let clockInterval = setInterval(() => {

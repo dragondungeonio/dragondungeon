@@ -13,7 +13,7 @@ import {
 import * as admin from 'firebase-admin'
 import { v4 } from 'uuid'
 
-class ServerPlayer extends Player {
+export class ServerPlayer extends Player {
   colyseusClient: Client = null
   constructor(
     ballType: string,
@@ -352,19 +352,18 @@ export default class CoreRoom extends Room<GameState> {
           ) {
             playerHit.hitsDealt++
             player.hitsRecived++
-            player.health -= 0.3
+            player.health -= 0.2
             if (player.health < 0) {
-              player.health = 0
+              player.health = 10
               try {
                 player.x = -40000
                 player.y = -40000
                 player.coins = 0
 
                 setTimeout(() => {
-                  player.x = 200
-                  player.y = 200
-                  player.health = 10
-                }, 5000)
+                  player.x = 400
+                  player.y = 400
+                }, 3000)
 
                 this.broadcast(
                   'chatlog',
@@ -417,7 +416,7 @@ export default class CoreRoom extends Room<GameState> {
                 const newY = player.y + 50 * Math.sin(angle)
                 if (
                   !this.checkWalls(newX, newY, player.team, 22.5, true) &&
-                  Math.random() < 0.2
+                  Math.random() < 0.3
                 ) {
                   playerHit.fireballs.push(
                     new Fireball(
