@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "ts-node --project tsconfig.server.json server/index.ts",
     "dev:secure": "ts-node --project tsconfig.server.json server/index.ts --https",
-    "start": "ts-node --project tsconfig.server.json server/index.ts --prod",
+    "start": "ts-node --project tsconfig.server.json server/index.ts --prod --https",
     "build": "next build",
     "lint": "next lint"
   },
