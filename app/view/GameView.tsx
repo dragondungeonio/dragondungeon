@@ -30,8 +30,8 @@ interface GameViewProps {
 }
 
 interface GameViewState {
-  showMusicElement: boolean,
-  music: HTMLAudioElement,
+  showMusicElement: boolean
+  music: HTMLAudioElement
 }
 
 export class GameView extends Component<GameViewProps, GameViewState> {
@@ -87,11 +87,12 @@ export class GameView extends Component<GameViewProps, GameViewState> {
 
     this.props.stateManager.room.onMessage('chatlog', (chatMessage) => {
       if (document.querySelector('#chatlog')) {
-        ; (document.querySelector('#chatlog') as any).style.display = 'block'
+        ;(document.querySelector('#chatlog') as any).style.display = 'block'
         document.querySelector('#chatlog').innerHTML = chatMessage
         this.chatlogClearInt = setTimeout(
           () =>
-            ((document.querySelector('#chatlog') as any).style.display = 'none'),
+            ((document.querySelector('#chatlog') as any).style.display =
+              'none'),
           5000,
         )
       }
@@ -141,7 +142,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
               yLength={wall.yLength}
               angle={wall.angle}
               team={wall.team}
-              health = {wall.health}
+              health={wall.health}
             />,
           )
         } else {
@@ -153,7 +154,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
               yLength={wall.yLength}
               angle={wall.angle}
               team={wall.team}
-              health = {wall.health}
+              health={wall.health}
             />,
           )
         }
@@ -185,9 +186,10 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           />,
         )
       }
-      if (window.localStorage. ddImmersiveMode != 'true') {
+      if (window.localStorage.ddImmersiveMode != 'true') {
+        const BetterBar = Bar as any
         hudBars.push(
-          <Bar
+          <BetterBar
             key={v4()}
             health={player.health}
             x={player.x - 35}
@@ -196,9 +198,9 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             height={18}
             color={0xe30b1d}
             coins={player.coins}
-            name={player == me ? '' :  player.onlineName}
+            name={player == me ? '' : player.onlineName}
           />,
-        ) 
+        )
       }
     })
 
@@ -207,7 +209,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
       try {
         this.viewport.x = -me.x + window.innerWidth / 1.7
         this.viewport.y = -me.y + window.innerHeight / 1.7
-      } catch { }
+      } catch {}
     }
 
     var tileAmt = 19
@@ -240,7 +242,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           yLength={yLen}
           angle={0}
           team={0}
-          health = {10}
+          health={10}
         />,
       )
       walls.push(
@@ -251,7 +253,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           yLength={yLen}
           angle={0}
           team={0}
-          health = {10}
+          health={10}
         />,
       )
       walls.push(
@@ -262,7 +264,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           yLength={yLen}
           angle={Math.PI / 2}
           team={0}
-          health = {10}
+          health={10}
         />,
       )
       walls.push(
@@ -272,8 +274,8 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           xLength={xLen}
           yLength={yLen}
           angle={Math.PI / 2}
-          team = {0}
-          health = {10}
+          team={0}
+          health={10}
         />,
       )
     }
@@ -337,10 +339,8 @@ export class GameView extends Component<GameViewProps, GameViewState> {
   /**
    * Simply render the div that will contain the Pixi Renderer.
    */
-   
 
   render() {
-
     let component = this
     return (
       <>
@@ -350,15 +350,16 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           scheme={this.props.controls}
         />
 
-        {window.localStorage.ddImmersiveMode != 'true' && <>
-          <div style={{ marginLeft: '3vw', display: 'flex' }}>
-            <Leaderboard
-              players={this.props.state.players}
-              countdown={this.props.state.countdown}
-            ></Leaderboard>
-          </div>
-
-        </>}
+        {window.localStorage.ddImmersiveMode != 'true' && (
+          <>
+            <div style={{ marginLeft: '3vw', display: 'flex' }}>
+              <Leaderboard
+                players={this.props.state.players}
+                countdown={this.props.state.countdown}
+              ></Leaderboard>
+            </div>
+          </>
+        )}
         <div
           ref={(thisDiv) => {
             component.gameCanvas = thisDiv!

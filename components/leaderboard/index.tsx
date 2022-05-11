@@ -31,7 +31,7 @@ function renderTableData(players: MapSchema<Player>) {
         &nbsp;&nbsp;
         <span>{name}</span>&nbsp;&nbsp;
         <b>{score}</b>&nbsp;&nbsp;&nbsp;
-      </span>
+      </span>,
     )
   })
   return leaderboardData
@@ -58,8 +58,9 @@ function renderMobileTableData(players: MapSchema<Player>) {
 export function Leaderboard(props: {
   players: MapSchema<Player>
   countdown: Countdown
-  isCTC: boolean
+  isCTC?: boolean
 }) {
+  const { isCTC = false } = props
   const [countdownRender, setCountdownState] = useState<String>('Loading...')
   const [players, setPlayerState] = useState<MapSchema<Player>>(props.players)
   useEffect(() => {
@@ -71,7 +72,9 @@ export function Leaderboard(props: {
 
   return (
     <>
-      {props.countdown.minutes != 100000000000000 && <p className={styles.countdown}>{countdownRender}</p>}
+      {props.countdown.minutes != 100000000000000 && (
+        <p className={styles.countdown}>{countdownRender}</p>
+      )}
       <>
         <div id="chatlog" className={styles.chatlog}></div>
         <div className={styles.leaderboardContainer}>
