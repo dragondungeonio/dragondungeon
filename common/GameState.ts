@@ -38,9 +38,6 @@ export class GameState extends Schema {
   @type('string')
   gameOverMessage: string = ''
 
-  @type('boolean')
-  leaderboardEnabled: boolean = true
-
   @type({ map: Skull })
   skulls = new MapSchema<Skull>()
 

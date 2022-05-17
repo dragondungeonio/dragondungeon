@@ -362,7 +362,6 @@ export class GameView extends Component<GameViewProps, GameViewState> {
                 players={this.props.state.players}
                 countdown={this.props.state.countdown}
                 isCTC={this.props.state.gamemode == 'CTC' ? true: false}
-                show={this.props.state.leaderboardEnabled}
               ></Leaderboard>
             </div>
           </>

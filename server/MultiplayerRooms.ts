@@ -9,7 +9,6 @@ export class SurvivalRoom extends CoreRoom {
   constructor() {
     let state = new GameState()
     state.gamemode = 'LDS'
-    state.leaderboardEnabled = false
     super(state)
   }
 

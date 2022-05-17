@@ -81,7 +81,6 @@ export function Leaderboard(props: {
   players: MapSchema<Player>
   countdown: Countdown
   isCTC?: boolean
-  show: boolean
 }) {
   const { isCTC = false } = props
   const [countdownRender, setCountdownState] = useState<String>('')
@@ -101,11 +100,11 @@ export function Leaderboard(props: {
       )}
       <>
         <div id="chatlog" className={styles.chatlog}></div>
-        {props.show && <div className={styles.leaderboardContainer}>
+        <div className={styles.leaderboardContainer}>
           <table>
             <tbody id="leaderboard">{renderTableData(props.players)}</tbody>
           </table> {props.isCTC && renderTeamScores(props.players)}
-        </div>}
+        </div>
       </>
     </>
   )
