@@ -173,6 +173,8 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             team={0}
             skin={player.skinType}
             celebration={dragonCelebrating || player.turboMode}
+            isGhost={player.isGhost}
+            isMe={true}
           />,
         )
       } else {
@@ -183,6 +185,8 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             team={0}
             skin={player.skinType}
             celebration={player.turboMode}
+            isGhost={player.isGhost}
+            isMe={true}
           />,
         )
       }
@@ -357,7 +361,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
               <Leaderboard
                 players={this.props.state.players}
                 countdown={this.props.state.countdown}
-                isCTC = {this.props.state.gamemode == 'CTC' ? true: false}
+                isCTC={this.props.state.gamemode == 'CTC' ? true: false}
               ></Leaderboard>
             </div>
           </>

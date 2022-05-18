@@ -11,6 +11,7 @@ type AnimatedSpriteProps = {
   animationSpeed?: number
   loop?: boolean
   rotation?: number
+  opacity?:number
   x: number
   y: number
   width?: number
@@ -57,6 +58,9 @@ export const AnimatedSprite = CustomPIXIComponent<
       }
       if (instance.rotation !== newProps?.rotation) {
         instance.rotation = newProps.rotation || 0
+      }
+      if (instance.alpha !== newProps?.opacity) {
+        instance.alpha = newProps.opacity || 1
       }
       if (instance.textures !== newProps.textures) {
         const oldFrame = instance.currentFrame

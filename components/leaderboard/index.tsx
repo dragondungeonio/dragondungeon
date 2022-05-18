@@ -37,23 +37,23 @@ function renderTableData(players: MapSchema<Player>) {
   return leaderboardData
 }
 
-function renderTeamScores(players: MapSchema<Player>){
+function renderTeamScores(players: MapSchema<Player>) {
   let redScore = 0
   let blueScore = 0
   let result = []
   console.log("renderingTable")
-  players.forEach((player: Player, key: any)=> {
-    if(player.team == 1){
-      redScore+= player.score
+  players.forEach((player: Player, key: any) => {
+    if (player.team == 1) {
+      redScore += player.score
     }
-    else if(player.team == 2){
-      blueScore+=player.score
+    else if (player.team == 2) {
+      blueScore += player.score
     }
   })
   result.push(
-  <span>Score: {redScore} | {blueScore}</span>
+    <span>Score: {redScore} | {blueScore}</span>
   )
-  console.log(redScore +" | "+blueScore)
+  console.log(redScore + " | " + blueScore)
   return result
 }
 
@@ -88,7 +88,7 @@ export function Leaderboard(props: {
   useEffect(() => {
     let clockInterval = setInterval(() => {
       setCountdownState(renderCountdown(props.countdown))
-      
+
     }, 100)
     return () => clearInterval(clockInterval)
   }, [])
@@ -103,8 +103,7 @@ export function Leaderboard(props: {
         <div className={styles.leaderboardContainer}>
           <table>
             <tbody id="leaderboard">{renderTableData(props.players)}</tbody>
-          </table>
-          {props.isCTC && renderTeamScores(props.players)}
+          </table> {props.isCTC && renderTeamScores(props.players)}
         </div>
       </>
     </>

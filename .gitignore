@@ -4,6 +4,5 @@ out
 build
 .DS_Store
 *.pem
-yarn-debug.log*
-yarn-error.log*
+*.log
 config/private

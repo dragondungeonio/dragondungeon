@@ -1,7 +1,7 @@
 import { getAuth, onAuthStateChanged, getIdToken } from 'firebase/auth'
 import { useMemo, useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
-import { getFirestore, doc, getDoc } from 'firebase/firestore/lite'
+import { getFirestore, doc, getDoc } from 'firebase/firestore'
 import { PageLayout } from 'components'
 
 import styles from 'styles/menu.module.css'

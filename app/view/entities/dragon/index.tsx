@@ -40,6 +40,8 @@ interface IProps {
   team: number
   celebration: boolean
   skin: number
+  isGhost: boolean
+  isMe: boolean
 }
 
 type TeamOrbProps = {
@@ -142,6 +144,7 @@ export const Dragon = (props: IProps) => {
           anchor={new PIXI.Point(0.5, 0.5)}
           width={90}
           height={90}
+          opacity={props.isGhost ? 0.4 : 1}
           textures={dragonTextures}
           rotation={
             props.celebration
