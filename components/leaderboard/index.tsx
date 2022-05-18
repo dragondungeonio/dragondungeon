@@ -41,7 +41,6 @@ function renderTeamScores(players: MapSchema<Player>){
   let redScore = 0
   let blueScore = 0
   let result = []
-  console.log("renderingTable")
   players.forEach((player: Player, key: any)=> {
     if(player.team == 1){
       redScore+= player.score

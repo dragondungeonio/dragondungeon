@@ -143,7 +143,7 @@ export class CaptureRoom extends CoreRoom {
     
     let state = new GameState()
     state.gamemode = 'CTC'
-    state.countdown.minutes = 3
+    state.countdown.minutes = 1
     state.coinJars.set(v4(), new CoinJar(200, 1500, 1))
     state.coinJars.set(v4(), new CoinJar(2800, 1500, 2))
     let setWallTeam = (i: number, isRedTeam: boolean) => {
