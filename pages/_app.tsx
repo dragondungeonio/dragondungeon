@@ -11,7 +11,7 @@ import {
   getIdToken,
 } from 'firebase/auth'
 import { getFirestore, doc, getDoc } from 'firebase/firestore'
-import { PageLayout } from 'components'
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
 import styles from '../styles/navigation.module.css'
 import '../styles/globals.css'
@@ -42,7 +42,7 @@ function DragonDungeon({ Component, pageProps }) {
 
   useMemo(() => {
     if (typeof window !== undefined) {
-      initializeApp({
+      const onlineServices = initializeApp({
         apiKey: 'AIzaSyCRClPzTZnRSg_fAap6ENnAkxUBQKJGk5w',
         authDomain: 'leaguedragoncoin.firebaseapp.com',
         projectId: 'leaguedragoncoin',
@@ -50,6 +50,11 @@ function DragonDungeon({ Component, pageProps }) {
         messagingSenderId: '320692217416',
         appId: '1:320692217416:web:f9cd0efdc04445865e9a7d',
       })
+
+      const appCheck = initializeAppCheck(onlineServices, {
+        provider: new ReCaptchaV3Provider('6LcbhOQfAAAAALfRhtZTXG01H2uyAc7QHNWKzy0m'),
+        isTokenAutoRefreshEnabled: true
+      });
 
       let auth = getAuth()
 
@@ -114,7 +119,7 @@ function DragonDungeon({ Component, pageProps }) {
             </div>
             <Component {...pageProps} controls={0} />
           </>}
-          {(!gameStarted && !signInNeeded) && <>Loading....</>}
+          {(!gameStarted && !signInNeeded) && <></>}
         </AnimatePresence>
       </div>
     </div>

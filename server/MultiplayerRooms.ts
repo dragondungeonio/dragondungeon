@@ -5,7 +5,40 @@ import { Client } from 'colyseus'
 
 let botNames = require('./botnames.json')
 
+export class SurvivalRoom extends CoreRoom {
+  constructor() {
+    let state = new GameState()
+    state.gamemode = 'LDS'
+    super(state)
+  }
+
+  async onJoin(
+    client: Client,
+    options: { token: string },
+    _2: any,
+  ): Promise<void> {
+    super.broadcast('music', '/music/morebetter.mp3')
+    super.onJoin(client, options, _2)
+  }
+
+  tick(): void {
+    super.tick()
+
+    let dragonsStanding = []
+    this.state.players.forEach(player => {
+      if (player.isGhost == false) {
+        dragonsStanding.push(player.onlineName)
+      }
+    })
+
+    if (dragonsStanding.length == 1 && this.state.players.size > 1) {
+      super.gameOver(`${dragonsStanding[0]} was the last dragon standing!`)
+    }
+  }
+}
+
 export class ArenaRoom extends CoreRoom {
+
   constructor() {
     let state = new GameState()
     state.countdown = new Countdown(3, 0)
@@ -21,6 +54,7 @@ export class ArenaRoom extends CoreRoom {
     botPlayerB.onlineName =
       botNames[Math.floor(Math.random() * botNames.length)]
     botPlayerB.isBot = true
+
     state.players.set(v4(), botPlayerB)
 
     state.walls.set(
@@ -135,12 +169,13 @@ export class ArenaRoom extends CoreRoom {
     ) {
       super.spawnCoin()
     }
+    
+    this.moveBots()
   }
 }
 
 export class CaptureRoom extends CoreRoom {
   constructor() {
-    
     let state = new GameState()
     state.gamemode = 'CTC'
     state.countdown.minutes = 1
@@ -150,8 +185,11 @@ export class CaptureRoom extends CoreRoom {
       if (i == 0 || i == 3) {
         return 0
       } else {
-        if (isRedTeam) { return 1 }
-        else { return 2 }
+        if (isRedTeam) {
+          return 1
+        } else {
+          return 2
+        }
       }
     }
 
@@ -176,7 +214,7 @@ export class CaptureRoom extends CoreRoom {
         v4(),
         new Wall(
           3000 / 3,
-          (i * (3000 / 3 / 4)) + (3000 / 3),
+          i * (3000 / 3 / 4) + 3000 / 3,
           3000 / 3 / 4,
           30,
           true,
@@ -206,7 +244,7 @@ export class CaptureRoom extends CoreRoom {
       state.walls.set(
         v4(),
         new Wall(
-          i * (3000 / 3 / 4) + (3000 / 1.5),
+          i * (3000 / 3 / 4) + 3000 / 1.5,
           3000 / 3,
           3000 / 3 / 4,
           30,
@@ -221,8 +259,8 @@ export class CaptureRoom extends CoreRoom {
       state.walls.set(
         v4(),
         new Wall(
-          3000 / 3 + (3000 / 3),
-          (i * (3000 / 3 / 4)) + (3000 / 3),
+          3000 / 3 + 3000 / 3,
+          i * (3000 / 3 / 4) + 3000 / 3,
           3000 / 3 / 4,
           30,
           true,
@@ -236,7 +274,7 @@ export class CaptureRoom extends CoreRoom {
       state.walls.set(
         v4(),
         new Wall(
-          i * (3000 / 3 / 4) + (3000 / 1.5),
+          i * (3000 / 3 / 4) + 3000 / 1.5,
           (3000 / 3) * 2,
           3000 / 3 / 4,
           30,
@@ -253,12 +291,10 @@ export class CaptureRoom extends CoreRoom {
 
   tick(): void {
     super.tick()
-    if(super.getState().coins.size<100) {
+    if (super.getState().coins.size < 100) {
       super.spawnCoin()
     }
   }
-
-
 }
 
 export class EssentialRoom extends CoreRoom {

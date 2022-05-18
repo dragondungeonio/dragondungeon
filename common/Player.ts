@@ -80,6 +80,9 @@ export class Player extends Schema {
   @type('boolean')
   turboMode: boolean = false
 
+  @type('boolean')
+  isGhost: boolean = false
+
   direction: Geometry.Vector = new Geometry.Vector(0, 0)
 
   activeInputs: IInputs = {
@@ -156,7 +159,8 @@ export class Player extends Schema {
     //old: if ((this.autoshootOn || this.activeInputs.space) && this.fireballCooldown <= 0 && !Maths.checkWalls(this.x + 45 * Math.cos(this.angle + Math.PI),this.y + 45 * Math.sin(this.angle + Math.PI), 22.5)) {
     if (
       (this.autoshootOn || this.activeInputs.space) &&
-      this.fireballCooldown <= 0
+      this.fireballCooldown <= 0 &&
+      this.isGhost == false
     ) {
       switch (this.ballType) {
         case 'electric':

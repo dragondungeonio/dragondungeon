@@ -15,7 +15,7 @@ import Stripe from 'stripe'
 import 'colors'
 
 // 1st Party Imports
-import { ArenaRoom, CaptureRoom, EssentialRoom } from './MultiplayerRooms'
+import { ArenaRoom, CaptureRoom, EssentialRoom, SurvivalRoom } from './MultiplayerRooms'
 import { TutorialRoom } from './SingleplayerRooms'
 import CoreRoom from './CoreRoom'
 
@@ -315,6 +315,7 @@ const colyseusServer = new Server({
 
 colyseusServer.define('arena', ArenaRoom)
 colyseusServer.define('ctc', CaptureRoom)
+colyseusServer.define('lds', SurvivalRoom)
 colyseusServer.define('essentials', EssentialRoom)
 colyseusServer.define('tutorial', TutorialRoom)
 
