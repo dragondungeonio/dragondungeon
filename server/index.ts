@@ -9,7 +9,6 @@ import { Server } from 'colyseus'
 import { WebSocketTransport } from '@colyseus/ws-transport'
 import express from 'express'
 import next from 'next'
-import * as admin from 'firebase-admin'
 import cors from 'cors'
 import Stripe from 'stripe'
 import 'colors'
@@ -18,6 +17,7 @@ import 'colors'
 import { ArenaRoom, CaptureRoom, EssentialRoom, SurvivalRoom } from './MultiplayerRooms'
 import { TutorialRoom } from './SingleplayerRooms'
 import CoreRoom from './CoreRoom'
+import { getUserDetails, getUserDragon, getUserEntitlements, getUserStats, setUserDragon, setUserEntitlements, setUserStats } from './data'
 
 // Friendly Logs
 console.log('DragonDungeon'.red)
@@ -67,32 +67,22 @@ const stripe = new Stripe(stripeAccount.secretKey, {
   apiVersion: '2020-08-27',
 })
 
-const serviceAccount = require('../config/private/adminsdk.json')
-admin.initializeApp({ credential: admin.credential.cert(serviceAccount) })
-
 gameServerApp.get('/equip/:id', async (req, res) => {
   try {
-    let userClaims = await admin.auth().verifyIdToken(req.query.user as string)
+    let userClaims = await getUserDetails(req.query.user as string)
 
     if (req.query.type == 'ability') {
-      await admin.firestore().doc(`${userClaims.uid}/dragon`).update({
-        ability: req.params.id,
+      await setUserDragon({
+        ability: req.params.id
       })
     } else {
-      let userEntitlementsDoc = await admin
-        .firestore()
-        .doc(`${userClaims.uid}/store`)
-        .get()
-      let userEntitlements = userEntitlementsDoc.data()
+      let userEntitlements = await getUserEntitlements(userClaims.uid)
       if (
         userEntitlements.skinEntitlements.includes(parseInt(req.params.id, 10))
       ) {
-        await admin
-          .firestore()
-          .doc(`${userClaims.uid}/dragon`)
-          .update({
-            skin: parseInt(req.params.id, 10),
-          })
+        await setUserDragon({
+          skin: parseInt(req.params.id, 10)
+        })
       } else {
         res.status(400)
         res.send('Skin is not in user entitlements')
@@ -109,11 +99,8 @@ gameServerApp.get('/equip/:id', async (req, res) => {
 
 gameServerApp.get('/purchase/:id', async (req, res) => {
   try {
-    let userClaims = await admin.auth().verifyIdToken(req.query.user as string)
-    let playerEntitlementsDoc = await admin
-      .firestore()
-      .doc(`${userClaims.uid}/store`)
-      .get()
+    let userClaims = await getUserDetails(req.query.user as string)
+    let playerEntitlementsDoc = await getUserEntitlements(userClaims.uid)
     let playerEntitlements = playerEntitlementsDoc.data()
 
     let skinList = require('../public/api/skins.json')
@@ -122,13 +109,10 @@ gameServerApp.get('/purchase/:id', async (req, res) => {
         if (playerEntitlements.gems >= skin.gemCost) {
           console.log('has enough gems')
           playerEntitlements.skinEntitlements.push(skin.id)
-          await admin
-            .firestore()
-            .doc(`${userClaims.uid}/store`)
-            .update({
-              gems: playerEntitlements.gems - skin.gemCost,
-              skinEntitlements: playerEntitlements.skinEntitlements,
-            })
+          await setUserEntitlements({
+            gems: playerEntitlements.gems - skin.gemCost,
+            skinEntitlements: playerEntitlements.skinEntitlements
+          })
         } else {
           res.status(400)
           res.send('Not enough gems')
@@ -196,18 +180,14 @@ gameServerApp.post(
         let authedCharge = await stripe.charges.retrieve(gemCharge.id)
         // Fraud protection - makes sure request isn't forged
         if (authedCharge.amount == gemCharge.amount) {
-          let playerGemDoc = admin
-            .firestore()
-            .collection(gemCharge.description)
-            .doc('store')
-          let playerGems = await playerGemDoc.get()
+          let playerGems = await getUserEntitlements(gemCharge.description)
           if (playerGems.exists) {
-            playerGemDoc.update({
+            await setUserEntitlements({
               gems: (playerGems.data().gems || 0) + gemCredit,
             })
           } else {
-            playerGemDoc.create({
-              gems: gemCredit,
+            await setUserEntitlements({
+              gems: gemCredit
             })
           }
         }
@@ -223,21 +203,20 @@ gameServerApp.post(
 
 gameServerApp.get('/init', async (req, res) => {
   try {
-    let userClaims = await admin.auth().verifyIdToken(req.query.user.toString())
-    let userDragonDoc = admin.firestore().doc(`${userClaims.uid}/dragon`)
-    let userStoreDoc = admin.firestore().doc(`${userClaims.uid}/store`)
-    let userStatsDoc = admin.firestore().doc(`${userClaims.uid}/stats`)
+    let userClaims = await getUserDetails(req.query.user.toString())
+    let userDragonDoc = await getUserDragon(userClaims.uid)
+    let userStoreDoc = await getUserEntitlements(userClaims.uid)
+    let userStatsDoc = await getUserStats(userClaims.uid)
     if (!(await userStoreDoc.get()).exists) {
-      userDragonDoc.set({
+      await setUserDragon({
         ability: 'Fireball',
         skin: 0,
       })
-      userStoreDoc.set({
+      await setUserEntitlements({
         gems: 0,
         skinEntitlements: [0],
       })
-      userStatsDoc.set({
-        level: 0,
+      await setUserStats({
         fireballs: 0,
         coins: 0,
       })
@@ -252,15 +231,14 @@ gameServerApp.get('/init', async (req, res) => {
 
 gameServerApp.get('/claim/anet/:cid', async (req, res) => {
   try {
-    let userClaims = await admin.auth().verifyIdToken(req.query.user.toString())
+    let userClaims = await getUserDetails(req.query.user.toString())
     let characterData = await (
       await fetch(
         `https://api.guildwars2.com/v2/characters/${req.query.char}?access_token=${req.query.token}`,
       )
     ).json()
-    let userStoreDoc = admin.firestore().doc(`${userClaims.uid}/store`)
-    let userStoreData = await userStoreDoc.get()
-    let skinEntitlements = userStoreData.data().skinEntitlements
+    let userStoreDoc = await getUserEntitlements(userClaims.uid)
+    let skinEntitlements = userStoreDoc.skinEntitlements
 
     switch (req.params.cid) {
       case 'Die 100 Times':

@@ -1,5 +1,7 @@
 import { Room, Client } from 'colyseus'
 
+import { getUserDetails, getUserDragon, getUserStats, setUserStats } from './data'
+
 import {
   GameState,
   Player,
@@ -10,7 +12,6 @@ import {
   CoinJar,
 } from '../common'
 
-import * as admin from 'firebase-admin'
 import { v4 } from 'uuid'
 
 export class ServerPlayer extends Player {
@@ -52,20 +53,20 @@ export default class CoreRoom extends Room<GameState> {
   async onJoin(client: Client, options: { token: string }, _2: any) {
     client.send('sfx', '/audio/welcome.m4a')
 
-    const user = await admin.auth().verifyIdToken(options.token)
-    const db = admin.firestore()
+    let userData = await getUserDetails(options.token) 
+
     let ability = 'fire'
     let dragonSkin = 0
 
-    const userDoc = await db.collection(user.uid).doc('dragon').get()
-    if (userDoc.data()?.ability) {
-      ability = userDoc.data()?.ability.toLowerCase().replace('ball', '')
+    const userDoc = await getUserDragon(userData.uid)
+    if (userDoc.ability) {
+      ability = userDoc.ability.toLowerCase().replace('ball', '')
     } else {
       ability = 'fire'
     }
 
-    if (userDoc.data()?.skin) {
-      dragonSkin = userDoc.data()?.skin
+    if (userDoc.skin) {
+      dragonSkin = userDoc.skin
     } else {
       dragonSkin = 0
     }
@@ -104,7 +105,7 @@ export default class CoreRoom extends Room<GameState> {
     this.state.players[client.id].x = xPos
     this.state.players[client.id].y = yPos
 
-    if (user.name == null) {
+    if (userData.name == null) {
       const adjectives = require('../../wordlists/adjectives.json')
       const nouns = require('../../wordlists/nouns.json')
       const adjective =
@@ -113,9 +114,9 @@ export default class CoreRoom extends Room<GameState> {
       this.state.players[client.id].onlineName =
         `${adjective}-${noun}`.toLowerCase()
     } else {
-      this.state.players[client.id].onlineName = user.name
+      this.state.players[client.id].onlineName = userData.name
     }
-    this.state.players[client.id].onlineID = user.uid
+    this.state.players[client.id].onlineID = userData.uid
   }
 
   onLeave(client: Client, _consent: boolean) {}
@@ -145,17 +146,13 @@ export default class CoreRoom extends Room<GameState> {
     }
     this.state.players.forEach(async (player: Player) => {
       if (!player.isBot) {
-        let playerLifetimeStatsRef = admin
-          .firestore()
-          .collection(player.onlineID)
-          .doc('stats')
-        let playerLifetimeStats = await playerLifetimeStatsRef.get()
+        let playerLifetimeStats = await getUserStats(player.onlineID)
         let coins =
-          parseInt(playerLifetimeStats.data().coins, 10) + player.score
+          parseInt(playerLifetimeStats.coins, 10) + player.score
         let fireballs =
-          parseInt(playerLifetimeStats.data().fireballs, 10) +
+          parseInt(playerLifetimeStats.fireballs, 10) +
           player.fireballCount
-        playerLifetimeStatsRef.update({ coins, fireballs })
+          await setUserStats({ coins, fireballs })
       }
       player.dead = true
     })
@@ -343,8 +340,9 @@ export default class CoreRoom extends Room<GameState> {
       if (this.state.countdown.done) {
         if (this.state.gameOver) {
           clearInterval(this.gameInt)
+        } else {
+          this.gameOver()
         }
-        this.gameOver()
       }
     }
 
