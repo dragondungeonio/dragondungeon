@@ -177,6 +177,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             celebration={dragonCelebrating || player.turboMode}
             isGhost={player.isGhost}
             isMe={true}
+            turbo={player.turboMode}
           />,
         )
       } else {
@@ -189,6 +190,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             celebration={player.turboMode}
             isGhost={player.isGhost}
             isMe={true}
+            turbo={player.turboMode}
           />,
         )
       }
@@ -205,13 +207,19 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             color={0xe30b1d}
             coins={player.coins}
             name={player == me ? '' : player.onlineName}
+            turbo={player.turboMode}
+            nullAndVoid={player.skinType === 5}
           />,
         )
       }
     })
 
     //moves the center of the viewport to the player
-    if (me !== null && this.viewport !== null && window.localStorage.ddSpectatorMode != 'true') {
+    if (
+      me !== null &&
+      this.viewport !== null &&
+      window.localStorage.ddSpectatorMode != 'true'
+    ) {
       try {
         this.viewport.x = -me.x + window.innerWidth / 1.7
         this.viewport.y = -me.y + window.innerHeight / 1.7
@@ -361,14 +369,13 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           scheme={this.props.controls}
         />
 
-
         {window.localStorage.ddImmersiveMode != 'true' && (
           <>
             <div style={{ marginLeft: '3vw', display: 'flex' }}>
               <Leaderboard
                 players={this.props.state.players}
                 countdown={this.props.state.countdown}
-                isCTC={this.props.state.gamemode == 'CTC' ? true: false}
+                isCTC={this.props.state.gamemode == 'CTC' ? true : false}
               ></Leaderboard>
             </div>
           </>

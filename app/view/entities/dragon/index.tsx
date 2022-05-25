@@ -29,6 +29,11 @@ import redDragon2 from './sprites/redDragon3.png'
 import redDragon3 from './sprites/redDragon4.png'
 import redDragon4 from './sprites/redDragon5.png'
 
+import nullAndVoidDragon1 from './sprites/nullAndVoidDragon2.png'
+import nullAndVoidDragon2 from './sprites/nullAndVoidDragon3.png'
+import nullAndVoidDragon3 from './sprites/nullAndVoidDragon4.png'
+import nullAndVoidDragon4 from './sprites/nullAndVoidDragon5.png'
+
 import blankDragon from './sprites/blankDragon.png'
 
 import { Player } from '../../../../common/Player'
@@ -42,6 +47,7 @@ interface IProps {
   skin: number
   isGhost: boolean
   isMe: boolean
+  turbo: boolean
 }
 
 type TeamOrbProps = {
@@ -111,7 +117,12 @@ export const Dragon = (props: IProps) => {
         dragonImages = [goldDragon1, goldDragon2, goldDragon3, goldDragon4]
         break
       case 5:
-        dragonImages = [blankDragon]
+        dragonImages = [
+          nullAndVoidDragon1,
+          nullAndVoidDragon2,
+          nullAndVoidDragon3,
+          nullAndVoidDragon4,
+        ]
         break
       default:
         dragonImages = [dragon1, dragon2, dragon3, dragon4]
@@ -136,7 +147,7 @@ export const Dragon = (props: IProps) => {
   if (Math.abs(props.player.angle) < Math.PI / 2) {
     yS = -5
   }
-
+  if (props.skin === 5 && props.turbo) return <></>
   return (
     <>
       {dragonTextures.length > 0 && (
