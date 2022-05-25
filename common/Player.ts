@@ -18,10 +18,10 @@ export class Player extends Schema {
   health: number = 10
 
   @type('number')
-  x: number = 1500
+  x: number = 300
 
   @type('number')
-  y: number = 1500
+  y: number = 300
 
   @type('number')
   angle: number = Math.PI

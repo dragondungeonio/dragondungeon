@@ -1,6 +1,11 @@
 import { Room, Client } from 'colyseus'
 
-import { getUserDetails, getUserDragon, getUserStats, setUserStats } from './data'
+import {
+  getUserDetails,
+  getUserDragon,
+  getUserStats,
+  setUserStats,
+} from './data'
 
 import {
   GameState,
@@ -11,6 +16,7 @@ import {
   Fireball,
   CoinJar,
 } from '../common'
+import { calculateAngle } from '../common/maths'
 
 import { v4 } from 'uuid'
 
@@ -53,7 +59,7 @@ export default class CoreRoom extends Room<GameState> {
   async onJoin(client: Client, options: { token: string }, _2: any) {
     client.send('sfx', '/audio/welcome.m4a')
 
-    let userData = await getUserDetails(options.token) 
+    let userData = await getUserDetails(options.token)
 
     let ability = 'fire'
     let dragonSkin = 0
@@ -147,16 +153,40 @@ export default class CoreRoom extends Room<GameState> {
     this.state.players.forEach(async (player: Player) => {
       if (!player.isBot) {
         let playerLifetimeStats = await getUserStats(player.onlineID)
-        let coins =
-          parseInt(playerLifetimeStats.coins, 10) + player.score
+        let coins = parseInt(playerLifetimeStats.coins, 10) + player.score
         let fireballs =
-          parseInt(playerLifetimeStats.fireballs, 10) +
-          player.fireballCount
-          await setUserStats({ coins, fireballs })
+          parseInt(playerLifetimeStats.fireballs, 10) + player.fireballCount
+        await setUserStats({ coins, fireballs })
       }
       player.dead = true
     })
     this.lock()
+  }
+
+  moveBots() {
+    this.state.players.forEach((player: Player) => {
+      const coinJarCoordinates = { x: 1500, y: 1500 }
+      if (!player.isBot) return
+      if (
+        player.coins >= 10 &&
+        ((player.x > coinJarCoordinates.x - 50 &&
+          player.x < coinJarCoordinates.x + 50) ||
+          (player.y > coinJarCoordinates.y - 50 &&
+            player.y < coinJarCoordinates.y + 50))
+      ) {
+        player.angle = calculateAngle(
+          player.x,
+          player.y,
+          coinJarCoordinates.x,
+          coinJarCoordinates.y,
+        )
+        player.activeInputs.angle = player.angle
+      } else if (Math.random() > 0.95) {
+        player.angle = Math.random() * 360
+        player.activeInputs.angle = Math.random() * 360
+      }
+      player.inputs(player.activeInputs)
+    })
   }
 
   spawnCoin() {
@@ -321,17 +351,6 @@ export default class CoreRoom extends Room<GameState> {
     return this.state
   }
 
-  moveBots() {
-    this.state.players.forEach((player: Player) => {
-      if (player.isBot) {
-        player.inputs(player.activeInputs)
-        if (Math.random() > 0.95) {
-          player.angle = Math.random() * 360
-          player.activeInputs.angle = Math.random() * 360
-        }
-      }
-    })
-  }
   tick() {
     this.counter++
     const dx = this.clock.deltaTime

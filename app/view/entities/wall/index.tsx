@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
-import * as PIXI from 'pixi.js';
-import { AnimatedSprite } from '../../entities/AnimatedSprite';
+import React, { useMemo } from 'react'
+import * as PIXI from 'pixi.js'
+import { AnimatedSprite } from '../../entities/AnimatedSprite'
 // import WallImage5 from './sprites/Wall(5.2).png';
 // import WallImage3 from './sprites/Wall(3.2).jpg';
 // import WallImage2 from './sprites/Wall(2.2).png';
@@ -10,31 +10,30 @@ import RedWallImage from './sprites/RedWallSec.jpg'
 import BlueWallImage from './sprites/BlueWallSec.jpg'
 
 interface IProps {
-  x: number;
-  y: number;
-  xLength: number;
-  yLength: number;
-  angle: number;
-  team: number;
-  health: number;
+  x: number
+  y: number
+  xLength: number
+  yLength: number
+  angle: number
+  team: number
+  health: number
 }
- 
- 
+
 export const Wall = (props: IProps) => {
   const fenceTextures = useMemo(() => {
     let textures: any = []
-    switch(props.team){
+    switch (props.team) {
       case 1:
-        if(props.health > 0){
+        if (props.health > 0) {
           textures = [PIXI.Texture.from(RedWallImage.src)]
-        } else{
+        } else {
           textures = [PIXI.Texture.from(BrokenWallImage.src)]
         }
         break
       case 2:
-        if(props.health > 0){
+        if (props.health > 0) {
           textures = [PIXI.Texture.from(BlueWallImage.src)]
-        } else{
+        } else {
           textures = [PIXI.Texture.from(BrokenWallImage.src)]
         }
         break
@@ -42,7 +41,7 @@ export const Wall = (props: IProps) => {
         textures = [PIXI.Texture.from(WallImage.src)]
     }
     return textures
-  }, [props.health]);
+  }, [props.health, props.team])
 
   return (
     <AnimatedSprite
@@ -55,8 +54,6 @@ export const Wall = (props: IProps) => {
       rotation={props.angle}
       loop={true}
       y={props.y}
-      
     />
   )
-
 }

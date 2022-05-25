@@ -25,7 +25,7 @@ export class SurvivalRoom extends CoreRoom {
     super.tick()
 
     let dragonsStanding = []
-    this.state.players.forEach(player => {
+    this.state.players.forEach((player) => {
       if (player.isGhost == false) {
         dragonsStanding.push(player.onlineName)
       }
@@ -38,7 +38,6 @@ export class SurvivalRoom extends CoreRoom {
 }
 
 export class ArenaRoom extends CoreRoom {
-
   constructor() {
     let state = new GameState()
     state.countdown = new Countdown(3, 0)
@@ -169,7 +168,7 @@ export class ArenaRoom extends CoreRoom {
     ) {
       super.spawnCoin()
     }
-    
+
     this.moveBots()
   }
 }

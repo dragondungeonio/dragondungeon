@@ -126,7 +126,7 @@ export const Dragon = (props: IProps) => {
       }),
     )
     return textures
-  }, [])
+  }, [props.skin])
 
   const fireballs = props.player.fireballs.map((fb, i) => (
     <FireballView key={`${i}`} fireball={fb} />
