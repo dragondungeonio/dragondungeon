@@ -14,10 +14,23 @@ import Stripe from 'stripe'
 import 'colors'
 
 // 1st Party Imports
-import { ArenaRoom, CaptureRoom, EssentialRoom, SurvivalRoom } from './MultiplayerRooms'
+import {
+  ArenaRoom,
+  CaptureRoom,
+  EssentialRoom,
+  SurvivalRoom,
+} from './MultiplayerRooms'
 import { TutorialRoom } from './SingleplayerRooms'
 import CoreRoom from './CoreRoom'
-import { getUserDetails, getUserDragon, getUserEntitlements, getUserStats, setUserDragon, setUserEntitlements, setUserStats } from './data'
+import {
+  getUserDetails,
+  getUserDragon,
+  getUserEntitlements,
+  getUserStats,
+  setUserDragon,
+  setUserEntitlements,
+  setUserStats,
+} from './data'
 
 // Friendly Logs
 console.log('DragonDungeon'.red)
@@ -42,17 +55,17 @@ const handle = app.getRequestHandler()
 app.prepare().then(() => {
   let clientServer = !secureServer
     ? createServer((req, res) => {
-      handle(req, res, parse(req.url, true))
-    })
+        handle(req, res, parse(req.url, true))
+      })
     : createSecureServer(secureServerOptions, (req, res) => {
-      handle(req, res, parse(req.url, true))
-    })
+        handle(req, res, parse(req.url, true))
+      })
 
   clientServer.listen(8080, () => {
     console.log(
       'client'.green +
-      ' - [::]:8080 - ' +
-      (secureServer ? 'https'.green : 'http'.yellow),
+        ' - [::]:8080 - ' +
+        (secureServer ? 'https'.green : 'http'.yellow),
     )
   })
 })
@@ -72,17 +85,25 @@ gameServerApp.get('/equip/:id', async (req, res) => {
     let userClaims = await getUserDetails(req.query.user as string)
 
     if (req.query.type == 'ability') {
-      await setUserDragon({
-        ability: req.params.id
-      }, userClaims.uid)
+      await setUserDragon(
+        {
+          ability: req.params.id,
+        },
+        userClaims.uid,
+        true,
+      )
     } else {
       let userEntitlements = await getUserEntitlements(userClaims.uid)
       if (
         userEntitlements.skinEntitlements.includes(parseInt(req.params.id, 10))
       ) {
-        await setUserDragon({
-          skin: parseInt(req.params.id, 10)
-        }, userClaims.uid)
+        await setUserDragon(
+          {
+            skin: parseInt(req.params.id, 10),
+          },
+          userClaims.uid,
+          true,
+        )
       } else {
         res.status(400)
         res.send('Skin is not in user entitlements')
@@ -109,17 +130,19 @@ gameServerApp.get('/purchase/:id', async (req, res) => {
         if (playerEntitlements.gems >= skin.gemCost) {
           console.log('has enough gems')
           playerEntitlements.skinEntitlements.push(skin.id)
-          await setUserEntitlements({
-            gems: playerEntitlements.gems - skin.gemCost,
-            skinEntitlements: playerEntitlements.skinEntitlements
-          }, userClaims.uid)
+          await setUserEntitlements(
+            {
+              gems: playerEntitlements.gems - skin.gemCost,
+              skinEntitlements: playerEntitlements.skinEntitlements,
+            },
+            userClaims.uid,
+          )
         } else {
           res.status(400)
           res.send('Not enough gems')
         }
       }
     })
-
 
     res.status(200)
     res.send('Success')
@@ -182,13 +205,19 @@ gameServerApp.post(
         if (authedCharge.amount == gemCharge.amount) {
           let playerGems = await getUserEntitlements(gemCharge.description)
           if (playerGems.exists) {
-            await setUserEntitlements({
-              gems: (playerGems.data().gems || 0) + gemCredit,
-            }, gemCharge.description)
+            await setUserEntitlements(
+              {
+                gems: (playerGems.data().gems || 0) + gemCredit,
+              },
+              gemCharge.description,
+            )
           } else {
-            await setUserEntitlements({
-              gems: gemCredit
-            }, gemCharge.description)
+            await setUserEntitlements(
+              {
+                gems: gemCredit,
+              },
+              gemCharge.description,
+            )
           }
         }
       }
@@ -208,18 +237,27 @@ gameServerApp.get('/init', async (req, res) => {
     let userStoreDoc = await getUserEntitlements(userClaims.uid)
     let userStatsDoc = await getUserStats(userClaims.uid)
     if (!(await userStoreDoc.get()).exists) {
-      await setUserDragon({
-        ability: 'Fireball',
-        skin: 0,
-      }, userClaims.uid)
-      await setUserEntitlements({
-        gems: 0,
-        skinEntitlements: [0],
-      }, userClaims.uid)
-      await setUserStats({
-        fireballs: 0,
-        coins: 0,
-      }, userClaims.uid)
+      await setUserDragon(
+        {
+          ability: 'Fireball',
+          skin: 0,
+        },
+        userClaims.uid,
+      )
+      await setUserEntitlements(
+        {
+          gems: 0,
+          skinEntitlements: [0],
+        },
+        userClaims.uid,
+      )
+      await setUserStats(
+        {
+          fireballs: 0,
+          coins: 0,
+        },
+        userClaims.uid,
+      )
     }
     res.status(200)
     res.send('Done')
@@ -300,6 +338,6 @@ colyseusServer.define('tutorial', TutorialRoom)
 colyseusServer.listen(1337)
 console.log(
   'server'.green +
-  ' - [::]:1337 - ' +
-  (secureServer ? 'https'.green : 'http'.yellow),
+    ' - [::]:1337 - ' +
+    (secureServer ? 'https'.green : 'http'.yellow),
 )
