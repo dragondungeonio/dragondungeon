@@ -152,7 +152,7 @@ export default class CoreRoom extends Room<GameState> {
         let fireballs =
           parseInt(playerLifetimeStats.fireballs, 10) +
           player.fireballCount
-          await setUserStats({ coins, fireballs })
+          await setUserStats({ coins, fireballs }, player.onlineID)
       }
       player.dead = true
     })

@@ -57,7 +57,9 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     this.setState({ showMusicElement: true })
     this.gameCanvas!.appendChild(this.app.view)
     this.viewport = new Viewport()
-    this.viewport.zoom(60, true)
+    if (window.localStorage.ddSpectatorMode == 'true') {
+      this.viewport.zoom(5000)
+    }
     this.app.stage.addChild(this.viewport)
     this.app.start()
     this.app.ticker.add(() => this.renderScene())
@@ -209,11 +211,16 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     })
 
     //moves the center of the viewport to the player
-    if (me !== null && this.viewport !== null) {
+    if (me !== null && this.viewport !== null && window.localStorage.ddSpectatorMode != 'true') {
       try {
         this.viewport.x = -me.x + window.innerWidth / 1.7
         this.viewport.y = -me.y + window.innerHeight / 1.7
       } catch {}
+    }
+
+    if (window.localStorage.ddSpectatorMode == 'true') {
+      this.viewport.x = 400
+      this.viewport.y = 200
     }
 
     var tileAmt = 19

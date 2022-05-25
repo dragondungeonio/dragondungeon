@@ -19,6 +19,7 @@ interface IProps {
 
 let ANIMATION_SPEED = 0;
 export const MovingBackground = (props: IProps) => {
+  console.log(props.x);
   ANIMATION_SPEED = Math.random()/100;
   let tileImages;
   const tileTextures = useMemo(() => {
@@ -34,6 +35,8 @@ export const MovingBackground = (props: IProps) => {
     return textures;
   }, []);
 
+  if(window.localStorage.ddSpectatorMode != 'true') {
+
   return (
     <AnimatedSprite
     anchor={new PIXI.Point(0.5, 0.5)}
@@ -46,5 +49,8 @@ export const MovingBackground = (props: IProps) => {
     y={props.y}
     />
     )
+  } else {
+    return null;
+  }
  
 }

@@ -74,7 +74,7 @@ gameServerApp.get('/equip/:id', async (req, res) => {
     if (req.query.type == 'ability') {
       await setUserDragon({
         ability: req.params.id
-      })
+      }, userClaims.uid)
     } else {
       let userEntitlements = await getUserEntitlements(userClaims.uid)
       if (
@@ -82,7 +82,7 @@ gameServerApp.get('/equip/:id', async (req, res) => {
       ) {
         await setUserDragon({
           skin: parseInt(req.params.id, 10)
-        })
+        }, userClaims.uid)
       } else {
         res.status(400)
         res.send('Skin is not in user entitlements')
@@ -112,7 +112,7 @@ gameServerApp.get('/purchase/:id', async (req, res) => {
           await setUserEntitlements({
             gems: playerEntitlements.gems - skin.gemCost,
             skinEntitlements: playerEntitlements.skinEntitlements
-          })
+          }, userClaims.uid)
         } else {
           res.status(400)
           res.send('Not enough gems')
@@ -184,11 +184,11 @@ gameServerApp.post(
           if (playerGems.exists) {
             await setUserEntitlements({
               gems: (playerGems.data().gems || 0) + gemCredit,
-            })
+            }, gemCharge.description)
           } else {
             await setUserEntitlements({
               gems: gemCredit
-            })
+            }, gemCharge.description)
           }
         }
       }
@@ -211,15 +211,15 @@ gameServerApp.get('/init', async (req, res) => {
       await setUserDragon({
         ability: 'Fireball',
         skin: 0,
-      })
+      }, userClaims.uid)
       await setUserEntitlements({
         gems: 0,
         skinEntitlements: [0],
-      })
+      }, userClaims.uid)
       await setUserStats({
         fireballs: 0,
         coins: 0,
-      })
+      }, userClaims.uid)
     }
     res.status(200)
     res.send('Done')
