@@ -22,7 +22,7 @@ export async function getUserDragon(uid: string) {
         let dragonInfoRaw = await admin.firestore().doc(`${uid}/dragon`).get()
         return dragonInfoRaw.data()
     } catch {
-        console.log('firebase'.red + ` - failed to fetch dragon data fetched for user ${uid}`)
+        console.log('firebase'.red + ` - failed to fetch dragon data for user ${uid}`)
         return {
             ability: 'Fireball',
             skin: 0,
@@ -36,7 +36,7 @@ export async function getUserEntitlements(uid: string) {
         let dragonInfoRaw = await admin.firestore().doc(`${uid}/store`).get()
         return dragonInfoRaw.data()
     } catch {
-        console.log('firebase'.red + ` - failed to fetch dragon entitlements fetched for user ${uid}`)
+        console.log('firebase'.red + ` - failed to fetch dragon entitlements for user ${uid}`)
         return {
             gems: 0,
             skinEntitlements: [0],
@@ -50,7 +50,7 @@ export async function getUserStats(uid: string) {
         let dragonInfoRaw = await admin.firestore().doc(`${uid}/stats`).get()
         return dragonInfoRaw.data()
     } catch {
-        console.log('firebase'.red + ` - failed to fetch dragon stats fetched for user ${uid}`)
+        console.log('firebase'.red + ` - failed to fetch dragon stats for user ${uid}`)
         return {
             level: 0,
             fireballs: 0,
@@ -62,14 +62,35 @@ export async function getUserStats(uid: string) {
 export async function setUserDragon(data: {
     ability?: string,
     skin?: number,
-}) {}
+}, uid: string) {
+    console.log('firebase'.yellow + ` - setUserDragon called with UID ${uid}`)
+    try {
+        let dragonInfoRaw = await admin.firestore().doc(`${uid}/dragon`).set(data)
+    } catch {
+        console.log('firebase'.red + ` - failed to set dragon data for user ${uid}`)
+    }
+}
 
 export async function setUserEntitlements(data: {
     gems?: number,
     skinEntitlements?: number[],
-}) {}
+}, uid: string) {
+    console.log('firebase'.yellow + ` - setUserEntitlements called with UID ${uid}`)
+    try {
+        await admin.firestore().doc(`${uid}/store`).set(data)
+    } catch {
+        console.log('firebase'.red + ` - failed to set dragon entitlements for user ${uid}`)
+    }
+}
 
 export async function setUserStats(data: {
     coins?: number,
     fireballs?: number
-}) {}
+}, uid: string) {
+    console.log('firebase'.yellow + ` - setUserStats called with UID ${uid}`)
+    try {
+        await admin.firestore().doc(`${uid}/stats`).set(data)
+    } catch {
+        console.log('firebase'.red + ` - failed to set dragon stats for user ${uid}`)
+    }
+}

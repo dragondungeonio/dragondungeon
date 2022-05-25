@@ -123,8 +123,9 @@ function DragonDungeon({ Component, pageProps }) {
         </AnimatePresence>
       </div>
     </div>
-    {typeof window == 'object' &&
-      <p style={{ color: '#f9e300', position: 'fixed', top: 0, left: 0, width: '100vw', textAlign: 'center', pointerEvents: 'none', zIndex: 99999999999999999999 }}>{navigator.userAgent}<br /><b>dragondungeon.io Public Beta Build {require('../package.json').version}</b></p>
+    {typeof window == 'object' && <>
+      {(window.localStorage.ddImmersiveMode != 'true') && <p style={{ color: '#f9e300', position: 'fixed', top: 0, left: 0, width: '100vw', textAlign: 'center', pointerEvents: 'none', zIndex: 99999999999999999999 }}>{navigator.userAgent}<br /><b>dragondungeon.io Public Beta Build {require('../package.json').version}</b></p>}
+    </>
     }
   </>
 }
