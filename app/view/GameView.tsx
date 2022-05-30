@@ -65,8 +65,10 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     this.app.ticker.add(() => this.renderScene())
 
     this.props.stateManager.room.onMessage('music', (musicURL) => {
-      this.state.music.src = musicURL
-      this.state.music.play()
+      const music = new Audio(musicURL)
+      music.volume = 0.25
+      music.play()
+      this.setState({ ...this.state, music })
     })
 
     this.props.stateManager.room.onMessage('sfx', (audioURL) => {
