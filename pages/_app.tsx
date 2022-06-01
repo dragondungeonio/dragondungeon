@@ -90,6 +90,8 @@ function DragonDungeon({ Component, pageProps }) {
           <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/')}>Play</span>
           <MenuOption name="Profile" href="/profile" />
           <MenuOption name="Store" href="/store" />
+          <MenuOption name="Blog" href="https://dragondungeonio.substack.com/" />
+          <MenuOption name="Tournament" href="https://docs.google.com/forms/d/e/1FAIpQLScprijA7NjftMSFINFTwaUIaPnwru0J1sJrolzQjRZu7Fwd7Q/viewform" />
           <MenuOption name="Settings" href="/settings" />
         </div>}
         <AnimatePresence
