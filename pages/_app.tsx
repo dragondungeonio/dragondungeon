@@ -51,10 +51,10 @@ function DragonDungeon({ Component, pageProps }) {
         appId: '1:320692217416:web:f9cd0efdc04445865e9a7d',
       })
 
-      const appCheck = initializeAppCheck(onlineServices, {
-        provider: new ReCaptchaV3Provider('6LcbhOQfAAAAALfRhtZTXG01H2uyAc7QHNWKzy0m'),
-        isTokenAutoRefreshEnabled: true
-      });
+      // const appCheck = initializeAppCheck(onlineServices, {
+      //   provider: new ReCaptchaV3Provider('6LcbhOQfAAAAALfRhtZTXG01H2uyAc7QHNWKzy0m'),
+      //   isTokenAutoRefreshEnabled: true
+      // });
 
       let auth = getAuth()
 

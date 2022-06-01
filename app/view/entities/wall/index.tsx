@@ -6,8 +6,8 @@ import { AnimatedSprite } from '../../entities/AnimatedSprite'
 // import WallImage2 from './sprites/Wall(2.2).png';
 import WallImage from './sprites/WallSec.png'
 import BrokenWallImage from './sprites/brokenWallSec.png'
-import RedWallImage from './sprites/RedWallSec.jpg'
-import BlueWallImage from './sprites/BlueWallSec.jpg'
+// import RedWallImage from './sprites/RedWallSec.jpg'
+// import BlueWallImage from './sprites/BlueWallSec.jpg'
 
 interface IProps {
   x: number
@@ -25,14 +25,14 @@ export const Wall = (props: IProps) => {
     switch (props.team) {
       case 1:
         if (props.health > 0) {
-          textures = [PIXI.Texture.from(RedWallImage.src)]
+          textures = [PIXI.Texture.from(WallImage.src)]
         } else {
           textures = [PIXI.Texture.from(BrokenWallImage.src)]
         }
         break
       case 2:
         if (props.health > 0) {
-          textures = [PIXI.Texture.from(BlueWallImage.src)]
+          textures = [PIXI.Texture.from(WallImage.src)]
         } else {
           textures = [PIXI.Texture.from(BrokenWallImage.src)]
         }
