@@ -73,15 +73,15 @@ function DragonDungeon({ Component, pageProps }) {
   return <>
     <Head>
       <title>Dragon Dungeon</title>
-      <link rel="icon" href="/img/game/coinJar.png" />
+      <link rel="icon" href="/assets/img/game/coinJar.png" />
       <meta property="og:title" content="Dragon Dungeon" />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://dragondungeon.io" />
-      <meta property="og:image" content="https://dragondungeon.io/img/skins/basic.png" />
+      <meta property="og:image" content="https://dragondungeon.io/assets/img/skins/basic.png" />
       <meta property="og:description" content="Compete against dragons from all over the world and become the richest dragon of all in this award-winning game from the LEAGUE of Amazing Programmers." />
       <meta name="description" content="Compete against dragons from all over the world and become the richest dragon of all in this award-winning game from the LEAGUE of Amazing Programmers." />
       <meta name="twitter:creator" content="@dragondungeonio" />
-      <meta name="twitter:image" content="https://dragondungeon.io/img/skins/basic.png" />
+      <meta name="twitter:image" content="https://dragondungeon.io/assets/img/skins/basic.png" />
       <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     </Head>
     <div className={styles.dragondungeon}>
@@ -91,7 +91,7 @@ function DragonDungeon({ Component, pageProps }) {
           <MenuOption name="Profile" href="/profile" />
           <MenuOption name="Store" href="/store" />
           <MenuOption name="Blog" href="https://dragondungeonio.substack.com/" />
-          <MenuOption name="Tournament" href="https://docs.google.com/forms/d/e/1FAIpQLScprijA7NjftMSFINFTwaUIaPnwru0J1sJrolzQjRZu7Fwd7Q/viewform" />
+          <MenuOption name="Tournament" href="/assets/html/tournament/index.html" />
           <MenuOption name="Settings" href="/settings" />
         </div>}
         <AnimatePresence

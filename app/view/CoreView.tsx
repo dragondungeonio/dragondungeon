@@ -41,7 +41,7 @@ function renderTableData(players: MapSchema<Player>) {
     leaderboardData.push(
       <span style={{ justifyContent: 'start' }}>
         <img
-          src={`/img/abilities/${ballType}ball.png`}
+          src={`/assets/img/abilities/${ballType}ball.png`}
           style={{ height: '30px', padding: '10px', verticalAlign: 'sub' }}
         />{' '}
         {name}
@@ -113,7 +113,7 @@ export default function CoreView({
             height: '150px',
             imageRendering: 'pixelated',
           }}
-          src="/img/skins/basic.png"
+          src="/assets/img/skins/basic.png"
         />
       </div>
     )

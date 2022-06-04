@@ -123,7 +123,7 @@ export class Player extends Schema {
       this.speed = 200
       this.colyseusClient.send('chatlog', 'Turbo Mode Activated!')
       if (Math.random() < 0.2) {
-        this.colyseusClient.send('sfx', '/audio/turbomode.m4a')
+        this.colyseusClient.send('sfx', '/assets/audio/turbomode.m4a')
       }
       setTimeout(() => {
         this.speed = 20

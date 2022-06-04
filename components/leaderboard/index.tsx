@@ -27,7 +27,7 @@ function renderTableData(players: MapSchema<Player>) {
     leaderboardData.push(
       <span>
         &nbsp;&nbsp;&nbsp;
-        {/* <img src={`/img/abilities/${ballType}ball.png`} style={{ height: '40px', verticalAlign: 'bottom' }} /> */}
+        {/* <img src={`/assets/img/abilities/${ballType}ball.png`} style={{ height: '40px', verticalAlign: 'bottom' }} /> */}
         &nbsp;&nbsp;
         <span>{name}</span>&nbsp;&nbsp;
         <b>{score}</b>&nbsp;&nbsp;&nbsp;

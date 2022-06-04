@@ -5,7 +5,7 @@
         "gemCost": 0,
         "name": "Basic Dragon",
         "description": "A classic, favored by everyone except paying customers.",
-        "thumbnail": "/img/skins/basic.png",
+        "thumbnail": "/assets/img/skins/basic.png",
         "perk": ""
     },
     {
@@ -14,7 +14,7 @@
         "gemCost": 200,
         "name": "Ice Dragon",
         "description": "It's cold outside.",
-        "thumbnail": "/img/skins/blue.png",
+        "thumbnail": "/assets/img/skins/blue.png",
         "perk": ""
     },
     {
@@ -23,7 +23,7 @@
         "gemCost": 200,
         "name": "Lava Dragon",
         "description": "No, seriously. You're on fire.",
-        "thumbnail": "/img/skins/red.png",
+        "thumbnail": "/assets/img/skins/red.png",
         "perk": ""
     },
     {
@@ -32,7 +32,7 @@
         "gemCost": 300,
         "name": "Electric Dragon",
         "description": "Light 'em up!",
-        "thumbnail": "/img/skins/electric.png",
+        "thumbnail": "/assets/img/skins/electric.png",
         "perk": ""
     },
     {
@@ -41,7 +41,7 @@
         "gemCost": 400,
         "name": "Null & Void",
         "description": "The quieter you are...",
-        "thumbnail": "/img/skins/empty.png",
+        "thumbnail": "/assets/img/skins/empty.png",
         "perk": ""
     }
 ]

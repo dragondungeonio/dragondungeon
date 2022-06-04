@@ -16,8 +16,8 @@ export default function Credits() {
             <Link href="/link/anet">Link with ArenaNet (Guild Wars 2)</Link> */}
             <h3>Dragon Dungeon Public Beta {require('../package.json').version}</h3>
             <Link href={'/credits'}>Game Credits</Link><br /><br />
-            <a href="https://jointheleague.org"><img src="/img/ui/jtl.png" alt="The LEAGUE of Amazing Programmers" height={60} /></a><br /><br />
-            <a href="https://lit.games"><img src="/img/ui/lit.png" alt="lit.games" height={50} /></a>
+            <a href="https://jointheleague.org"><img src="/assets/img/ui/jtl.png" alt="The LEAGUE of Amazing Programmers" height={60} /></a><br /><br />
+            <a href="https://lit.games"><img src="/assets/img/ui/lit.png" alt="lit.games" height={50} /></a>
             <br /><br /><button onClick={() => {
                 throw 'You asked for this!'
             }}>Throw Debug Error</button>

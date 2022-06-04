@@ -17,7 +17,7 @@ export class SurvivalRoom extends CoreRoom {
     options: { token: string },
     _2: any,
   ): Promise<void> {
-    super.broadcast('music', '/music/morebetter.mp3')
+    super.broadcast('music', '/assets/music/morebetter.mp3')
     super.onJoin(client, options, _2)
   }
 
@@ -155,7 +155,7 @@ export class ArenaRoom extends CoreRoom {
     options: { token: string },
     _2: any,
   ): Promise<void> {
-    super.broadcast('music', '/music/risingtide.mp3')
+    super.broadcast('music', '/assets/music/risingtide.mp3')
     super.onJoin(client, options, _2)
   }
 

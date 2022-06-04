@@ -17,7 +17,7 @@ export class TutorialRoom extends CoreRoom {
         setTimeout(() => {
             client.send('chatlog', 'Welcome to dragondungeon.io!')
             setTimeout(() => {
-                client.send('chatlog', 'Use the mouse to move and <img src="/prompts/mnk/Space_Key_Dark.png" height="50px" width="50px" style="vertical-align:middle" /> to shoot')
+                client.send('chatlog', 'Use the mouse to move and <img src="/assets/img/promptsmnk/Space_Key_Dark.png" height="50px" width="50px" style="vertical-align:middle" /> to shoot')
                 super.onMessage('input', (clientm: Client, message: IInputs) => {
                     if (clientm == client && message.space == true && this.hasCollectedCoins == false) {
                         this.hasCollectedCoins = true
@@ -62,7 +62,7 @@ export class TutorialRoom extends CoreRoom {
                                                                                 clearInterval(bint)
                                                                                 client.send('chatlog', 'That wasn\'t too hard, was it? (physically, not ethically)')
                                                                                 setTimeout(() => {
-                                                                                    client.send('chatlog', 'You can use <img src="/prompts/mnk/V_Key_Dark.png" height="50px" width="50px" style="vertical-align:middle" /> to dodge or <img src="/prompts/mnk/X_Key_Dark.png" height="50px" width="50px" style="vertical-align:middle" /> to autoshoot, by the way!')
+                                                                                    client.send('chatlog', 'You can use <img src="/assets/img/promptsmnk/V_Key_Dark.png" height="50px" width="50px" style="vertical-align:middle" /> to dodge or <img src="/assets/img/promptsmnk/X_Key_Dark.png" height="50px" width="50px" style="vertical-align:middle" /> to autoshoot, by the way!')
                                                                                     setTimeout(() => {
                                                                                         client.send('chatlog', 'Now go forth and become the richest dragon of all! If you need this tutorial again, just select it from the menu.')
                                                                                         setTimeout(() => {

@@ -1,7 +1,7 @@
 export function LoadingIcon() {
   return (
     <img
-      src="/img/game/coinJar.png"
+      src="/assets/img/game/coinJar.png"
       style={{
         position: 'fixed',
         imageRendering: 'pixelated',

@@ -14,7 +14,7 @@ export default function Credits() {
       <p>Sameer Prakash</p>
       <h2>Leadership</h2>
       <img
-        src="/img/ui/jtl.png"
+        src="/assets/img/ui/jtl.png"
         alt="The LEAGUE of Amazing Programmers"
         height={70}
       />

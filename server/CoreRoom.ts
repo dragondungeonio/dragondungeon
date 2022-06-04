@@ -57,7 +57,7 @@ export default class CoreRoom extends Room<GameState> {
   }
 
   async onJoin(client: Client, options: { token: string }, _2: any) {
-    client.send('sfx', '/audio/welcome.m4a')
+    client.send('sfx', '/assets/audio/welcome.m4a')
 
     let userData = await getUserDetails(options.token)
 
@@ -410,15 +410,15 @@ export default class CoreRoom extends Room<GameState> {
                 } else {
                   this.broadcast(
                     'chatlog',
-                    `${playerHit.onlineName}  <img src='/img/abilities/${playerHit.ballType}ball.png' height='20px' height='20px' style='image-rendering:pixelated' />  ${player.onlineName}`,
+                    `${playerHit.onlineName}  <img src='/assets/img/abilities/${playerHit.ballType}ball.png' height='20px' height='20px' style='image-rendering:pixelated' />  ${player.onlineName}`,
                   )
                 }
 
                 if (!this.firstBlood) {
                   this.firstBlood = true
-                  playerHit.colyseusClient.send('sfx', '/audio/firstblood.m4a')
+                  playerHit.colyseusClient.send('sfx', '/assets/audio/firstblood.m4a')
                 } else {
-                  playerHit.colyseusClient.send('sfx', '/audio/amazing.m4a')
+                  playerHit.colyseusClient.send('sfx', '/assets/audio/amazing.m4a')
                 }
               } catch {}
             }
@@ -509,11 +509,11 @@ export default class CoreRoom extends Room<GameState> {
             try {
               this.state.players[id].colyseusClient.send(
                 'sfx',
-                '/audio/coinjar.wav',
+                '/assets/audio/coinjar.wav',
               )
               this.broadcast(
                 'chatlog',
-                `${this.state.players[id].onlineName} <img src='/img/game/coinJar.png' height='20px' height='20px' style='image-rendering:pixelated' /> ${this.state.players[id].coins}`,
+                `${this.state.players[id].onlineName} <img src='/assets/img/game/coinJar.png' height='20px' height='20px' style='image-rendering:pixelated' /> ${this.state.players[id].coins}`,
               )
             } catch {}
           }
@@ -535,7 +535,7 @@ export default class CoreRoom extends Room<GameState> {
           let prevCoins = this.state.players[id].coins
           var coins = this.state.players[id].coins
           try {
-            player.colyseusClient.send('sfx', '/audio/coin.wav')
+            player.colyseusClient.send('sfx', '/assets/audio/coin.wav')
           } catch {}
           switch (this.state.coins[cid].getSize()) {
             case 20:
@@ -554,10 +554,10 @@ export default class CoreRoom extends Room<GameState> {
           }
           if (prevCoins < 10 && coins >= 10) {
             try {
-              player.colyseusClient.send('sfx', '/audio/error.wav')
+              player.colyseusClient.send('sfx', '/assets/audio/error.wav')
               player.colyseusClient.send(
                 'chatlog',
-                '<img src="/img/game/icon.png" width="20px" height="20px" /> out of space',
+                '<img src="/assets/img/game/icon.png" width="20px" height="20px" /> out of space',
               )
             } catch {}
           }

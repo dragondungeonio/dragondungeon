@@ -118,16 +118,16 @@ export default function MyDragon() {
   return (
     <PageLayout>
       <h1>Store</h1>
-      <h2><img src="/img/ui/gem.png" style={{ height: '40px', verticalAlign: 'middle' }} /> {gems}
+      <h2><img src="/assets/img/ui/gem.png" style={{ height: '40px', verticalAlign: 'middle' }} /> {gems}
       <br /><br /><a onClick={() => (document.querySelector('#buygems') as HTMLDivElement).style.display = 'block'} style={{ fontSize: '20pt', textDecoration: 'none', color: '#f9e300', border: '3px solid #f9e300', padding: '10px' }}>Get More</a><br /><br /></h2>
       <p>It may take up to <b>3 minutes</b> for Gem and Store purchases to appear in your account.</p>
       <br />
       <div id="buygems" className={styles.form}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px' }}>
-          <GemStoreItem name="100" img="/img/ui/gem.png" isRealMoneyPurchase={true} cost="$0.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/100?uid=${user.uid}`} />
-          <GemStoreItem name="500 + 50" img="/img/ui/gem.png" isRealMoneyPurchase={true} cost="$4.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/500?uid=${user.uid}`} />
-          <GemStoreItem name="1000 + 100" img="/img/ui/gem.png" isRealMoneyPurchase={true} cost="$9.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/1000?uid=${user.uid}`} />
-          <GemStoreItem name="10000 + 1000" img="/img/ui/gem.png" isRealMoneyPurchase={true} cost="$99.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/10000?uid=${user.uid}`} />
+          <GemStoreItem name="100" img="/assets/img/ui/gem.png" isRealMoneyPurchase={true} cost="$0.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/100?uid=${user.uid}`} />
+          <GemStoreItem name="500 + 50" img="/assets/img/ui/gem.png" isRealMoneyPurchase={true} cost="$4.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/500?uid=${user.uid}`} />
+          <GemStoreItem name="1000 + 100" img="/assets/img/ui/gem.png" isRealMoneyPurchase={true} cost="$9.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/1000?uid=${user.uid}`} />
+          <GemStoreItem name="10000 + 1000" img="/assets/img/ui/gem.png" isRealMoneyPurchase={true} cost="$99.99" checkout={`${window.location.protocol}//${window.location.hostname}:1337/pay/10000?uid=${user.uid}`} />
         </div>
       </div>
       <form id="payment-form" className={styles.form}>

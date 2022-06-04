@@ -72,14 +72,14 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     })
 
     this.props.stateManager.room.onMessage('sfx', (audioURL) => {
-      if (audioURL == '/audio/coinjar.wav') {
+      if (audioURL == '/assets/audio/coinjar.wav') {
         dragonCelebrating = true
       }
       if (
         !SFXPlayTimeout ||
-        audioURL == '/audio/coin.wav' ||
-        audioURL == '/audio/coinjar.wav' ||
-        audioURL == '/audio/error.wav'
+        audioURL == '/assets/audio/coin.wav' ||
+        audioURL == '/assets/audio/coinjar.wav' ||
+        audioURL == '/assets/audio/error.wav'
       ) {
         SFXPlayTimeout = true
         let sfx = new Audio(audioURL)

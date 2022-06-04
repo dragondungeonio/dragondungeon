@@ -173,7 +173,7 @@ export default function Profile() {
           token={token}
           equipped={equippedAbility == 'Fireball'}
           name="Fireball"
-          img="/img/abilities/fireball.png"
+          img="/assets/img/abilities/fireball.png"
           perk=""
         />
         <ProfileSelectItem
@@ -181,7 +181,7 @@ export default function Profile() {
           token={token}
           equipped={equippedAbility == 'Iceball'}
           name="Iceball"
-          img="/img/abilities/iceball.png"
+          img="/assets/img/abilities/iceball.png"
           perk="Targets are temporarily frozen and cannot move or shoot"
         />
         <ProfileSelectItem
@@ -189,7 +189,7 @@ export default function Profile() {
           token={token}
           equipped={equippedAbility == 'Electricball'}
           name="Electricball"
-          img="/img/abilities/electricball.png"
+          img="/assets/img/abilities/electricball.png"
           perk="Targets have a random chance of duplicating your Electricballs"
         />
         <ProfileSelectItem
@@ -197,7 +197,7 @@ export default function Profile() {
           token={token}
           equipped={equippedAbility == 'Mudball'}
           name="Mudball"
-          img="/img/abilities/mudball.png"
+          img="/assets/img/abilities/mudball.png"
           perk="Mudballs get bigger and expand their range as they hit targets"
         />
         <ProfileSelectItem
@@ -205,7 +205,7 @@ export default function Profile() {
           token={token}
           equipped={equippedAbility == 'Poisonball'}
           name="Poisonball"
-          img="/img/abilities/poisonball.png"
+          img="/assets/img/abilities/poisonball.png"
           perk="Targets are poisoned and have reduced capabilities"
         />
       </div>

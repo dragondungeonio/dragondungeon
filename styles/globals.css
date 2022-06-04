@@ -24,14 +24,14 @@ a {
 
 * {
   font-family: 'Varela Round', sans-serif;
-  cursor: url(/img/ui/cursor.png), auto !important;
+  cursor: url(/assets/img/ui/cursor.png), auto !important;
 }
 
 html {
   background: linear-gradient(
     rgba(0, 0, 0, 0.9), 
     rgba(0, 0, 0, 0.9)
-  ), url('/img/game/background-tile.png') !important;
+  ), url('/assets/img/game/background-tile.png') !important;
   overflow-x: hidden;
 }
 

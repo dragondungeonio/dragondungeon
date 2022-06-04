@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 export default function Cutscene() {
     let router = useRouter()
     return <div style={{ width: '100vw', height: '100vh', position: 'fixed', top: 0, left: 0, background: 'black' }}>
-        <video src={`/video/cutscenes/${router.query.video}.mp4`} autoPlay onClick={() => {
+        <video src={`/assets/video/cutscenes/${router.query.video}.mp4`} autoPlay onClick={() => {
             (document.querySelector('#exit') as HTMLButtonElement).style.display = 'block'
             setTimeout(() => {
                 if (document.querySelector('#exit')) {
