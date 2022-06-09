@@ -17,14 +17,30 @@ export default function Home() {
   return (
     <PageLayout>
       <div className={styles.centeredContent}>
-        <h1>dragondungeon.io</h1>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '5px' }}>
-          <ModeItem description="Fight dragons. Collect coins." name="Arena" img="/assets/img/game/coinJar.png" href="/play/arena" router={router} />
-          <ModeItem description="Become the Last Dragon Standing." name="Survival" img="/assets/img/skins/basic.png" href="/play/lds" router={router} />
-          {/* <ModeItem description="Defend your base. Capture coins." name="Capture" img="/assets/img/game/coinJar.png" href="/play/ctc" router={router} /> */}
-          {/* <ModeItem description="Mix it up!" name="Random" img="/assets/img/game/icon.png" href="/play" router={router} /> */}
-          <ModeItem description="Learn the ropes!" name="Tutorial" img="/assets/img/game/bat.png" href="/play/tutorial" router={router} />
-        </div>
+        {typeof window !== "undefined" && <>
+          {window.localStorage.ddTournamentMode !== 'true' && <h1>dragondungeon.io</h1>}
+          {window.localStorage.ddTournamentMode == 'true' && <h1>Dragon Dungeon Live!</h1>}
+        </>}
+        {typeof window !== "undefined" && <>
+          {window.localStorage.ddTournamentMode !== 'true' && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '5px' }}>
+            <ModeItem description="Fight dragons. Collect coins." name="Arena" img="/assets/img/game/coinJar.png" href="/play/arena" router={router} />
+            <ModeItem description="Become the Last Dragon Standing." name="Survival" img="/assets/img/skins/basic.png" href="/play/lds" router={router} />
+            <ModeItem description="Defend your base. Capture coins." name="Capture" img="/assets/img/game/skull.png" href="/play/ctc" router={router} />
+            <ModeItem description="Learn the ropes!" name="Tutorial" img="/assets/img/game/bat.png" href="/play/tutorial" router={router} />
+          </div>}
+          {window.localStorage.ddTournamentMode == 'true' && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '5px' }}>
+            <ModeItem description="Game I" name="Round I" img="/assets/img/game/coinJar.png" href="/play/arena" router={router} />
+            <ModeItem description="Game I" name="Round II" img="/assets/img/game/coinJar.png" href="/play/arena" router={router} />
+            <ModeItem description="Game I" name="Round III" img="/assets/img/game/coinJar.png" href="/play/arena" router={router} />
+            <ModeItem description="Game I" name="Round IV" img="/assets/img/game/skull.png" href="/play/ctc" router={router} />
+            <ModeItem description="Game I" name="Round V" img="/assets/img/skins/basic.png" href="/play/lds" router={router} />
+            <ModeItem description="Game II" name="Round I" img="/assets/img/game/coinJar.png" href="/play/arena" router={router} />
+            <ModeItem description="Game II" name="Round II" img="/assets/img/game/coinJar.png" href="/play/arena" router={router} />
+            <ModeItem description="Game II" name="Round III" img="/assets/img/game/coinJar.png" href="/play/areba" router={router} />
+            <ModeItem description="Game II" name="Round IV" img="/assets/img/game/skull.png" href="/play/ctc" router={router} />
+            <ModeItem description="Game II" name="Round V" img="/assets/img/skins/basic.png" href="/play/lds" router={router} />
+          </div>}
+        </>}
       </div>
     </PageLayout>
   )

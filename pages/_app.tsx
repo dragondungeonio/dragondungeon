@@ -86,14 +86,16 @@ function DragonDungeon({ Component, pageProps }) {
     </Head>
     <div className={styles.dragondungeon}>
       <div className={styles.centeredContent}>
-        {!router.pathname.startsWith('/play/') && <div className={styles.nav}>
-          <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/')}>Play</span>
-          <MenuOption name="Profile" href="/profile" />
-          <MenuOption name="Store" href="/store" />
-          <MenuOption name="Blog" href="https://dragondungeonio.substack.com/" />
-          <MenuOption name="Tournament" href="/assets/html/tournament/index.html" />
-          <MenuOption name="Settings" href="/settings" />
-        </div>}
+        {typeof window !== "undefined" && <>
+          {(!router.pathname.startsWith('/play/') && window.localStorage.ddTournamentMode != 'true') && <div className={styles.nav}>
+            <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/')}>Play</span>
+            <MenuOption name="Profile" href="/profile" />
+            <MenuOption name="Store" href="/store" />
+            <MenuOption name="Blog" href="https://dragondungeonio.substack.com/" />
+            <MenuOption name="Tournament" href="/assets/html/tournament/index.html" />
+            <MenuOption name="Settings" href="/settings" />
+          </div>}
+        </>}
         <AnimatePresence
           exitBeforeEnter
           initial={false}
@@ -126,7 +128,7 @@ function DragonDungeon({ Component, pageProps }) {
       </div>
     </div>
     {typeof window == 'object' && <>
-      {(window.localStorage.ddImmersiveMode != 'true') && <p style={{ color: '#f9e300', position: 'fixed', top: 0, left: 0, width: '100vw', textAlign: 'center', pointerEvents: 'none', zIndex: 99999999999999999999 }}>{navigator.userAgent}<br /><b>dragondungeon.io Public Beta Build {require('../package.json').version}</b></p>}
+      {(window.localStorage.ddImmersiveMode != 'true' && window.localStorage.ddTournamentMode != 'true') && <p style={{ color: '#f9e300', position: 'fixed', top: 0, left: 0, width: '100vw', textAlign: 'center', pointerEvents: 'none', zIndex: 99999999999999999999 }}>{navigator.userAgent}<br /><b>dragondungeon.io Public Beta Build {require('../package.json').version}</b></p>}
     </>
     }
   </>

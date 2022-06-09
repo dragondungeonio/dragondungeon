@@ -21,7 +21,7 @@ import {
   SurvivalRoom,
 } from './MultiplayerRooms'
 import { TutorialRoom } from './SingleplayerRooms'
-import CoreRoom from './CoreRoom'
+
 import {
   getUserDetails,
   getUserDragon,
