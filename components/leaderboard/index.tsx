@@ -52,9 +52,8 @@ function renderTeamScores(players: MapSchema<Player>) {
     }
   })
   result.push(
-    <span>Score: {redScore} | {blueScore}</span>
+    <span className={styles.teamScore}><span className={styles.redScore}>{redScore}</span> | <span className={styles.blueScore}>{blueScore}</span></span>
   )
-  console.log(redScore + " | " + blueScore)
   return result
 }
 
@@ -101,10 +100,11 @@ export function Leaderboard(props: {
       )}
       <>
         <div id="chatlog" className={styles.chatlog}></div>
+        {props.isCTC && renderTeamScores(props.players)}
         <div className={styles.leaderboardContainer}>
           <table>
             <tbody id="leaderboard">{renderTableData(props.players)}</tbody>
-          </table> {props.isCTC && renderTeamScores(props.players)}
+          </table>
         </div>
       </>
     </>

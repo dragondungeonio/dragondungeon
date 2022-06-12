@@ -14,6 +14,27 @@
   /* width: 100vw; */
 }
 
+.teamScore {
+  font-family: 'Press Start 2P';
+  font-size: 30pt;
+  width: 100vw;
+  position: fixed;
+  right: 0;
+  top: 30px;
+  text-align: center;
+  padding: 20px;
+}
+
+.redScore {
+  color: lightcoral;
+  font-family: 'Press Start 2P';
+}
+
+.blueScore {
+  color: lightblue;
+  font-family: 'Press Start 2P';
+}
+
 .countdown {
   position: fixed;
   top: 0;

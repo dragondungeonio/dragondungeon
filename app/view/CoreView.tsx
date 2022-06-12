@@ -60,7 +60,6 @@ function CTCWinner(players: MapSchema<Player>){
   let redScore = 0
   let blueScore = 0
   let winner: string
-  console.log("renderingWinningData")
   players.forEach((player: Player, key: any)=> {
     if(player.team == 1){
       redScore+= player.score
@@ -69,11 +68,10 @@ function CTCWinner(players: MapSchema<Player>){
       blueScore+=player.score
     }
   })
-  if(redScore>blueScore){winner = "Red Wins!"}
-  else if (blueScore>redScore){winner= "Blue Wins!"}
+  if(redScore>blueScore){winner = "Red"}
+  else if (blueScore>redScore){winner= "Blue"}
   else{"Tie!"}
-  result.push(<span>Score: {redScore} | {blueScore}   </span>)
-  result.push(<span>{winner}</span>)
+  result.push(<span>{winner} wins with score of: {redScore} for red and {blueScore} for blue!</span>)
   return result
 }
 
@@ -123,11 +121,7 @@ export default function CoreView({
     return (
       <div style={{ padding: '30px' }} className={styles.pageContent}>
         <h1>Game Over</h1>
-
-        {state.gamemode == 'CTC' && CTCWinner(state.players)}
-        <br />
-
-        <p style={{ color: '#f9e300', fontSize: '25pt' }}>{state.gameOverMessage}</p>
+        <p style={{ color: '#f9e300', fontSize: '25pt' }}>{state.gamemode == 'CTC' ? CTCWinner(state.players) : state.gameOverMessage}</p>
 
         {renderTableData(state.players)}
         <br /><br />

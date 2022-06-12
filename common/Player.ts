@@ -128,7 +128,7 @@ export class Player extends Schema {
       setTimeout(() => {
         this.speed = 20
         this.turboMode = false
-      }, 300)
+      }, 600)
       setTimeout(() => {
         this.turboModeAllowed = true
       }, 2000)

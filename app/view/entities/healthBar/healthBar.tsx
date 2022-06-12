@@ -11,6 +11,7 @@ interface BarProps {
   health: number
   name: string
   zIndex?: number
+  team: number
   turbo: boolean
   nullAndVoid: boolean
 }
@@ -70,11 +71,12 @@ export const Bar = CustomPIXIComponent<PIXI.Graphics, BarProps>(
             newProps.height,
           )
         }
+
         let name = new PIXI.Text(newProps.name, {
           fontFamily: 'Press Start 2P',
           fontSize: 20,
           align: 'center',
-          fill: '#ffffff',
+          fill: newProps.team == 0 ? '#ffffff' : newProps.team == 1 ? 'lightcoral' : 'lightblue',
         })
         name.x = newProps.x - name.width / 2 + 35
         name.y = newProps.y - 30

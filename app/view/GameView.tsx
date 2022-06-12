@@ -174,7 +174,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           <Dragon
             player={player}
             key={player.onlineID}
-            team={0}
+            team={player.team}
             skin={player.skinType}
             celebration={dragonCelebrating || player.turboMode}
             isGhost={player.isGhost}
@@ -187,7 +187,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           <Dragon
             player={player}
             key={player.onlineID}
-            team={0}
+            team={player.team}
             skin={player.skinType}
             celebration={player.turboMode}
             isGhost={player.isGhost}
@@ -205,10 +205,11 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             x={player.x - 35}
             y={player.y - 80}
             width={70}
+            team={player.team}
             height={18}
             color={0xe30b1d}
             coins={player.coins}
-            name={player == me ? '' : player.onlineName}
+            name={player.onlineName}
             turbo={player.turboMode}
             nullAndVoid={player.skinType === 5}
           />,
