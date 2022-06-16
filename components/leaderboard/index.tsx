@@ -129,7 +129,7 @@ export function Leaderboard(props: {
       )}
       <>
         <div id="chatlog" className={styles.chatlog}></div>
-        {props.isCTC && renderTeamScores(props.players)}
+        {(props.isCTC || props.isZones) && renderTeamScores(props.players)}
         {props.isZones && <div style={{
           position: 'fixed',
           bottom: '20px',

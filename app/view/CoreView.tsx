@@ -121,7 +121,7 @@ export default function CoreView({
     return (
       <div style={{ padding: '30px' }} className={styles.pageContent}>
         <h1>Game Over</h1>
-        <p style={{ color: '#f9e300', fontSize: '25pt' }}>{state.gamemode == 'CTC' ? CTCWinner(state.players) : state.gameOverMessage}</p>
+        <p style={{ color: '#f9e300', fontSize: '25pt' }}>{(state.gamemode == 'CTC' || state.gamemode == 'Zones') ? CTCWinner(state.players) : state.gameOverMessage}</p>
 
         {renderTableData(state.players)}
         <br /><br />
