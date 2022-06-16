@@ -89,10 +89,9 @@ function DragonDungeon({ Component, pageProps }) {
         {typeof window !== "undefined" && <>
           {(!router.pathname.startsWith('/play/') && window.localStorage.ddTournamentMode != 'true') && <div className={styles.nav}>
             <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/')}>Play</span>
-            <MenuOption name="Profile" href="/profile" />
+            <MenuOption name="Dragon" href="/profile" />
             <MenuOption name="Store" href="/store" />
-            <MenuOption name="Blog" href="https://dragondungeonio.substack.com/" />
-            <MenuOption name="Tutorial" href="/play/tutorial" />
+            <MenuOption name="Updates" href="https://dragondungeonio.substack.com/" />
             <MenuOption name="Settings" href="/settings" />
           </div>}
         </>}

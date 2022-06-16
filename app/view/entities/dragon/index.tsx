@@ -147,7 +147,7 @@ export const Dragon = (props: IProps) => {
   if (Math.abs(props.player.angle) < Math.PI / 2) {
     yS = -5
   }
-  if (props.skin === 5 && props.turbo) return <></>
+  if (props.player.mod === 101 && props.turbo) return <></>
   return (
     <>
       {dragonTextures.length > 0 && (

@@ -8,4 +8,5 @@ export interface IInputs {
   angle: number
   space: boolean
   turbo: boolean
+  zoneClaim: boolean
 }

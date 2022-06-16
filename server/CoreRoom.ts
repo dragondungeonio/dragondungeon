@@ -63,12 +63,19 @@ export default class CoreRoom extends Room<GameState> {
 
     let ability = 'fire'
     let dragonSkin = 0
+    let mod = 100
 
     const userDoc = await getUserDragon(userData.uid)
     if (userDoc.ability) {
       ability = userDoc.ability.toLowerCase().replace('ball', '')
     } else {
       ability = 'fire'
+    }
+
+    if (userDoc.mod) {
+      mod = userDoc.mod
+    } else {
+      mod = 100
     }
 
     if (userDoc.skin) {
@@ -111,6 +118,8 @@ export default class CoreRoom extends Room<GameState> {
     this.state.players[client.id].x = xPos
     this.state.players[client.id].y = yPos
 
+    this.state.players[client.id].mod = mod
+
     if (userData.name == null) {
       const adjectives = require('../../wordlists/adjectives.json')
       const nouns = require('../../wordlists/nouns.json')
@@ -130,6 +139,19 @@ export default class CoreRoom extends Room<GameState> {
   registerMessages() {
     this.onMessage('input', (client: Client, message: IInputs) => {
       try {
+        if (message.zoneClaim) {
+          let player = this.state.players.get(client.sessionId)
+          this.state.coinJars.forEach(jar => {
+            if ((player.x > jar.x - 60 && player.x < jar.x + 60) && (player.y > jar.y - 60 && player.y < jar.y + 60)) {
+              setTimeout(() => {
+                if ((player.x > jar.x - 60 && player.x < jar.x + 60) && (player.y > jar.y - 60 && player.y < jar.y + 60) && message.zoneClaim) {
+                  jar.team = player.team
+                  this.broadcast('chatlog', `${player.onlineName} captured a zone for ${player.team == 1 ? 'Red' : 'Blue'} team!`)
+                }
+              }, 3000)
+            }
+          })
+        }
         this.state.players[client.sessionId].inputs(message)
       } catch {}
     })

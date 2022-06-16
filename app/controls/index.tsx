@@ -18,7 +18,8 @@ let activeControls = {
   autoshoot: false,
   angle: 0.0,
   space: false,
-  turbo: false
+  turbo: false,
+  zoneClaim: false
 };
 
 export const Controls = (props: ControlProps) => {
@@ -38,6 +39,7 @@ export const Controls = (props: ControlProps) => {
         if (e.key == ' ') { updateAndSend({ space: true, shoot: true }) }
         if (e.key == 'x') { updateAndSend({ autoshoot: true }) }
         if (e.key == 'v') { updateAndSend({ turbo: true }) }
+        if (e.key == 'c') { updateAndSend({ zoneClaim: true }) }
       }
     }
     const keyup = (e: KeyboardEvent) => {
@@ -45,6 +47,7 @@ export const Controls = (props: ControlProps) => {
         if (e.key == ' ') { updateAndSend({ space: false, shoot: false }) }
         if (e.key == 'x') { updateAndSend({ autoshoot: false }) }
         if (e.key == 'v') { updateAndSend({ turbo: false }) }
+        if (e.key == 'c') { updateAndSend({ zoneClaim: false }) }
       }
     }
     const mouseMove = (e: MouseEvent) => {

@@ -252,12 +252,12 @@ export default function Profile() {
           <ProfileSelectItem
             type="mod"
             token={token}
-            equipped={equippedMod == 100}
-            id={100}
+            equipped={equippedMod == 101}
+            id={101}
             name="Cloak of Invisibility"
             perk="You are invisible while dodging."
           />
-          <ProfileSelectItem
+          {/* <ProfileSelectItem
             type="mod"
             token={token}
             equipped={equippedMod == 101}
@@ -272,7 +272,7 @@ export default function Profile() {
             id={102}
             name="En Garde"
             perk="In Zones mode, Fireballs shot near your Zones deal extra damage."
-          />
+          /> */}
         </>}
         {equippedAbility == 'Iceball' && <>
           <ProfileSelectItem

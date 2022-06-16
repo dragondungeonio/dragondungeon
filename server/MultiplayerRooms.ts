@@ -310,10 +310,10 @@ export class ZonesRoom extends CoreRoom {
     state.gamemode = 'Zones'
     state.countdown.minutes = 4
     state.coinJars.set(v4(), new CoinJar(200, 1500, 0))
-    state.coinJars.set(v4(), new CoinJar(600, 700, 1))
-    state.coinJars.set(v4(), new CoinJar(1000, 2800, 2))
-    state.coinJars.set(v4(), new CoinJar(1400, 2540, 1))
-    state.coinJars.set(v4(), new CoinJar(1800, 1230, 1))
+    state.coinJars.set(v4(), new CoinJar(600, 700, 0))
+    state.coinJars.set(v4(), new CoinJar(1000, 2800, 0))
+    state.coinJars.set(v4(), new CoinJar(1400, 2540, 0))
+    state.coinJars.set(v4(), new CoinJar(1800, 1230, 0))
     super(state)
   }
 

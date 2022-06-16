@@ -221,7 +221,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
             coins={player.coins}
             name={player.onlineName}
             turbo={player.turboMode}
-            nullAndVoid={player.skinType === 5}
+            nullAndVoid={player.mod === 101}
           />,
         )
       }
