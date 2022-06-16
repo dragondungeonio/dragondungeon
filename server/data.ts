@@ -77,6 +77,7 @@ export async function setUserDragon(
   data: {
     ability?: string
     skin?: number
+    mod?: number
   },
   uid: string,
   merge = false,

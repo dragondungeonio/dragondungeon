@@ -1,10 +1,14 @@
-import { Player } from '../../common'
+import { CoinJar, Player } from '../../common'
 import { MapSchema } from '@colyseus/schema'
 import { Countdown } from '../../common/Countdown'
 import { Box } from '../../components'
 
 import styles from 'styles/leaderboard.module.css'
 import { ReactNode, useEffect, useState } from 'react'
+
+import blueJarImg from '../../app/view/entities/coinJar/sprites/blueCoinJar1.png'
+import redJarImg from '../../app/view/entities/coinJar/sprites/redCoinJar1.png'
+import stdJarImg from '../../app/view/entities/coinJar/sprites/coinJar1.png'
 
 function renderCountdown(countdown: Countdown) {
   if (countdown.done) {
@@ -42,9 +46,9 @@ function renderTeamScores(players: MapSchema<Player>) {
   let blueScore = 0
   let result = []
 
-  players.forEach((player: Player, key: any)=> {
-    if(player.team == 1){
-      redScore+= player.score
+  players.forEach((player: Player, key: any) => {
+    if (player.team == 1) {
+      redScore += player.score
 
     }
     else if (player.team == 2) {
@@ -77,12 +81,37 @@ function renderMobileTableData(players: MapSchema<Player>) {
   return leaderboardData
 }
 
+function renderZonesLeaderboard(coinJars: MapSchema<CoinJar> | any[]) {
+  let onScreenJars: JSX.Element[] = []
+  coinJars.forEach(jar => {
+    switch (jar.team) {
+      case 1:
+        onScreenJars.push(<img src={redJarImg.src} height={50} />)
+        break
+      case 2:
+        onScreenJars.push(<img src={blueJarImg.src} height={50} />)
+        break
+      default:
+        onScreenJars.push(<img src={stdJarImg.src} height={50} />)
+        break
+    }
+  })
+
+  return onScreenJars
+}
+
 export function Leaderboard(props: {
   players: MapSchema<Player>
   countdown: Countdown
   isCTC?: boolean
+  isZones?: boolean
+  coinJars?: MapSchema<CoinJar>
 }) {
-  const { isCTC = false } = props
+  const {
+    isCTC = false,
+    isZones = false,
+    coinJars = []
+  } = props
   const [countdownRender, setCountdownState] = useState<String>('')
   const [players, setPlayerState] = useState<MapSchema<Player>>(props.players)
   useEffect(() => {
@@ -101,6 +130,12 @@ export function Leaderboard(props: {
       <>
         <div id="chatlog" className={styles.chatlog}></div>
         {props.isCTC && renderTeamScores(props.players)}
+        {props.isZones && <div style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          padding: '5px'
+        }}>{renderZonesLeaderboard(coinJars)}</div>}
         <div className={styles.leaderboardContainer}>
           <table>
             <tbody id="leaderboard">{renderTableData(props.players)}</tbody>

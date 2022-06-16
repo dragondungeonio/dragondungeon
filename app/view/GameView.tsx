@@ -66,7 +66,12 @@ export class GameView extends Component<GameViewProps, GameViewState> {
 
     this.props.stateManager.room.onMessage('music', (musicURL) => {
       const music = new Audio(musicURL)
-      music.volume = 0.25
+      music.loop = true
+      if (window.localStorage.musicVolume) {
+        music.volume = parseFloat(window.localStorage.musicVolume)
+      } else {
+        music.volume = 0.4
+      }
       music.play()
       this.setState({ ...this.state, music })
     })
@@ -83,6 +88,11 @@ export class GameView extends Component<GameViewProps, GameViewState> {
       ) {
         SFXPlayTimeout = true
         let sfx = new Audio(audioURL)
+        if (window.localStorage.sfxVolume) {
+          sfx.volume = parseFloat(window.localStorage.sfxVolume)
+        } else {
+          sfx.volume = 1
+        }
         sfx.play()
         setTimeout(() => (SFXPlayTimeout = false), 1000)
       }
@@ -379,6 +389,8 @@ export class GameView extends Component<GameViewProps, GameViewState> {
                 players={this.props.state.players}
                 countdown={this.props.state.countdown}
                 isCTC={this.props.state.gamemode == 'CTC' ? true : false}
+                isZones={this.props.state.gamemode == 'Zones' ? true : false}
+                coinJars={this.props.state.coinJars}
               ></Leaderboard>
             </div>
           </>

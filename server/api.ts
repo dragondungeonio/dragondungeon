@@ -20,9 +20,37 @@ export async function equipItem(req, res) {
         let userClaims = await getUserDetails(req.query.user as string)
 
         if (req.query.type == 'ability') {
+            let defaultMod = 100
+
+            switch (req.params.id) {
+                case "Iceball":
+                    defaultMod = 200
+                    break
+                case "Electricball":
+                    defaultMod = 300
+                    break
+                case "Mudball":
+                    defaultMod = 400
+                    break
+                case "Poisonball":
+                    defaultMod = 500
+                    break
+                default:
+                    break
+            }
+
             await setUserDragon(
                 {
                     ability: req.params.id,
+                    mod: defaultMod
+                },
+                userClaims.uid,
+                true,
+            )
+        } else if (req.query.type == 'mod') {
+            await setUserDragon(
+                {
+                    mod: parseInt(req.params.id, 10),
                 },
                 userClaims.uid,
                 true,

@@ -92,7 +92,7 @@ function DragonDungeon({ Component, pageProps }) {
             <MenuOption name="Profile" href="/profile" />
             <MenuOption name="Store" href="/store" />
             <MenuOption name="Blog" href="https://dragondungeonio.substack.com/" />
-            <MenuOption name="Tournament" href="/assets/html/tournament/index.html" />
+            <MenuOption name="Tutorial" href="/play/tutorial" />
             <MenuOption name="Settings" href="/settings" />
           </div>}
         </>}
@@ -128,7 +128,7 @@ function DragonDungeon({ Component, pageProps }) {
       </div>
     </div>
     {typeof window == 'object' && <>
-      {(window.localStorage.ddImmersiveMode != 'true' && window.localStorage.ddTournamentMode != 'true') && <p style={{ color: '#f9e300', position: 'fixed', top: 0, left: 0, width: '100vw', textAlign: 'center', pointerEvents: 'none', zIndex: 99999999999999999999 }}>{navigator.userAgent}<br /><b>dragondungeon.io Public Beta Build {require('../package.json').version}</b></p>}
+      {(window.localStorage.ddImmersiveMode != 'true' && window.localStorage.ddTournamentMode != 'true') && <p style={{ color: '#f9e300', position: 'fixed', bottom: 0, right: '20px', width: 'max-content', textAlign: 'right', pointerEvents: 'none', zIndex: 99999999999999999999 }}>{require('../package.json').version} {navigator.userAgent.includes('Mac') ? 'Mac' : navigator.userAgent.includes('Windows') ? 'Windows' : 'Other'}</p>}
     </>
     }
   </>

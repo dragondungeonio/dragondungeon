@@ -80,7 +80,7 @@ export default class CoreRoom extends Room<GameState> {
     var teamnum
     var xPos
     var yPos
-    if (this.state.gamemode == 'CTC') {
+    if (this.state.gamemode == 'CTC' || this.state.gamemode == 'Zones') {
       if (this.redTeamIds.length <= this.blueTeamIds.length) {
         teamnum = 1
         this.redTeamIds.push(client.id)
@@ -523,7 +523,7 @@ export default class CoreRoom extends Room<GameState> {
 
       for (let cid of this.state.coins.keys()) {
         if (
-          this.state.players[id].team == this.state.coins[cid].team &&
+          (this.state.players[id].team == this.state.coins[cid].team || this.state.coins[cid].team == 0) &&
           this.state.coins[cid].checkHit(
             this.state.players[id].x,
             this.state.players[id].y,

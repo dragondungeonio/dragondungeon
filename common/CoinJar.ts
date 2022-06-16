@@ -21,7 +21,7 @@ export class CoinJar extends Schema {
 	}
 
 	checkHit(dragonX: number, dragonY: number, teamNum: number) {
-		if( teamNum != this.team ){return false;}
+		if( teamNum != this.team && this.team != 0 ){return false;}
 		if (Math.sqrt(Math.pow(this.x - dragonX, 2) + Math.pow(this.y - dragonY, 2)) < 95) {
 			return true;
 		} else {

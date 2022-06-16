@@ -22,11 +22,11 @@ export default function Home() {
           {window.localStorage.ddTournamentMode == 'true' && <h1>Dragon Dungeon Live!</h1>}
         </>}
         {typeof window !== "undefined" && <>
-          {window.localStorage.ddTournamentMode !== 'true' && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '5px' }}>
+          {window.localStorage.ddTournamentMode !== 'true' && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '5px' }}>
             <ModeItem description="Fight dragons. Collect coins." name="Arena" img="/assets/img/game/coinJar.png" href="/play/arena" router={router} />
-            <ModeItem description="Become the Last Dragon Standing." name="Survival" img="/assets/img/skins/basic.png" href="/play/lds" router={router} />
             <ModeItem description="Defend your base. Capture coins." name="Capture" img="/assets/img/game/skull.png" href="/play/ctc" router={router} />
-            <ModeItem description="Learn the ropes!" name="Tutorial" img="/assets/img/game/bat.png" href="/play/tutorial" router={router} />
+            <ModeItem description="Capture and defend zones." name="Zones" img="/assets/img/game/bat.png" href="/play/zones" router={router} />
+            <ModeItem description="Become the Last Dragon Standing." name="Survival" img="/assets/img/skins/basic.png" href="/play/lds" router={router} />
           </div>}
           {window.localStorage.ddTournamentMode == 'true' && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '5px' }}>
             <ModeItem description="Game I" name="Round I" img="/assets/img/game/coinJar.png" href="/play/tarena" router={router} />

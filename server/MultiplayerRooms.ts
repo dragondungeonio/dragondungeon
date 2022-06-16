@@ -17,7 +17,7 @@ export class SurvivalRoom extends CoreRoom {
     options: { token: string },
     _2: any,
   ): Promise<void> {
-    super.broadcast('music', '/assets/music/morebetter.mp3')
+    super.broadcast('music', '/assets/music/swinging.mp3')
     super.onJoin(client, options, _2)
   }
 
@@ -40,7 +40,7 @@ export class SurvivalRoom extends CoreRoom {
 export class ArenaRoom extends CoreRoom {
   constructor() {
     let state = new GameState()
-    state.countdown = new Countdown(3, 0)
+    state.countdown = new Countdown(4, 0)
     state.coinJars.set(v4(), new CoinJar(1500, 1500, 0))
 
     let botPlayerA = new Player('mud', 0, 0)
@@ -155,7 +155,7 @@ export class ArenaRoom extends CoreRoom {
     options: { token: string },
     _2: any,
   ): Promise<void> {
-    super.broadcast('music', '/assets/music/risingtide.mp3')
+    super.broadcast('music', '/assets/music/voice.mp3')
     super.onJoin(client, options, _2)
   }
 
@@ -177,7 +177,7 @@ export class CaptureRoom extends CoreRoom {
   constructor() {
     let state = new GameState()
     state.gamemode = 'CTC'
-    state.countdown.minutes = 1
+    state.countdown.minutes = 4
     state.coinJars.set(v4(), new CoinJar(200, 1500, 1))
     state.coinJars.set(v4(), new CoinJar(2800, 1500, 2))
     let setWallTeam = (i: number, isRedTeam: boolean) => {
@@ -288,9 +288,42 @@ export class CaptureRoom extends CoreRoom {
     super(state)
   }
 
+  async onJoin(
+    client: Client,
+    options: { token: string },
+    _2: any,
+  ): Promise<void> {
+    super.broadcast('music', '/assets/music/brawl.mp3')
+    super.onJoin(client, options, _2)
+  }
   tick(): void {
     super.tick()
     if (super.getState().coins.size < 100) {
+      super.spawnCoin()
+    }
+  }
+}
+
+export class ZonesRoom extends CoreRoom {
+  constructor() {
+    let state = new GameState()
+    state.gamemode = 'Zones'
+    state.countdown.minutes = 4
+    state.coinJars.set(v4(), new CoinJar(200, 1500, 0))
+    state.coinJars.set(v4(), new CoinJar(600, 700, 1))
+    state.coinJars.set(v4(), new CoinJar(1000, 2800, 2))
+    state.coinJars.set(v4(), new CoinJar(1400, 2540, 1))
+    state.coinJars.set(v4(), new CoinJar(1800, 1230, 1))
+    super(state)
+  }
+
+  tick(): void {
+    super.tick()
+    for (
+      let i = super.getState().coins.size;
+      i < super.getState().players.size * 20;
+      i++
+    ) {
       super.spawnCoin()
     }
   }

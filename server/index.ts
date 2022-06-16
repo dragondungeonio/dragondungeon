@@ -19,6 +19,7 @@ import {
   CaptureRoom,
   EssentialRoom,
   SurvivalRoom,
+  ZonesRoom,
 } from './MultiplayerRooms'
 import { TutorialRoom } from './SingleplayerRooms'
 import { completePurchase, equipItem, initUser, linkAnet, purchaseInit, purchaseItem } from './api'
@@ -93,6 +94,7 @@ const colyseusServer = new Server({
 colyseusServer.define('arena', ArenaRoom)
 colyseusServer.define('ctc', CaptureRoom)
 colyseusServer.define('lds', SurvivalRoom)
+colyseusServer.define('zones', ZonesRoom)
 
 colyseusServer.define('tarena', TournamentArenaRoom)
 colyseusServer.define('tctc', TournamentCaptureRoom)
