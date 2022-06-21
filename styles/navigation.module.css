@@ -5,15 +5,17 @@
     width: 18%;
     margin-left: 2%;
     background: rgba(0, 0, 0, 0.9);
+    border-radius: 10px;
+    font-family: 'Press Start 2P';
 }
 
 .nav {
     width: 100vw;
     position: fixed;
     height: 10%;
-    right: 20px;
-    top: 24px;
-    text-align: right;
+    top: 30px;
+    right: 30px;
+    text-align: center;
     z-index: 9999;
 }
 
