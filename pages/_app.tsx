@@ -133,4 +133,16 @@ function DragonDungeon({ Component, pageProps }) {
   </>
 }
 
-export default DragonDungeon
+export default function DDApp({ Component, pageProps }) {
+  return <>
+    {typeof window == 'object' && <>
+      {window.innerWidth > 1000 && <>
+        <DragonDungeon Component={Component} pageProps={pageProps} />
+      </>}
+      {window.innerWidth < 1000 && <div style={{ padding: '30px', textAlign: 'center' }}>
+        <h1>dragondungeon.io</h1>
+        <h2>Your screen is too small to play dragondungeon.io. Please rotate your display to landscape or switch to a computer, then reload this page.</h2>
+      </div>}
+    </>}
+  </>
+}
