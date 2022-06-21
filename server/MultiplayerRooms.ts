@@ -317,6 +317,15 @@ export class ZonesRoom extends CoreRoom {
     super(state)
   }
 
+  async onJoin(
+    client: Client,
+    options: { token: string },
+    _2: any,
+  ): Promise<void> {
+    super.broadcast('music', '/assets/music/newsroom.mp3')
+    super.onJoin(client, options, _2)
+  }
+
   tick(): void {
     super.tick()
     for (

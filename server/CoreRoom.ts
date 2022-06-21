@@ -147,6 +147,7 @@ export default class CoreRoom extends Room<GameState> {
                 if ((player.x > jar.x - 60 && player.x < jar.x + 60) && (player.y > jar.y - 60 && player.y < jar.y + 60) && message.zoneClaim) {
                   jar.team = player.team
                   this.broadcast('chatlog', `${player.onlineName} captured a zone for ${player.team == 1 ? 'Red' : 'Blue'} team!`)
+                  player.colyseusClient.send('sfx', '/assets/audio/captured.m4a')
                 }
               }, 3000)
             }
