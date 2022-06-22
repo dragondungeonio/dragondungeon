@@ -296,7 +296,7 @@ export default function Profile() {
             type="trait"
             token={token}
             equipped={true}
-            name="Replication Chamber"
+            name="Replication"
             perk="Fireballs have a random chance of replication after damaging a foe."
           />
           {/* <ProfileSelectItem

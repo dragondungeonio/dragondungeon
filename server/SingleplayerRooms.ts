@@ -30,7 +30,7 @@ export class TutorialRoom extends CoreRoom {
                                     super.spawnCoin()
                                     let ccint = setInterval(() => {
                                         if (super.getState().players[client.id].coins > 0) {
-                                            client.send('chatlog', 'Keep going until your backpack is full of coins!')
+                                            client.send('chatlog', 'Keep going until your backpack is full of coins! You can use the <img src="/assets/img/prompts/mnk/V_Key_Dark.png" height="50px" width="50px" style="vertical-align:middle" /> key to dodge around if you want.')
                                             clearInterval(ccint)
                                             let cfint = setInterval(() => {
                                                 if (super.getState().players[client.id].coins >= 10) {
@@ -57,20 +57,13 @@ export class TutorialRoom extends CoreRoom {
                                                                         bot.x = 1500
                                                                         bot.y = 1500
                                                                         this.state.players.set('botty', bot)
+                                                                        this.state.players['botty'].health = 9
                                                                         let bint = setInterval(() => {
-                                                                            if(this.state.players['botty'].health == 0) {
+                                                                            console.log(this.state.players['botty'].health)
+                                                                            if(this.state.players['botty'].health == 10) {
                                                                                 clearInterval(bint)
-                                                                                client.send('chatlog', 'That wasn\'t too hard, was it? (physically, not ethically)')
-                                                                                setTimeout(() => {
-                                                                                    client.send('chatlog', 'You can use <img src="/assets/img/promptsmnk/V_Key_Dark.png" height="50px" width="50px" style="vertical-align:middle" /> to dodge or <img src="/assets/img/promptsmnk/X_Key_Dark.png" height="50px" width="50px" style="vertical-align:middle" /> to autoshoot, by the way!')
-                                                                                    setTimeout(() => {
-                                                                                        client.send('chatlog', 'Now go forth and become the richest dragon of all! If you need this tutorial again, just select it from the menu.')
-                                                                                        setTimeout(() => {
-                                                                                            this.state.gameOver = true
-                                                                                            super.gameOver()
-                                                                                        }, 5000)
-                                                                                    }, 3000)
-                                                                                }, 4000)
+                                                                                this.state.gameOver = true
+                                                                                super.gameOver('Congrats! You\'re ready to play.')
                                                                             }
                                                                         }, 30)
                                                                     }, 2000)
