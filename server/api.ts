@@ -192,32 +192,28 @@ export async function completePurchase(request, response) {
 export async function initUser(req, res) {
     try {
         let userClaims = await getUserDetails(req.query.user.toString())
-        let userDragonDoc = await getUserDragon(userClaims.uid)
-        let userStoreDoc = await getUserEntitlements(userClaims.uid)
-        let userStatsDoc = await getUserStats(userClaims.uid)
-        if (!(await userStoreDoc.get()).exists) {
-            await setUserDragon(
-                {
-                    ability: 'Fireball',
-                    skin: 0,
-                },
-                userClaims.uid,
-            )
-            await setUserEntitlements(
-                {
-                    gems: 0,
-                    skinEntitlements: [0],
-                },
-                userClaims.uid,
-            )
-            await setUserStats(
-                {
-                    fireballs: 0,
-                    coins: 0,
-                },
-                userClaims.uid,
-            )
-        }
+        await setUserDragon(
+            {
+                ability: 'Fireball',
+                skin: 0,
+                mod: 100,
+            },
+            userClaims.uid,
+        )
+        await setUserEntitlements(
+            {
+                gems: 0,
+                skinEntitlements: [0],
+            },
+            userClaims.uid,
+        )
+        await setUserStats(
+            {
+                fireballs: 0,
+                coins: 0,
+            },
+            userClaims.uid,
+        )
         res.status(200)
         res.send('Done')
     } catch {
