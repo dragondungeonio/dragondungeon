@@ -17,7 +17,7 @@ export class TutorialRoom extends CoreRoom {
         setTimeout(() => {
             client.send('chatlog', 'Welcome to dragondungeon.io!')
             setTimeout(() => {
-                client.send('chatlog', 'Use the mouse to move and <img src="/assets/img/promptsmnk/Space_Key_Dark.png" height="50px" width="50px" style="vertical-align:middle" /> to shoot')
+                client.send('chatlog', 'Use the mouse to move and <img src="/assets/img/prompts/mnk/Space_Key_Dark.png" height="50px" width="50px" style="vertical-align:middle" /> to shoot')
                 super.onMessage('input', (clientm: Client, message: IInputs) => {
                     if (clientm == client && message.space == true && this.hasCollectedCoins == false) {
                         this.hasCollectedCoins = true

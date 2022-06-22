@@ -23,7 +23,7 @@ import {
 } from './MultiplayerRooms'
 import { TutorialRoom } from './SingleplayerRooms'
 import { completePurchase, equipItem, initUser, linkAnet, purchaseInit, purchaseItem } from './api'
-import { TournamentArenaRoom, TournamentCaptureRoom, TournamentSurvivalRoom } from './TournamentRooms'
+import { TournamentArenaRoom, TournamentCaptureRoom, TournamentSurvivalRoom, TournamentZonesRoom } from './TournamentRooms'
 
 // Friendly Logs
 console.log('DragonDungeon'.red)
@@ -99,6 +99,7 @@ colyseusServer.define('zones', ZonesRoom)
 colyseusServer.define('tarena', TournamentArenaRoom)
 colyseusServer.define('tctc', TournamentCaptureRoom)
 colyseusServer.define('tlds', TournamentSurvivalRoom)
+colyseusServer.define('tzones', TournamentZonesRoom)
 
 colyseusServer.define('essentials', EssentialRoom)
 colyseusServer.define('tutorial', TutorialRoom)

@@ -94,6 +94,9 @@ function DragonDungeon({ Component, pageProps }) {
             <MenuOption name="Updates" href="https://dragondungeonio.substack.com/" />
             <MenuOption name="Settings" href="/settings" />
           </div>}
+          {((!router.pathname.startsWith('/play/') && router.pathname != '/') && window.localStorage.ddTournamentMode == 'true') && <div className={styles.nav}>
+            <span className={styles.link} style={{ color: '#f9e300' }} onClick={() => router.push('/')}>Back</span>
+          </div>}
         </>}
         <AnimatePresence
           exitBeforeEnter

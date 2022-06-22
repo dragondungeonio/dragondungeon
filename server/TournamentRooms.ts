@@ -187,6 +187,39 @@ export class TournamentCaptureRoom extends CoreRoom {
   }
 }
 
+export class TournamentZonesRoom extends CoreRoom {
+  constructor() {
+    let state = new GameState()
+    state.gamemode = 'Zones'
+    state.countdown.minutes = 5
+    state.coinJars.set(v4(), new CoinJar(200, 1500, 0))
+    state.coinJars.set(v4(), new CoinJar(600, 700, 0))
+    state.coinJars.set(v4(), new CoinJar(1000, 2800, 0))
+    state.coinJars.set(v4(), new CoinJar(1400, 2540, 0))
+    state.coinJars.set(v4(), new CoinJar(1800, 1230, 0))
+    super(state)
+  }
+
+  async onJoin(
+    client: Client,
+    options: { token: string },
+    _2: any,
+  ): Promise<void> {
+    super.onJoin(client, options, _2)
+  }
+
+  tick(): void {
+    super.tick()
+    for (
+      let i = super.getState().coins.size;
+      i < super.getState().players.size * 20;
+      i++
+    ) {
+      super.spawnCoin()
+    }
+  }
+}
+
 export class EssentialRoom extends CoreRoom {
   constructor() {
     let state = new GameState()
