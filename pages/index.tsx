@@ -30,26 +30,15 @@ export default function Home() {
             <ModeItem description="A secret mode awaits...." name="[REDACTED]" img="/assets/img/prompts/mnk/Question_Key_Dark.png" href="#" router={router} />
             <ModeItem description="Learn the ropes." name="Tutorial" img="/assets/img/ui/queststep.png" href="/play/tutorial" router={router} />
           </div>}
-          {window.localStorage.ddTournamentMode == 'true' && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '5px' }}>
-            <ModeItem name="Tutorial" img="/assets/img/prompts/mnk/T_Key_Dark.png" href="/play/tutorial" router={router} />
-            <ModeItem name="Dragon" img="/assets/img/prompts/mnk/D_Key_Dark.png" href="/profile" router={router} />
-            <ModeItem name="Credits" img="/assets/img/prompts/mnk/C_Key_Dark.png" href="/credits" router={router} />
-
-            <ModeItem description="Game I" name="Round I" img="/assets/img/game/bat.png" href="/play/tarena" router={router} />
-            <ModeItem description="Game II" name="Round I" img="/assets/img/game/bat.png" href="/play/tarena" router={router} />
-            <ModeItem description="Game III" name="Round I" img="/assets/img/game/bat.png" href="/play/tarena" router={router} />
-
-            <ModeItem description="Game I" name="Round II" img="/assets/img/game/coinJar.png" href="/play/tzones" router={router} />
-            <ModeItem description="Game II" name="Round II" img="/assets/img/game/coinJar.png" href="/play/tzones" router={router} />
-            <ModeItem description="Game III" name="Round II" img="/assets/img/game/coinJar.png" href="/play/tzones" router={router} />
-
-            <ModeItem description="Game I" name="Round III" img="/assets/img/game/skull.png" href="/play/tctc" router={router} />
-            <ModeItem description="Game II" name="Round III" img="/assets/img/game/skull.png" href="/play/tctc" router={router} />
-            <ModeItem description="Game III" name="Round III" img="/assets/img/game/skull.png" href="/play/tctc" router={router} />
-
-            <ModeItem description="Game I" name="Round IV" img="/assets/img/skins/basic.png" href="/play/tlds" router={router} />
-            <ModeItem description="Game II" name="Round IV" img="/assets/img/skins/basic.png" href="/play/tlds" router={router} />
-            <ModeItem description="Game III" name="Round IV" img="/assets/img/skins/basic.png" href="/play/tlds" router={router} />
+          {window.localStorage.ddTournamentMode == 'true' && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '5px' }}>
+            <ModeItem name="Tutorial" img="/assets/img/prompts/mnk/Arrow_Down_Key_Dark.png" href="/play/tutorial" router={router} />
+            <ModeItem name="Dragon" img="/assets/img/prompts/mnk/Arrow_Down_Key_Dark.png" href="/profile" router={router} />
+            <ModeItem name="Credits" img="/assets/img/prompts/mnk/Arrow_Down_Key_Dark.png" href="/credits" router={router} />
+            <ModeItem name="Settings" img="/assets/img/prompts/mnk/Arrow_Down_Key_Dark.png" href="/settings" router={router} />
+            <ModeItem description="Arena" name="Round I" img="/assets/img/game/bat.png" href="/play/tarena" router={router} />
+            <ModeItem description="Zones" name="Round II" img="/assets/img/game/coinJar.png" href="/play/tzones" router={router} />
+            <ModeItem description="Capture" name="Round III" img="/assets/img/game/skull.png" href="/play/tctc" router={router} />
+            <ModeItem description="Survival" name="Round IV" img="/assets/img/skins/basic.png" href="/play/tlds" router={router} />
           </div>}
         </>}
       </div>

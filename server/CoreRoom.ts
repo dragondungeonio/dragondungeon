@@ -139,7 +139,7 @@ export default class CoreRoom extends Room<GameState> {
   registerMessages() {
     this.onMessage('input', (client: Client, message: IInputs) => {
       try {
-        if (message.zoneClaim) {
+        if (message.zoneClaim && this.state.gamemode == 'Zones') {
           let player = this.state.players.get(client.sessionId)
           this.state.coinJars.forEach(jar => {
             if ((player.x > jar.x - 60 && player.x < jar.x + 60) && (player.y > jar.y - 60 && player.y < jar.y + 60)) {
