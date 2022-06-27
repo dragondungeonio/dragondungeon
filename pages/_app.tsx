@@ -72,9 +72,9 @@ function DragonDungeon({ Component, pageProps }) {
 
   return <>
     <Head>
-      <title>Dragon Dungeon</title>
+      <title>DragonDungeon</title>
       <link rel="icon" href="/assets/img/game/coinJar.png" />
-      <meta property="og:title" content="Dragon Dungeon" />
+      <meta property="og:title" content="DragonDungeon" />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://dragondungeon.io" />
       <meta property="og:image" content="https://dragondungeon.io/assets/img/skins/basic.png" />
@@ -143,8 +143,8 @@ export default function DDApp({ Component, pageProps }) {
         <DragonDungeon Component={Component} pageProps={pageProps} />
       </>}
       {window.innerWidth < 1000 && <div style={{ padding: '30px', textAlign: 'center' }}>
-        <h1>dragondungeon.io</h1>
-        <h2>Your screen is too small to play dragondungeon.io. Please rotate your display to landscape or switch to a computer, then reload this page.</h2>
+        <h1>DragonDungeon</h1>
+        <h2>Your screen is too small to play DragonDungeon. Please rotate your display to landscape or switch to a computer, then reload this page.</h2>
       </div>}
     </>}
   </>

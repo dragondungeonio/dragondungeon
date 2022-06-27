@@ -9,7 +9,7 @@ export default function Credits() {
     return (
         <PageLayout>
             <h1>Settings</h1>
-            <h3>Dragon Dungeon {require('../package.json').version}</h3>
+            <h3>DragonDungeon {require('../package.json').version}</h3>
             Music volume:&nbsp;
             <button onClick={() => window.localStorage.musicVolume = 0}>Mute</button>
             <button onClick={() => window.localStorage.musicVolume = 0.3}>Low</button>

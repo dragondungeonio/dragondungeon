@@ -15,7 +15,7 @@ export class TutorialRoom extends CoreRoom {
     async onJoin(client: Client, options: { token: string }, _2: any): Promise<void> {
         super.onJoin(client, options, _2)
         setTimeout(() => {
-            client.send('chatlog', 'Welcome to dragondungeon.io!')
+            client.send('chatlog', 'Welcome to DragonDungeon!')
             setTimeout(() => {
                 client.send('chatlog', 'Use the mouse to move and <img src="/assets/img/prompts/mnk/Space_Key_Dark.png" height="50px" width="50px" style="vertical-align:middle" /> to shoot')
                 super.onMessage('input', (clientm: Client, message: IInputs) => {
@@ -23,7 +23,7 @@ export class TutorialRoom extends CoreRoom {
                         this.hasCollectedCoins = true
                         client.send('chatlog', 'Great job!')
                         setTimeout(() => {
-                            client.send('chatlog', 'dragondungeon.io is all about collecting coins!')
+                            client.send('chatlog', 'DragonDungeon is all about collecting coins!')
                             setTimeout(() => {
                                 client.send('chatlog', 'Just hover over a coin to collect it.')
                                 for (let i = 0; i < 30; i++) {

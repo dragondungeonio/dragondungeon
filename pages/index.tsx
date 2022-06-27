@@ -18,8 +18,8 @@ export default function Home() {
     <PageLayout>
       <div className={styles.centeredContent}>
         {typeof window !== "undefined" && <>
-          {window.localStorage.ddTournamentMode !== 'true' && <h1>dragondungeon.io</h1>}
-          {window.localStorage.ddTournamentMode == 'true' && <h1>Dragon Dungeon Live!</h1>}
+          {window.localStorage.ddTournamentMode !== 'true' && <h1>DragonDungeon</h1>}
+          {window.localStorage.ddTournamentMode == 'true' && <h1>DragonDungeon Live!</h1>}
         </>}
         {typeof window !== "undefined" && <>
           {window.localStorage.ddTournamentMode !== 'true' && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '5px' }}>
