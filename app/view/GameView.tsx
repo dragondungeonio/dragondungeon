@@ -234,8 +234,8 @@ export class GameView extends Component<GameViewProps, GameViewState> {
       window.localStorage.ddSpectatorMode != 'true'
     ) {
       try {
-        this.viewport.x = -me.x + window.innerWidth / 1.7
-        this.viewport.y = -me.y + window.innerHeight / 1.7
+        this.viewport.x = -me.x + window.innerWidth / 2
+        this.viewport.y = -me.y + window.innerHeight / 2
       } catch {}
     }
 
