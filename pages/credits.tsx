@@ -19,16 +19,14 @@ export default function Credits() {
       />
       <p>Keith Groves, Director of Education</p>
       <p>Sarah Cooper, Executive Director</p>
-      <img
-        src="/assets/img/ui/lit.png"
-        alt="The LEAGUE of Amazing Programmers"
-        height={40}
-      />
+      <img src="/assets/img/ui/lit.png" alt="Lit.games Logo" height={40} />
       <p>Luke Wood, CEO</p>
       <h2>Assets</h2>
       <p>Toybox 2020 Competition</p>
       <p>YouTube Audio Library</p>
-      <h2>&copy; 2020-{new Date().getFullYear()} the LEAGUE of Amazing Programmers</h2>
+      <h2>
+        &copy; 2020-{new Date().getFullYear()} the LEAGUE of Amazing Programmers
+      </h2>
     </PageLayout>
   )
 }
