@@ -111,19 +111,29 @@ export default class CoreRoom extends Room<GameState> {
       }
     }
 
+    let match = false
+
     this.state.players.forEach(player => {
       if (player.onlineID == userData.uid) {
-        teamnum = player.team
-        player = null
+        this.state.players.delete(player.colyseusClient.id)
+        match = true
+        this.state.players[client.id] = new ServerPlayer(
+          ability,
+          dragonSkin,
+          player.team,
+          client,
+        )
       }
     })
 
-    this.state.players[client.id] = new ServerPlayer(
-      ability,
-      dragonSkin,
-      teamnum,
-      client,
-    )
+    if (!match) {
+      this.state.players[client.id] = new ServerPlayer(
+        ability,
+        dragonSkin,
+        teamnum,
+        client,
+      )
+    }
 
     this.state.players[client.id].x = xPos
     this.state.players[client.id].y = yPos
