@@ -16,33 +16,6 @@ import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
 import styles from '../styles/navigation.module.css'
 import '../styles/globals.css'
 
-function ModeItem(props) {
-  return (
-    <div
-      style={{ padding: '20px', width: '160px', textAlign: 'center' }}
-      onClick={() => {
-        if (props.href) {
-          props.router.push(props.href)
-        }
-      }}
-    >
-      <img
-        src={props.img}
-        alt={props.name}
-        style={{ imageRendering: 'pixelated', height: '50px' }}
-      />
-      <br />
-      <br />
-      <span style={{ fontSize: '20pt' }}>{props.name}</span>
-      <br />
-      <br />
-      {props.description && (
-        <span style={{ color: '#f9e300' }}>{props.description}</span>
-      )}
-    </div>
-  )
-}
-
 function MenuOption(props) {
   let router = useRouter()
   return (
@@ -113,10 +86,7 @@ function DragonDungeon({ Component, pageProps }) {
           name="twitter:image"
           content="https://dragondungeon.io/assets/img/skins/basic.png"
         />
-        <meta
-          name="viewport"
-          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"
-        />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
       </Head>
       <div className={styles.dragondungeon}>
         <div className={styles.centeredContent}>
@@ -188,25 +158,36 @@ function DragonDungeon({ Component, pageProps }) {
                     }}
                     onClick={async () => {
                       let auth = getAuth()
-                      let info = await signInWithPopup(
-                        auth,
-                        new GoogleAuthProvider(),
-                      )
-                      if (info.user) {
-                        let db = getFirestore()
-                        let userStoreDoc = await getDoc(
-                          doc(db, info.user.uid, 'store'),
+                      try {
+                        let info = await signInWithPopup(
+                          auth,
+                          new GoogleAuthProvider(),
                         )
-                        if (!userStoreDoc.exists()) {
-                          await fetch(
-                            `${window.location.protocol}//${
-                              window.location.hostname
-                            }:1337/init?user=${await getIdToken(info.user)}`,
+                        if (info.user) {
+                          let db = getFirestore()
+                          let userStoreDoc = await getDoc(
+                            doc(db, info.user.uid, 'store'),
                           )
+                          if (!userStoreDoc.exists()) {
+                            await fetch(
+                              `${window.location.protocol}//${window.location.hostname
+                              }:1337/init?user=${await getIdToken(info.user)}`,
+                            )
+                          }
+                          return true
+                        } else {
+                          return false
                         }
-                        return true
-                      } else {
-                        return false
+                      } catch (error) {
+                        console.log(error.code)
+                        switch (error.code) {
+                          case 'auth/user-disabled':
+                            alert('Not so fast! This account has been banned.')
+                            break
+                          default:
+                            alert('There was an issue signing you in.')
+                            break
+                        }
                       }
                     }}
                   >
@@ -236,12 +217,12 @@ function DragonDungeon({ Component, pageProps }) {
                   zIndex: 99999999999999999999,
                 }}
               >
-                {require('../package.json').version}{' '}
+                {'V'}{require('../package.json').version}{' on '}
                 {navigator.userAgent.includes('Mac')
                   ? 'Mac'
                   : navigator.userAgent.includes('Windows')
-                  ? 'Windows'
-                  : 'Other'}
+                    ? 'Windows'
+                    : 'Other'}
               </p>
             )}
         </>

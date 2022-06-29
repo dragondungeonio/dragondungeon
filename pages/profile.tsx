@@ -10,100 +10,6 @@ import { PageLayout } from 'components'
 
 import styles from 'styles/menu.module.css'
 
-function ProfileSelectItem(props) {
-  let rarityBorder = 'whitesmoke'
-  let borderImage = false
-
-  if (props.equipped && props.type == 'ability') {
-    borderImage = true
-    rarityBorder =
-      'linear-gradient(to bottom right, blue 0%, yellow 25%, brown 50%, green 75%, #c60c30 100%)'
-  }
-
-  if (props.equipped && props.type == 'skin') {
-    borderImage = true
-    rarityBorder =
-      'linear-gradient(to bottom right, green 0%, yellow 25%, blue 50%, green 75%, white 100%)'
-  }
-
-  if (props.equipped && props.type == 'mod') {
-    borderImage = true
-    rarityBorder =
-      'linear-gradient(to bottom right, green 0%, green 25%, white 50%, green 75%, white 100%)'
-  }
-
-  if (props.equipped && props.type == 'trait') {
-    borderImage = true
-    rarityBorder =
-      'linear-gradient(to bottom right, purple 0%, purple 25%, white 50%, purple 75%, white 100%)'
-  }
-
-  return (
-    <div
-      className={styles.borderSliceApplied}
-      style={{
-        border: borderImage
-          ? '5px solid transparent'
-          : `5px solid ${rarityBorder}`,
-        borderImage: borderImage ? rarityBorder : '',
-        padding: '20px',
-        width: '130px',
-        background: 'black',
-      }}
-      onClick={async () => {
-        if (props.type == 'ability') {
-          let equipRequest = await fetch(
-            `${window.location.protocol}//${window.location.hostname}:1337/equip/${props.name}?user=${props.token}&type=ability`,
-          )
-          if (equipRequest.status !== 200) {
-            alert('There was an issue equipping this item.')
-          } else {
-            window.location.reload()
-          }
-        } else if (props.type == 'mod') {
-          let equipRequest = await fetch(
-            `${window.location.protocol}//${window.location.hostname}:1337/equip/${props.id}?user=${props.token}&type=mod`,
-          )
-          if (equipRequest.status !== 200) {
-            alert('There was an issue equipping this item.')
-          } else {
-            window.location.reload()
-          }
-        } else if (props.type == 'trait') {
-          return;
-        } else {
-          let equipRequest = await fetch(
-            `${window.location.protocol}//${window.location.hostname}:1337/equip/${props.id}?user=${props.token}`,
-          )
-          if (equipRequest.status !== 200) {
-            alert('There was an issue equipping this item.')
-          } else {
-            window.location.reload()
-          }
-        }
-      }}
-    >
-      {props.type == 'trait' && <><span style={{ color: 'lime' }}>Intrinsic</span><br /><br /></>}
-      {props.type == 'mod' && <><span style={{ color: 'lightgreen' }}>Mod</span><br /><br /></>}
-      {props.img && <><img
-        src={props.img}
-        alt={props.name}
-        style={{
-          imageRendering: 'pixelated',
-          height: '60px',
-          verticalAlign: 'middle',
-        }}
-      /><br />
-      <br /></>}
-      <b style={{ fontSize: '15pt' }}>{props.name}</b>
-      <br />
-      <i style={{ fontSize: '10pt' }}>{props.description}</i>
-      <br />
-      <span style={{ fontSize: '12pt', color: '#f9e300' }}>{props.perk}</span>
-    </div>
-  )
-}
-
 export default function Profile() {
   let [user, setUser] = useState<any>('')
   let [token, setToken] = useState<string>('')
@@ -113,6 +19,100 @@ export default function Profile() {
   let [equippedSkin, setEquippedSkin] = useState<number>(0)
   let [equippedAbility, setEquippedAbility] = useState<string>('')
   let [equippedMod, setEquippedMod] = useState<number>(0)
+
+  function ProfileSelectItem(props) {
+    let rarityBorder = 'whitesmoke'
+    let borderImage = false
+  
+    if (props.equipped && props.type == 'ability') {
+      borderImage = true
+      rarityBorder =
+        'linear-gradient(to bottom right, blue 0%, yellow 25%, brown 50%, green 75%, #c60c30 100%)'
+    }
+  
+    if (props.equipped && props.type == 'skin') {
+      borderImage = true
+      rarityBorder =
+        'linear-gradient(to bottom right, green 0%, yellow 25%, blue 50%, green 75%, white 100%)'
+    }
+  
+    if (props.equipped && props.type == 'mod') {
+      borderImage = true
+      rarityBorder =
+        'linear-gradient(to bottom right, green 0%, green 25%, white 50%, green 75%, white 100%)'
+    }
+  
+    if (props.equipped && props.type == 'trait') {
+      borderImage = true
+      rarityBorder =
+        'linear-gradient(to bottom right, purple 0%, purple 25%, white 50%, purple 75%, white 100%)'
+    }
+  
+    return (
+      <div
+        className={styles.borderSliceApplied}
+        style={{
+          border: borderImage
+            ? '5px solid transparent'
+            : `5px solid ${rarityBorder}`,
+          borderImage: borderImage ? rarityBorder : '',
+          padding: '20px',
+          width: '130px',
+          background: 'black',
+        }}
+        onClick={async () => {
+          if (props.type == 'ability') {
+            let equipRequest = await fetch(
+              `${window.location.protocol}//${window.location.hostname}:1337/equip/${props.name}?user=${props.token}&type=ability`,
+            )
+            if (equipRequest.status !== 200) {
+              alert('There was an issue equipping this item.')
+            } else {
+              setEquippedAbility(props.name)
+            }
+          } else if (props.type == 'mod') {
+            let equipRequest = await fetch(
+              `${window.location.protocol}//${window.location.hostname}:1337/equip/${props.id}?user=${props.token}&type=mod`,
+            )
+            if (equipRequest.status !== 200) {
+              alert('There was an issue equipping this item.')
+            } else {
+              setEquippedMod(props.id)
+            }
+          } else if (props.type == 'trait') {
+            return;
+          } else {
+            let equipRequest = await fetch(
+              `${window.location.protocol}//${window.location.hostname}:1337/equip/${props.id}?user=${props.token}`,
+            )
+            if (equipRequest.status !== 200) {
+              alert('There was an issue equipping this item.')
+            } else {
+              setEquippedSkin(props.id)
+            }
+          }
+        }}
+      >
+        {props.type == 'trait' && <><span style={{ color: 'lime' }}>Intrinsic</span><br /><br /></>}
+        {props.type == 'mod' && <><span style={{ color: 'lightgreen' }}>Mod</span><br /><br /></>}
+        {props.img && <><img
+          src={props.img}
+          alt={props.name}
+          style={{
+            imageRendering: 'pixelated',
+            height: '60px',
+            verticalAlign: 'middle',
+          }}
+        /><br />
+        <br /></>}
+        <b style={{ fontSize: '15pt' }}>{props.name}</b>
+        <br />
+        <i style={{ fontSize: '10pt' }}>{props.description}</i>
+        <br />
+        <span style={{ fontSize: '12pt', color: '#f9e300' }}>{props.perk}</span>
+      </div>
+    )
+  }
 
   useMemo(() => {
     let auth = getAuth()

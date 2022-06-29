@@ -110,6 +110,14 @@ export default class CoreRoom extends Room<GameState> {
         yPos = this.state.gameheight * Math.random()
       }
     }
+
+    this.state.players.forEach(player => {
+      if (player.onlineID == userData.uid) {
+        teamnum = player.team
+        player = null
+      }
+    })
+
     this.state.players[client.id] = new ServerPlayer(
       ability,
       dragonSkin,
