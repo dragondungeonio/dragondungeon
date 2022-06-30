@@ -52,6 +52,7 @@ export function CTCLeaderboard(props: {
       <p className={styles.mobileCountdown}></p>
       {window.innerWidth >= 1000 && (
         <>
+          <div id="captions" style={{ position: 'fixed', color: '#f9e300' }}></div>
           <div id="chatlog" className={styles.CTCboard}></div>
           <div className={styles.CTCboard}>
             {renderTableData(props.players)}

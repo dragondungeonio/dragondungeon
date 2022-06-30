@@ -105,11 +105,7 @@ function DragonDungeon({ Component, pageProps }) {
                     </span>
                     <MenuOption name="Dragon" href="/profile" />
                     <MenuOption name="Store" href="/store" />
-                    <MenuOption
-                      name="Updates"
-                      href="https://dragondungeonio.substack.com/"
-                    />
-                    <MenuOption name="Settings" href="/settings" />
+                    <MenuOption name="About" href="/about" />
                   </div>
                 )}
               {!router.pathname.startsWith('/play/') &&

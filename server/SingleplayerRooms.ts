@@ -3,6 +3,17 @@ import { CoinJar, GameState, IInputs, Player } from '../common'
 import CoreRoom from './CoreRoom'
 import { v4 } from 'uuid'
 
+export class CampaignBetaRoom extends CoreRoom {
+    constructor() {
+        super(new GameState())
+    }
+
+    async onJoin(client: Client, options: { token: string }, _2: any): Promise<void> {
+        super.onJoin(client, options, _2)
+        
+    }
+}
+
 export class TutorialRoom extends CoreRoom {
 
     hasCollectedCoins: boolean = false

@@ -17,6 +17,7 @@ export default function Credits() {
         alt="The LEAGUE of Amazing Programmers"
         height={50}
       />
+      <p>Vic Wintriss, Founder</p>
       <p>Keith Groves, Director of Education</p>
       <p>Sarah Cooper, Executive Director</p>
       <img src="/assets/img/ui/lit.png" alt="Lit.games Logo" height={40} />
