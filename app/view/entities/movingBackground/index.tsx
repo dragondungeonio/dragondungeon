@@ -45,6 +45,7 @@ export const MovingBackground = (props: IProps) => {
   }, [])
 
   if (window.localStorage.ddSpectatorMode != 'true') {
+    console.log('render-tile')
     return (
       <AnimatedSprite
         anchor={new PIXI.Point(0.5, 0.5)}

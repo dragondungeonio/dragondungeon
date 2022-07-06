@@ -1,16 +1,10 @@
-import {
-  getAuth,
-  onAuthStateChanged,
-  getIdToken,
-  updateProfile,
-} from 'firebase/auth'
 import { useMemo, useState } from 'react'
 import { getFirestore, getDoc, doc } from 'firebase/firestore'
 import { PageLayout } from 'components'
 
 import styles from 'styles/menu.module.css'
 
-export default function Profile() {
+export default function Profile(props) {
   let [user, setUser] = useState<any>('')
   let [token, setToken] = useState<string>('')
   let [skins, setSkins] = useState<any>('')
@@ -114,75 +108,30 @@ export default function Profile() {
     )
   }
 
-  useMemo(() => {
-    let auth = getAuth()
-    let authUnsub = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser)
-        let skinListingResp = await fetch('/api/skins.json')
-        let skinListing = await skinListingResp.json()
-        let db = getFirestore()
-        let playerEntitlementsDoc = await getDoc(
-          doc(db, currentUser.uid, 'store'),
-        )
-        let playerEntitlements = playerEntitlementsDoc.data()
-        let playerAppearanceDoc = await getDoc(
-          doc(db, currentUser.uid, 'dragon'),
-        )
-        let playerAppearance = playerAppearanceDoc.data()
-        setEntitledSkins(playerEntitlements.skinEntitlements)
-        setSkins(skinListing)
-        setEquippedSkin(playerAppearance.skin)
-        setEquippedAbility(playerAppearance.ability)
-        setEquippedMod(playerAppearance.mod || 0)
-        let userToken = await getIdToken(currentUser)
-        setToken(userToken)
-        setSkinsLoaded(true)
-      }
-    })
-
-    authUnsub()
+  useMemo(async () => {
+    let currentLoadout = await (await fetch(`${window.location.protocol}//${window.location.hostname}:1337/loadout?user=${props.user.token}`)).json()
+    setToken(props.user.token)
+    setEquippedSkin(currentLoadout.skin || 0)
+    setEquippedAbility(currentLoadout.ability || 'Fireball')
+    setEquippedMod(currentLoadout.mod || 100)
   }, [])
   return (
     <PageLayout>
       <h2>
         <img
-          src={user.photoURL}
+          src={props.user.avatar}
           height={70}
           style={{ borderRadius: '55px', verticalAlign: 'middle' }}
         />
         &nbsp;&nbsp;
         <span style={{ fontSize: '20pt', display: 'inline-block' }}>
-          {user.displayName}{' '}
+          {props.user.preferredIdentifier}
           <div
             style={{
               display: 'inline-block',
               width: '0.5em',
             }}
           ></div>
-          <div
-            style={{
-              display: 'inline-block',
-              fontSize: '18pt',
-              padding: '10px',
-              border: '3px solid #f9e300',
-              color: '#f9e300',
-            }}
-            onClick={() => {
-              const displayName = prompt('Enter your new Dragon Name:')
-              if (displayName) {
-                updateProfile(user, { displayName })
-                  .then(() => {
-                    window.location.reload()
-                  })
-                  .catch(() => {
-                    alert("Couldn't change your Dragon Name.")
-                  })
-              }
-            }}
-          >
-            Change name
-          </div>
         </span>
       </h2>
       <br />

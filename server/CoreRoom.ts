@@ -2,9 +2,7 @@ import { Room, Client } from 'colyseus'
 
 import {
   getUserDetails,
-  getUserDragon,
-  getUserStats,
-  setUserStats,
+  getUserDragon
 } from './data'
 
 import {
@@ -57,6 +55,8 @@ export default class CoreRoom extends Room<GameState> {
   }
 
   async onJoin(client: Client, options: { token: string }, _2: any) {
+    console.log(client.id)
+
     client.send('sfx', '/assets/audio/welcome.m4a')
 
     let userData = await getUserDetails(options.token)
@@ -194,13 +194,6 @@ export default class CoreRoom extends Room<GameState> {
       this.state.gameOverMessage = message
     }
     this.state.players.forEach(async (player: Player) => {
-      if (!player.isBot) {
-        let playerLifetimeStats = await getUserStats(player.onlineID)
-        let coins = parseInt(playerLifetimeStats.coins, 10) + player.score
-        let fireballs =
-          parseInt(playerLifetimeStats.fireballs, 10) + player.fireballCount
-        await setUserStats({ coins, fireballs }, player.onlineID)
-      }
       player.dead = true
     })
     this.lock()

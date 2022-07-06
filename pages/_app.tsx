@@ -3,15 +3,6 @@ import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import { AnimatePresence } from 'framer-motion'
-import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithPopup,
-  GoogleAuthProvider,
-  getIdToken,
-} from 'firebase/auth'
-import { getFirestore, doc, getDoc } from 'firebase/firestore'
-import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
 
 import styles from '../styles/navigation.module.css'
 import '../styles/globals.css'
@@ -27,11 +18,11 @@ function MenuOption(props) {
 
 function DragonDungeon({ Component, pageProps }) {
   let [gameStarted, setGameStarted] = useState<boolean>(false)
-  let [signInNeeded, setSignInNeeded] = useState<boolean>(false)
+  let [user, setUser] = useState<any>()
 
   let router = useRouter()
 
-  useMemo(() => {
+  useMemo(async () => {
     if (typeof window !== undefined) {
       const onlineServices = initializeApp({
         apiKey: 'AIzaSyCRClPzTZnRSg_fAap6ENnAkxUBQKJGk5w',
@@ -42,21 +33,20 @@ function DragonDungeon({ Component, pageProps }) {
         appId: '1:320692217416:web:f9cd0efdc04445865e9a7d',
       })
 
-      // const appCheck = initializeAppCheck(onlineServices, {
-      //   provider: new ReCaptchaV3Provider('6LcbhOQfAAAAALfRhtZTXG01H2uyAc7QHNWKzy0m'),
-      //   isTokenAutoRefreshEnabled: true
-      // });
-
-      let auth = getAuth()
-
       if (typeof window == 'object') {
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            setGameStarted(true)
-          } else {
-            setSignInNeeded(true)
+        try {
+          let token = new URLSearchParams(window.location.search).get('user')
+          let resp = await fetch(`${window.localStorage.ddAuthServer || 'https://lit.games'}/api/Platform/User/VerifyAuthToken?user=${token}`)
+          if (!resp.ok) {
+            throw new Error(resp.statusText);
           }
-        })
+          let userd = await resp.json()
+          setUser({...userd.response, token})
+          setGameStarted(true)
+        } catch (error) {
+          let loginInfo = await (await fetch(`${window.localStorage.ddAuthServer || 'https://lit.games'}/api/Platform/User/GetLoginURL?redirect=${window.location.protocol}//${window.location.host}${window.location.pathname}`)).json()
+          window.location.href = loginInfo.response.loginURL
+        }
       }
     }
   }, [])
@@ -128,72 +118,8 @@ function DragonDungeon({ Component, pageProps }) {
             initial={false}
             onExitComplete={() => window.scrollTo(0, 0)}
           >
-            {gameStarted && <Component {...pageProps} controls={0} />}
-            {!gameStarted && signInNeeded && (
-              <>
-                <div
-                  style={{
-                    width: '100vw',
-                    height: '100vh',
-                    background: 'rgba(0, 0, 0, 0.7)',
-                    position: 'fixed',
-                    zIndex: '999999999999999999',
-                    top: 0,
-                    left: 0,
-                  }}
-                >
-                  <span
-                    className={styles.link}
-                    style={{
-                      position: 'fixed',
-                      left: '37%',
-                      top: '45%',
-                      textAlign: 'center',
-                      fontSize: '25pt',
-                      padding: '20px',
-                    }}
-                    onClick={async () => {
-                      let auth = getAuth()
-                      try {
-                        let info = await signInWithPopup(
-                          auth,
-                          new GoogleAuthProvider(),
-                        )
-                        if (info.user) {
-                          let db = getFirestore()
-                          let userStoreDoc = await getDoc(
-                            doc(db, info.user.uid, 'store'),
-                          )
-                          if (!userStoreDoc.exists()) {
-                            await fetch(
-                              `${window.location.protocol}//${window.location.hostname
-                              }:1337/init?user=${await getIdToken(info.user)}`,
-                            )
-                          }
-                          return true
-                        } else {
-                          return false
-                        }
-                      } catch (error) {
-                        console.log(error.code)
-                        switch (error.code) {
-                          case 'auth/user-disabled':
-                            alert('Not so fast! This account has been banned.')
-                            break
-                          default:
-                            alert('There was an issue signing you in.')
-                            break
-                        }
-                      }
-                    }}
-                  >
-                    Log In with Google
-                  </span>
-                </div>
-                <Component {...pageProps} controls={0} />
-              </>
-            )}
-            {!gameStarted && !signInNeeded && <></>}
+            {gameStarted && <Component {...pageProps} user={user} controls={0} />}
+            {!gameStarted && <div style={{ color: '#f9e300', fontSize: '30pt', padding: '20px', position: 'fixed', bottom: 0, left: 0 }}>Contacting DragonDungeon Servers...</div>}
           </AnimatePresence>
         </div>
       </div>

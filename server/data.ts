@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin'
+import * as fs from 'fs'
 import 'colors'
 
 admin.initializeApp({
@@ -7,33 +8,30 @@ admin.initializeApp({
 
 export async function getUserDetails(token: string) {
   console.log(
-    'firebase'.yellow + ` - getUserDetails called with token [REDACTED]`,
+    'litapi'.yellow + ` - getUserDetails called with token [REDACTED]`,
   )
-  let userDetailsFull = await admin.auth().verifyIdToken(token)
+  let userClaims = await fetch(`${process.env.AUTH_SERVER || 'https://lit.games'}/api/Platform/User/VerifyAuthToken?user=${token}`)
+  let userDetailsFull = await userClaims.json()
   console.log(
-    'firebase'.yellow + ` - token verified for user ${userDetailsFull.email}`,
+    'litapi'.yellow + ` - token verified for user ${userDetailsFull.response.preferredIdentifier}`,
   )
 
   return {
-    uid: userDetailsFull.uid,
-    name: userDetailsFull.name,
-    email: userDetailsFull.email,
-    picture: userDetailsFull.picture,
+    uid: userDetailsFull.response.uid,
+    name: userDetailsFull.response.name,
+    email: userDetailsFull.response.email,
+    picture: userDetailsFull.response.avatar,
   }
 }
 
 export async function getUserDragon(uid: string) {
-  console.log('firebase'.yellow + ` - getUserDragon called with UID ${uid}`)
   try {
-    let dragonInfoRaw = await admin.firestore().doc(`${uid}/dragon`).get()
-    return dragonInfoRaw.data()
+    return require(`../cache/${uid}.json`)
   } catch {
-    console.log(
-      'firebase'.red + ` - failed to fetch dragon data for user ${uid}`,
-    )
     return {
-      ability: 'Fireball',
       skin: 0,
+      mod: 100,
+      ability: 'Fireball'
     }
   }
 }
@@ -80,16 +78,19 @@ export async function setUserDragon(
     mod?: number
   },
   uid: string,
-  merge = false,
 ) {
-  console.log('firebase'.yellow + ` - setUserDragon called with UID ${uid}`)
-  try {
-    let dragonInfoRaw = await admin
-      .firestore()
-      .doc(`${uid}/dragon`)
-      .set(data, { merge })
-  } catch {
-    console.log('firebase'.red + ` - failed to set dragon data for user ${uid}`)
+  if (fs.existsSync(`${__dirname}/../cache/${uid}.json`)) {
+    let dragon = require(`${__dirname}/../cache/${uid}.json`)
+    if (data.ability) {dragon.ability = data.ability}
+    if (data.skin) {dragon.skin = data.skin}
+    if (data.mod) {dragon.mod = data.mod}
+    fs.writeFile(`${__dirname}/../cache/${uid}.json`, JSON.stringify(dragon), () => {})
+  } else {
+    fs.writeFile(`${__dirname}/../cache/${uid}.json`, JSON.stringify({
+      ability: data.ability || 'Fireball',
+      mod: data.mod || 100,
+      skin: data.skin || 0
+    }), () => {})
   }
 }
 

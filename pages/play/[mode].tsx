@@ -11,5 +11,5 @@ export default function Game(props) {
       window.localStorage.gameType = router.query.mode
     }
   }, [router.query.mode])
-  return <CoreView controls={props.controls} />
+  return <CoreView token={props.user.token} controls={props.controls} />
 }

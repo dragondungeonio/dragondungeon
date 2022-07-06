@@ -38,10 +38,11 @@ import blankDragon from './sprites/blankDragon.png'
 
 import { Player } from '../../../../common/Player'
 import { FireballView } from '../fireball'
+import { NPCSprite } from 'common/NPCSprite'
 
 interface IProps {
   key: string
-  player: Player
+  player: Player | NPCSprite
   team: number
   celebration: boolean
   skin: number

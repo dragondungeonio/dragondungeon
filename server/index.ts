@@ -22,7 +22,7 @@ import {
   ZonesRoom,
 } from './MultiplayerRooms'
 import { TutorialRoom, CampaignBetaRoom } from './SingleplayerRooms'
-import { completePurchase, equipItem, initUser, linkAnet, purchaseInit, purchaseItem } from './api'
+import { completePurchase, equipItem, getLoadout, initUser, linkAnet, purchaseInit, purchaseItem } from './api'
 import { TournamentArenaRoom, TournamentCaptureRoom, TournamentSurvivalRoom, TournamentZonesRoom } from './TournamentRooms'
 
 // Friendly Logs
@@ -75,6 +75,7 @@ gameServerApp.get('/purchase/:id', purchaseItem)
 gameServerApp.get('/pay/:gemAmount', purchaseInit)
 gameServerApp.get('/init', initUser)
 gameServerApp.get('/claim/anet/:cid', linkAnet)
+gameServerApp.get('/loadout', getLoadout)
 gameServerApp.post(
   '/pay/webhook',
   express.raw({ type: 'application/json' }),

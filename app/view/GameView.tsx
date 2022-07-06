@@ -17,7 +17,6 @@ import { CoinJar } from './entities/coinJar'
 import { Bar } from './entities/healthBar/healthBar'
 import { Leaderboard } from 'components'
 import { Skull } from './entities/skull'
-import { Bat } from './entities/bat'
 import Router from 'next/router'
 
 let dragonCelebrating = false
@@ -123,14 +122,8 @@ export class GameView extends Component<GameViewProps, GameViewState> {
     let walls = []
     let coins = []
     let hudBars = []
-    // let bats = []
     let skulls = []
     let coinJars = []
-    // this.props.state.bats.forEach((bat, key) => {
-    //   bats.push(
-    //     <Bat x={bat.x} y={bat.y} rot={bat.angle} key={key.toString()} />,
-    //   )
-    // })
 
     this.props.state.skulls.forEach((skull, key) => {
       skulls.push(
@@ -177,6 +170,40 @@ export class GameView extends Component<GameViewProps, GameViewState> {
 
     const id = this.props.stateManager.room.sessionId
     const me = this.props.state.players[id]
+
+    if (this.props.state.npcs) {
+      this.props.state.npcs.forEach(npc => {
+        dragons.push(
+          <Dragon
+            player={npc}
+            key={v4()}
+            team={0}
+            skin={0}
+            celebration={true}
+            isGhost={false}
+            isMe={true}
+            turbo={false}
+          />,
+        )
+        const BetterBar = Bar as any
+        hudBars.push(
+          <BetterBar
+            key={v4()}
+            health={npc.health}
+            x={npc.x - 35}
+            y={npc.y - 80}
+            width={70}
+            team={0}
+            height={18}
+            color={0xe30b1d}
+            coins={npc.coins}
+            name={'Dragon'}
+            turbo={false}
+            nullAndVoid={false}
+          />,
+        )
+      })
+    }
 
     this.props.state.players.forEach((player) => {
       if (player == me) {
@@ -251,7 +278,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
         if (typeof me !== 'undefined') {
           tiles.push(
             <MovingBackground
-              map={this.props.state.map.toString()}
+              map={'classic'}
               key={`${i}-${j}`}
               x={(me.x - midpoint) / 2 + i * 177 * 1.2 - (177 * 1.2 * 5) / 7}
               y={(me.y - midpoint) / 2 + j * 177 * 1.2 - (177 * 1.2 * 5) / 7}

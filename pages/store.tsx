@@ -1,4 +1,3 @@
-import { getAuth, onAuthStateChanged, getIdToken } from 'firebase/auth'
 import { useMemo, useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { getFirestore, doc, getDoc } from 'firebase/firestore'
@@ -155,7 +154,7 @@ function GemStoreSection(props) {
   )
 }
 
-export default function MyDragon() {
+export default function MyDragon(props) {
   let [user, setUser] = useState<any>('')
   let [gems, setGems] = useState<number>(0)
   let [skins, setSkins] = useState<any>('')
@@ -163,27 +162,16 @@ export default function MyDragon() {
   let [entitledSkins, setEntitledSkins] = useState<any>('')
   let [skinsLoaded, setSkinsLoaded] = useState<boolean>(false)
 
-  useMemo(() => {
-    let auth = getAuth()
-    let authUnsub = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser)
-        let skinListingResp = await fetch('/api/skins.json')
-        let skinListing = await skinListingResp.json()
-        setSkins(skinListing)
-        let db = getFirestore()
-        let playerEntitlementsDoc = await getDoc(
-          doc(db, currentUser.uid, 'store'),
-        )
-        let playerEntitlements = playerEntitlementsDoc.data()
-        setGems(playerEntitlements.gems)
-        setEntitledSkins(playerEntitlements.skinEntitlements)
-        setToken(await getIdToken(currentUser))
-        setSkinsLoaded(true)
-      }
-    })
-
-    authUnsub()
+  useMemo(async () => {
+    setUser(props.user)
+    let skinListingResp = await fetch('/api/skins.json')
+    let skinListing = await skinListingResp.json()
+    setSkins(skinListing)
+    let db = getFirestore()
+    setGems(1000)
+    setEntitledSkins([0])
+    setToken(props.user.token)
+    setSkinsLoaded(true)
   }, [])
 
   return (

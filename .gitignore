@@ -6,3 +6,4 @@ build
 *.pem
 *.log
 config/private
+cache

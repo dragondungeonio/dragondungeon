@@ -15,6 +15,18 @@ const stripe = new Stripe(stripeAccount.secretKey, {
     apiVersion: '2020-08-27',
 })
 
+export async function getLoadout(req, res) {
+    try {
+        let userClaims = await getUserDetails(req.query.user as string)
+        let dragon = require(`../cache/${userClaims.uid}.json`)
+        res.status(200)
+        res.json(dragon)
+    } catch {
+        res.status(400)
+        res.send('Unknown error')
+    }
+}
+
 export async function equipItem(req, res) {
     try {
         let userClaims = await getUserDetails(req.query.user as string)
@@ -36,6 +48,7 @@ export async function equipItem(req, res) {
                     defaultMod = 500
                     break
                 default:
+                    defaultMod = 100
                     break
             }
 
@@ -44,16 +57,14 @@ export async function equipItem(req, res) {
                     ability: req.params.id,
                     mod: defaultMod
                 },
-                userClaims.uid,
-                true,
+                userClaims.uid
             )
         } else if (req.query.type == 'mod') {
             await setUserDragon(
                 {
                     mod: parseInt(req.params.id, 10),
                 },
-                userClaims.uid,
-                true,
+                userClaims.uid
             )
         } else {
             let userEntitlements = await getUserEntitlements(userClaims.uid)
@@ -64,8 +75,7 @@ export async function equipItem(req, res) {
                     {
                         skin: parseInt(req.params.id, 10),
                     },
-                    userClaims.uid,
-                    true,
+                    userClaims.uid
                 )
             } else {
                 res.status(400)

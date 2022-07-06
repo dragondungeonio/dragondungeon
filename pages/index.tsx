@@ -27,7 +27,7 @@ export default function Home() {
             <ModeItem description="Defend your base. Capture coins." name="Capture" img="/assets/img/game/skull.png" href="/play/ctc" router={router} />
             <ModeItem description="Capture and defend zones." name="Zones" img="/assets/img/game/bat.png" href="/play/zones" router={router} />
             <ModeItem description="Become the Last Dragon Standing." name="Survival" img="/assets/img/skins/basic.png" href="/play/lds" router={router} />
-            {/* <ModeItem description="Get an early preview of our story mode." name="Campaign" img="/assets/img/ui/mission.png" href="/play/campaign" router={router} /> */}
+            <ModeItem description="Get an early preview of our story mode." name="Campaign" img="/assets/img/ui/mission.png" href="/play/campaign" router={router} />
             <ModeItem description="Learn the ropes." name="Tutorial" img="/assets/img/ui/queststep.png" href="/play/tutorial" router={router} />
           </div>}
           {window.localStorage.ddTournamentMode == 'true' && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '5px' }}>

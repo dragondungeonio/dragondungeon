@@ -24,14 +24,6 @@ function MenuOption(props) {
   )
 }
 
-let stateManager = new StateManager(
-  new ColyseusService(
-    window.location.protocol == 'http:' ? 'ws' : 'wss',
-    window.location.hostname + ':1337',
-  ),
-  'arena',
-)
-
 function renderTableData(players: MapSchema<Player>) {
   let leaderboardData = []
   players.forEach((player: Player, key: any) => {
@@ -77,26 +69,31 @@ function CTCWinner(players: MapSchema<Player>){
 
 export default function CoreView({
   controls,
+  token,
 }: {
-  controls: number
+  controls: number,
+  token: string
 }) {
   const [room, setRoom] = useState<Room<GameState> | null>(null)
   const [state, setState] = useState<GameState | null>(null)
   const [gameOver, setGameOver] = useState<boolean>(false)
+  const [stateManager, setStateManager] = useState<StateManager>(new StateManager(
+    new ColyseusService(
+      window.location.protocol == 'http:' ? 'ws' : 'wss',
+      window.location.hostname + ':1337',
+    ),
+    'arena',
+    token
+  ))
 
   useMemo(() => {
-    let ref
-
-    stateManager.getGameRoom.then(() => {
-      ref = stateManager.room.onStateChange((newState) => {
+    console.log('cv use memo')
+    stateManager.joinRoom().then(() => {
+      stateManager.room.onStateChange((newState) => {
         setGameOver(newState.gameOver)
         setState(newState)
       })
     })
-
-    return () => {
-      ref.clear()
-    }
   }, [])
 
   if (state == null) {

@@ -2,10 +2,13 @@ import { Client } from 'colyseus'
 import { CoinJar, GameState, IInputs, Player } from '../common'
 import CoreRoom from './CoreRoom'
 import { v4 } from 'uuid'
+import { NPCSprite } from '../common/NPCSprite'
 
 export class CampaignBetaRoom extends CoreRoom {
     constructor() {
-        super(new GameState())
+        let state = new GameState()
+        state.npcs.set(v4(), new NPCSprite(200, 200))
+        super(state)
     }
 
     async onJoin(client: Client, options: { token: string }, _2: any): Promise<void> {
