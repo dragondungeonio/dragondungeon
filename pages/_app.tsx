@@ -36,15 +36,27 @@ function DragonDungeon({ Component, pageProps }) {
       if (typeof window == 'object') {
         try {
           let token = new URLSearchParams(window.location.search).get('user')
-          let resp = await fetch(`${window.localStorage.ddAuthServer || 'https://lit.games'}/api/Platform/User/VerifyAuthToken?user=${token}`)
+          let resp = await fetch(
+            `${
+              window.localStorage.ddAuthServer || 'https://lit.games'
+            }/api/Platform/User/VerifyAuthToken?user=${token}`,
+          )
           if (!resp.ok) {
-            throw new Error(resp.statusText);
+            throw new Error(resp.statusText)
           }
           let userd = await resp.json()
-          setUser({...userd.response, token})
+          setUser({ ...userd.response, token })
           setGameStarted(true)
         } catch (error) {
-          let loginInfo = await (await fetch(`${window.localStorage.ddAuthServer || 'https://lit.games'}/api/Platform/User/GetLoginURL?redirect=${window.location.protocol}//${window.location.host}${window.location.pathname}`)).json()
+          let loginInfo = await (
+            await fetch(
+              `${
+                window.localStorage.ddAuthServer || 'https://lit.games'
+              }/api/Platform/User/GetLoginURL?redirect=${
+                window.location.protocol
+              }//${window.location.host}${window.location.pathname}`,
+            )
+          ).json()
           window.location.href = loginInfo.response.loginURL
         }
       }
@@ -76,7 +88,10 @@ function DragonDungeon({ Component, pageProps }) {
           name="twitter:image"
           content="https://dragondungeon.io/assets/img/skins/basic.png"
         />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <meta
+          name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"
+        />
       </Head>
       <div className={styles.dragondungeon}>
         <div className={styles.centeredContent}>
@@ -118,8 +133,23 @@ function DragonDungeon({ Component, pageProps }) {
             initial={false}
             onExitComplete={() => window.scrollTo(0, 0)}
           >
-            {gameStarted && <Component {...pageProps} user={user} controls={0} />}
-            {!gameStarted && <div style={{ color: '#f9e300', fontSize: '30pt', padding: '20px', position: 'fixed', bottom: 0, left: 0 }}>Contacting DragonDungeon Servers...</div>}
+            {gameStarted && (
+              <Component {...pageProps} user={user} controls={0} />
+            )}
+            {!gameStarted && (
+              <div
+                style={{
+                  color: '#f9e300',
+                  fontSize: '30pt',
+                  padding: '20px',
+                  position: 'fixed',
+                  bottom: 0,
+                  left: 0,
+                }}
+              >
+                Contacting DragonDungeon Servers...
+              </div>
+            )}
           </AnimatePresence>
         </div>
       </div>
@@ -139,12 +169,14 @@ function DragonDungeon({ Component, pageProps }) {
                   zIndex: 99999999999999999999,
                 }}
               >
-                {'V'}{require('../package.json').version}{' on '}
+                {'V'}
+                {require('../package.json').version}
+                {' on '}
                 {navigator.userAgent.includes('Mac')
                   ? 'Mac'
                   : navigator.userAgent.includes('Windows')
-                    ? 'Windows'
-                    : 'Other'}
+                  ? 'Windows'
+                  : 'Other'}
               </p>
             )}
         </>
@@ -154,26 +186,23 @@ function DragonDungeon({ Component, pageProps }) {
 }
 
 export default function DDApp({ Component, pageProps }) {
+  if (typeof window !== 'object') return <></>
+  const onMobile = /Android|iPad|iPhone|iPod/.test(window.navigator.userAgent)
   return (
     <>
-      {typeof window == 'object' && (
+      {!onMobile && (
         <>
-          {window.innerWidth > 1000 && (
-            <>
-              <DragonDungeon Component={Component} pageProps={pageProps} />
-            </>
-          )}
-          {window.innerWidth < 1000 && (
-            <div style={{ padding: '30px', textAlign: 'center' }}>
-              <h1>DragonDungeon</h1>
-              <h2>
-                Your screen is too small to play DragonDungeon. Please rotate
-                your display to landscape or switch to a computer, then reload
-                this page.
-              </h2>
-            </div>
-          )}
+          <DragonDungeon Component={Component} pageProps={pageProps} />
         </>
+      )}
+      {onMobile && (
+        <div style={{ padding: '30px', textAlign: 'center' }}>
+          <h1>DragonDungeon</h1>
+          <h2>
+            You cannot play Dragon Dungeon on a mobile device. Please switch to
+            a desktop or laptop computer to play.
+          </h2>
+        </div>
       )}
     </>
   )
