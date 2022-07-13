@@ -98,7 +98,7 @@ export class Player extends Schema {
     angle: 0.0,
     space: false,
     turbo: false,
-    zoneClaim: false
+    zoneClaim: false,
   }
   colyseusClient: any
   constructor(ballType: string, skinType: number, teamNum: number) {
