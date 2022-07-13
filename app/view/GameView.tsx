@@ -100,12 +100,14 @@ export class GameView extends Component<GameViewProps, GameViewState> {
 
     this.props.stateManager.room.onMessage('chatlog', (chatMessage) => {
       if (document.querySelector('#chatlog')) {
-        ;(document.querySelector('#chatlog') as any).style.display = 'block'
+        ; (document.querySelector('#chatlog') as any).style.display = 'block'
         document.querySelector('#chatlog').innerHTML = chatMessage
         this.chatlogClearInt = setTimeout(
-          () =>
-            ((document.querySelector('#chatlog') as any).style.display =
-              'none'),
+          () => {
+            try {
+              ((document.querySelector('#chatlog') as any).style.display = 'none')
+            } catch { }
+          },
           5000,
         )
       }
@@ -263,7 +265,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
       try {
         this.viewport.x = -me.x + window.innerWidth / 2
         this.viewport.y = -me.y + window.innerHeight / 2
-      } catch {}
+      } catch { }
     }
 
     if (window.localStorage.ddSpectatorMode == 'true') {

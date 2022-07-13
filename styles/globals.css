@@ -89,3 +89,7 @@ h1, h1 span {
   bottom: 0;
   right: 0;
 }
+
+button {
+  cursor: pointer !important;
+}

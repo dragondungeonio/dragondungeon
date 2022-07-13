@@ -5,43 +5,42 @@ import { PageLayout } from 'components'
 import styles from 'styles/menu.module.css'
 
 export default function Profile(props) {
-  let [user, setUser] = useState<any>('')
+  let skins = require('../public/api/skins.json')
+
   let [token, setToken] = useState<string>('')
-  let [skins, setSkins] = useState<any>('')
-  let [entitledSkins, setEntitledSkins] = useState<number[]>([])
-  let [skinsLoaded, setSkinsLoaded] = useState<boolean>(false)
   let [equippedSkin, setEquippedSkin] = useState<number>(0)
   let [equippedAbility, setEquippedAbility] = useState<string>('')
+  let [entitledSkins, setEntitledSkins] = useState<number[]>([0])
   let [equippedMod, setEquippedMod] = useState<number>(0)
 
   function ProfileSelectItem(props) {
     let rarityBorder = 'whitesmoke'
     let borderImage = false
-  
+
     if (props.equipped && props.type == 'ability') {
       borderImage = true
       rarityBorder =
         'linear-gradient(to bottom right, blue 0%, yellow 25%, brown 50%, green 75%, #c60c30 100%)'
     }
-  
+
     if (props.equipped && props.type == 'skin') {
       borderImage = true
       rarityBorder =
         'linear-gradient(to bottom right, green 0%, yellow 25%, blue 50%, green 75%, white 100%)'
     }
-  
+
     if (props.equipped && props.type == 'mod') {
       borderImage = true
       rarityBorder =
         'linear-gradient(to bottom right, green 0%, green 25%, white 50%, green 75%, white 100%)'
     }
-  
+
     if (props.equipped && props.type == 'trait') {
       borderImage = true
       rarityBorder =
         'linear-gradient(to bottom right, purple 0%, purple 25%, white 50%, purple 75%, white 100%)'
     }
-  
+
     return (
       <div
         className={styles.borderSliceApplied}
@@ -53,6 +52,7 @@ export default function Profile(props) {
           padding: '20px',
           width: '130px',
           background: 'black',
+          cursor: 'pointer'
         }}
         onClick={async () => {
           if (props.type == 'ability') {
@@ -79,9 +79,11 @@ export default function Profile(props) {
             let equipRequest = await fetch(
               `${window.location.protocol}//${window.location.hostname}:1337/equip/${props.id}?user=${props.token}`,
             )
+            console.log(equipRequest)
             if (equipRequest.status !== 200) {
-              alert('There was an issue equipping this item.')
+              alert('There was an issue equipping this skin.')
             } else {
+              console.log('equipped ' + props.id)
               setEquippedSkin(props.id)
             }
           }
@@ -98,12 +100,14 @@ export default function Profile(props) {
             verticalAlign: 'middle',
           }}
         /><br />
-        <br /></>}
+          <br /></>}
         <b style={{ fontSize: '15pt' }}>{props.name}</b>
         <br />
         <i style={{ fontSize: '10pt' }}>{props.description}</i>
         <br />
         <span style={{ fontSize: '12pt', color: '#f9e300' }}>{props.perk}</span>
+        <br />
+        {(!props.owned && props.type == 'skin') && <span style={{ fontSize: '12pt', color: '#e100ff' }}>Buy for {props.cost} gems</span>}
       </div>
     )
   }
@@ -114,7 +118,9 @@ export default function Profile(props) {
     setEquippedSkin(currentLoadout.skin || 0)
     setEquippedAbility(currentLoadout.ability || 'Fireball')
     setEquippedMod(currentLoadout.mod || 100)
+    setEntitledSkins(currentLoadout.skins || [0])
   }, [])
+
   return (
     <PageLayout>
       <h2>
@@ -302,29 +308,25 @@ export default function Profile(props) {
           gap: '5px',
         }}
       >
-        {skinsLoaded && (
-          <>
-            {skins.map((skin) => {
-              if (entitledSkins.includes(skin.id)) {
-                return (
-                  <>
-                    <ProfileSelectItem
-                      type={'skin'}
-                      token={token}
-                      equipped={equippedSkin == skin.id}
-                      id={skin.id}
-                      name={skin.name}
-                      description={skin.description}
-                      rarity={skin.rarity}
-                      img={skin.thumbnail}
-                      perk={skin.perk}
-                    />
-                  </>
-                )
-              }
-            })}
-          </>
-        )}
+        {skins.map((skin) => {
+          return (
+            <>
+              <ProfileSelectItem
+                type={'skin'}
+                token={token}
+                equipped={equippedSkin == skin.id}
+                owned={entitledSkins.includes(skin.id)}
+                id={skin.id}
+                name={skin.name}
+                description={skin.description}
+                rarity={skin.rarity}
+                img={skin.thumbnail}
+                perk={skin.perk}
+                cost={skin.gemCost}
+              />
+            </>
+          )
+        })}
       </div>
       <br />
       <br />

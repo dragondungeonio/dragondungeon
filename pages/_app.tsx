@@ -98,30 +98,13 @@ function DragonDungeon({ Component, pageProps }) {
           {typeof window !== 'undefined' && (
             <>
               {!router.pathname.startsWith('/play/') &&
-                !router.pathname.startsWith('/award') &&
-                window.localStorage.ddTournamentMode != 'true' && (
+                router.pathname != '/' && (
                   <div className={styles.nav}>
                     <span
-                      className={styles.link}
-                      style={{ color: '#f9e300' }}
+                      style={{ cursor: 'pointer', fontSize: '20pt' }}
                       onClick={() => router.push('/')}
                     >
-                      Play
-                    </span>
-                    <MenuOption name="Dragon" href="/profile" />
-                    <MenuOption name="Store" href="/store" />
-                    <MenuOption name="About" href="/about" />
-                  </div>
-                )}
-              {!router.pathname.startsWith('/play/') &&
-                router.pathname != '/' &&
-                window.localStorage.ddTournamentMode == 'true' && (
-                  <div className={styles.nav}>
-                    <span
-                      className={styles.link}
-                      style={{ color: '#f9e300' }}
-                      onClick={() => router.push('/')}
-                    >
+                      &larr;
                       Back
                     </span>
                   </div>

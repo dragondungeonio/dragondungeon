@@ -17,17 +17,8 @@ export default function Home() {
   return (
     <PageLayout>
       <div className={styles.centeredContent}>
-        <h1>Private Match</h1>
+        <h1>Join Match by ID</h1>
         <br /><br />
-        <h2>New Match</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '5px' }}>
-            <ModeItem description="Fight dragons. Collect coins." name="Arena" img="/assets/img/game/coinJar.png" href="/play/arena" router={router} />
-            <ModeItem description="Defend your base. Capture coins." name="Capture" img="/assets/img/game/skull.png" href="/play/ctc" router={router} />
-            <ModeItem description="Capture and defend zones." name="Zones" img="/assets/img/game/bat.png" href="/play/zones" router={router} />
-            <ModeItem description="Become the Last Dragon Standing." name="Survival" img="/assets/img/skins/basic.png" href="/play/lds" router={router} />
-        </div>
-        <br /><br />
-        <h2>Join Match</h2>
         <input type="text" style={{ background: 'transparent', color: 'white', border: '3px solid red', padding: '10px', borderRadius: '10px', fontSize: '14pt' }} id="matchID" />
         &nbsp;&nbsp;
         <button onClick={() => {

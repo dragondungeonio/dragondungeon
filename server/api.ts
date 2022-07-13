@@ -19,11 +19,16 @@ export async function getLoadout(req, res) {
     try {
         let userClaims = await getUserDetails(req.query.user as string)
         let dragon = require(`../cache/${userClaims.uid}.json`)
+        let userEntitlements = await getUserEntitlements(userClaims.uid)
         res.status(200)
-        res.json(dragon)
+        res.json({...dragon, skins: userEntitlements.skinEntitlements})
     } catch {
-        res.status(400)
-        res.send('Unknown error')
+        res.status(200)
+        res.json({
+            ability: "Fireball",
+            mod: 100,
+            skin: 0
+        })
     }
 }
 
@@ -59,6 +64,8 @@ export async function equipItem(req, res) {
                 },
                 userClaims.uid
             )
+            res.status(200)
+            res.send('Success')
         } else if (req.query.type == 'mod') {
             await setUserDragon(
                 {
@@ -66,6 +73,8 @@ export async function equipItem(req, res) {
                 },
                 userClaims.uid
             )
+            res.status(200)
+            res.send('Success')
         } else {
             let userEntitlements = await getUserEntitlements(userClaims.uid)
             if (
@@ -77,14 +86,13 @@ export async function equipItem(req, res) {
                     },
                     userClaims.uid
                 )
+                res.status(200)
+                res.send('Success')
             } else {
                 res.status(400)
                 res.send('Skin is not in user entitlements')
             }
         }
-
-        res.status(200)
-        res.send('Success')
     } catch {
         res.status(400)
         res.send('Unknown error')
