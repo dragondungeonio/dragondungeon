@@ -12,9 +12,9 @@ export class StateManager {
     private readonly token: string
   ) { }
 
-  async joinRoom() {
+  async joinRoom(mode: string) {
     try {
-      this.room = await this.colyseus.client.joinOrCreate(window.localStorage.gameType || 'arena', { token: this.token })
+      this.room = await this.colyseus.client.joinOrCreate(mode || 'arena', { token: this.token })
     } catch (error) {
       throw new Error(error)
     }

@@ -408,21 +408,15 @@ export class GameView extends Component<GameViewProps, GameViewState> {
           viewport={this.viewport}
           scheme={this.props.controls}
         />
-
-        {window.localStorage.ddImmersiveMode != 'true' && (
-          <>
-            <div style={{ marginLeft: '3vw', display: 'flex' }}>
-              <Leaderboard
-                players={this.props.state.players}
-                countdown={this.props.state.countdown}
-                isCTC={this.props.state.gamemode == 'CTC' ? true : false}
-                isZones={this.props.state.gamemode == 'Zones' ? true : false}
-                coinJars={this.props.state.coinJars}
-              ></Leaderboard>
-            </div>
-          </>
-        )}
-
+        <div style={{ marginLeft: '3vw', display: 'flex' }}>
+          <Leaderboard
+            players={this.props.state.players}
+            countdown={this.props.state.countdown}
+            isCTC={this.props.state.gamemode == 'CTC' ? true : false}
+            isZones={this.props.state.gamemode == 'Zones' ? true : false}
+            coinJars={this.props.state.coinJars}
+          ></Leaderboard>
+        </div>
         <div
           ref={(thisDiv) => {
             component.gameCanvas = thisDiv!

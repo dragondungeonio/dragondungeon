@@ -6,10 +6,7 @@ const CoreView = dynamic(() => import('app/view/CoreView'), { ssr: false })
 
 export default function Game(props) {
   const router = useRouter()
-  useMemo(() => {
-    if (typeof window !== undefined) {
-      window.localStorage.gameType = router.query.mode
-    }
-  }, [router.query.mode])
-  return <CoreView token={props.user.token} controls={props.controls} />
+  return <>
+    {router.query.mode && <CoreView mode={router.query.mode.toString() || 'arena'} token={props.user.token} controls={props.controls} />}
+  </>
 }
