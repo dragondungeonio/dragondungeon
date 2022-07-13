@@ -27,10 +27,13 @@ export default function Home() {
             <ModeItem description="A classic free-for-all arena." name="Arena" img="/assets/img/game/bat.png" href="/play/arena" router={router} />
             <ModeItem description="Defend your base. Take back your coins." name="Capture" img="/assets/img/game/skull.png" href="/play/ctc" router={router} />
             <ModeItem description="Become the Last Dragon Standing." name="Survival" img="/assets/img/skins/basic.png" href="/play/lds" router={router} />
+          </div>
+          <hr />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '5px' }}>
             <ModeItem description="Play with your friends across all modes." name="Join By ID" href="/join" router={router} />
             <ModeItem description="Learn the ropes." name="Tutorial" href="/play/tutorial" router={router} />
-            <ModeItem description="Learn the ropes." name="Dragon" href="/profile" router={router} />
-            <ModeItem description="Learn the ropes." name="About" href="/about" router={router} />
+            <ModeItem description="Customize your Dragon with new skins and fireballs." name="Dragon" href="/profile" router={router} />
+            <ModeItem description="Information, settings, and game credits." name="About" href="/about" router={router} />
           </div>
         </>}
       </div>
