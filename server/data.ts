@@ -18,7 +18,7 @@ export async function getUserDetails(token: string) {
 
   return {
     uid: userDetailsFull.response.uid,
-    name: userDetailsFull.response.name,
+    name: userDetailsFull.response.preferredIdentifier,
     email: userDetailsFull.response.email,
     picture: userDetailsFull.response.avatar,
   }
