@@ -70,9 +70,11 @@ function CTCWinner(players: MapSchema<Player>){
 export default function CoreView({
   controls,
   token,
+  mode,
 }: {
   controls: number,
-  token: string
+  token: string,
+  mode: string,
 }) {
   const [room, setRoom] = useState<Room<GameState> | null>(null)
   const [state, setState] = useState<GameState | null>(null)
@@ -88,7 +90,7 @@ export default function CoreView({
 
   useMemo(() => {
     console.log('cv use memo')
-    stateManager.joinRoom().then(() => {
+    stateManager.joinRoom(mode).then(() => {
       stateManager.room.onStateChange((newState) => {
         setGameOver(newState.gameOver)
         setState(newState)
