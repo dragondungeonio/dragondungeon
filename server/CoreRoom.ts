@@ -425,17 +425,11 @@ export default class CoreRoom extends Room<GameState> {
             if (player.health < 0) {
               player.health = 10
               try {
-                player.x = -40000
-                player.y = -40000
                 player.coins = 0
-
-                if (this.state.gamemode == 'LDS') {
-                  player.isGhost = true
-                }
+                player.isGhost = true
 
                 setTimeout(() => {
-                  player.x = 400
-                  player.y = 400
+                  player.isGhost = false
                 }, 3000)
 
                 if (this.state.gamemode == 'LDS') {

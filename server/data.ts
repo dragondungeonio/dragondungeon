@@ -42,7 +42,14 @@ export async function getUserEntitlements(uid: string) {
   )
   try {
     let dragonInfoRaw = await admin.firestore().doc(`${uid}/store`).get()
-    return dragonInfoRaw.data()
+    if (dragonInfoRaw.exists) {
+      return dragonInfoRaw.data()
+    } else {
+      return {
+        gems: 0,
+        skinEntitlements: [0],
+      }
+    }
   } catch {
     console.log(
       'firebase'.red + ` - failed to fetch dragon entitlements for user ${uid}`,
@@ -81,16 +88,16 @@ export async function setUserDragon(
 ) {
   if (fs.existsSync(`${__dirname}/../cache/${uid}.json`)) {
     let dragon = require(`${__dirname}/../cache/${uid}.json`)
-    if (data.ability) {dragon.ability = data.ability}
-    if (data.skin) {dragon.skin = data.skin}
-    if (data.mod) {dragon.mod = data.mod}
-    fs.writeFile(`${__dirname}/../cache/${uid}.json`, JSON.stringify(dragon), () => {})
+    if (data.ability) { dragon.ability = data.ability }
+    if (data.skin) { dragon.skin = data.skin }
+    if (data.mod) { dragon.mod = data.mod }
+    fs.writeFile(`${__dirname}/../cache/${uid}.json`, JSON.stringify(dragon), () => { })
   } else {
     fs.writeFile(`${__dirname}/../cache/${uid}.json`, JSON.stringify({
       ability: data.ability || 'Fireball',
       mod: data.mod || 100,
       skin: data.skin || 0
-    }), () => {})
+    }), () => { })
   }
 }
 
