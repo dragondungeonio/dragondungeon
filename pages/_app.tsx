@@ -16,7 +16,7 @@ function MenuOption(props) {
   )
 }
 
-function DragonDungeon({ Component, pageProps }) {
+export default function DragonDungeon({ Component, pageProps }) {
   let [gameStarted, setGameStarted] = useState<boolean>(false)
   let [user, setUser] = useState<any>()
 
@@ -180,29 +180,6 @@ function DragonDungeon({ Component, pageProps }) {
               </p>
             )}
         </>
-      )}
-    </>
-  )
-}
-
-export default function DDApp({ Component, pageProps }) {
-  if (typeof window !== 'object') return <></>
-  const onMobile = /Android|iPad|iPhone|iPod/.test(window.navigator.userAgent)
-  return (
-    <>
-      {!onMobile && (
-        <>
-          <DragonDungeon Component={Component} pageProps={pageProps} />
-        </>
-      )}
-      {onMobile && (
-        <div style={{ padding: '30px', textAlign: 'center' }}>
-          <h1>DragonDungeon</h1>
-          <h2>
-            You cannot play Dragon Dungeon on a mobile device. Please switch to
-            a desktop or laptop computer to play.
-          </h2>
-        </div>
       )}
     </>
   )
