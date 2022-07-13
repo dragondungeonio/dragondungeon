@@ -123,7 +123,7 @@ export class ArenaRoom extends CoreRoom {
     state.walls.set(
       v4(),
       new Wall(
-        3000 / 2 + 350,
+        3000 / 2 + 400,
         3000 / 2 - 350 - 700,
         700,
         50,
