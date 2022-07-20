@@ -27,16 +27,14 @@ a {
 }
 
 html {
-  background: linear-gradient(
-    rgba(0, 0, 0, 0.9), 
-    rgba(0, 0, 0, 0.9)
-  ), url('/assets/img/game/background-tile.png') !important;
+  background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
+    url('/assets/img/game/background-tile.png') !important;
   overflow-x: hidden;
 }
 
 body {
-	width: 100vw;
-	height: 100vh;
+  width: 100vw;
+  height: 100vh;
   padding: 0;
   margin: 0;
   border-radius: 20px;
@@ -49,8 +47,9 @@ body {
   user-select: auto;
 }
 
-h1, h1 span {
-	color: red;
+h1,
+h1 span {
+  color: red;
   font-family: 'Press Start 2P', sans-serif;
   font-size: 25pt;
 }
@@ -69,7 +68,7 @@ h1, h1 span {
   #heroContent {
     display: none;
   }
-  
+
   .mobile-center {
     text-align: center;
   }
@@ -92,4 +91,21 @@ h1, h1 span {
 
 button {
   cursor: pointer !important;
+}
+
+.mode-item {
+  border: 5px solid transparent;
+}
+
+.mode-item:hover {
+  border: 5px solid #c60c30;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.mode-item:active {
+  background-color: #c60c30;
+  border: 5px solid #c60c30;
+  cursor: pointer;
+  border-radius: 10px;
 }

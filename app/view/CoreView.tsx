@@ -47,23 +47,30 @@ function renderTableData(players: MapSchema<Player>) {
   return leaderboardData
 }
 
-function CTCWinner(players: MapSchema<Player>){
+function CTCWinner(players: MapSchema<Player>) {
   let result = []
   let redScore = 0
   let blueScore = 0
   let winner: string
-  players.forEach((player: Player, key: any)=> {
-    if(player.team == 1){
-      redScore+= player.score
-    }
-    else if(player.team == 2){
-      blueScore+=player.score
+  players.forEach((player: Player, key: any) => {
+    if (player.team == 1) {
+      redScore += player.score
+    } else if (player.team == 2) {
+      blueScore += player.score
     }
   })
-  if(redScore>blueScore){winner = "Red"}
-  else if (blueScore>redScore){winner= "Blue"}
-  else{"Tie!"}
-  result.push(<span>{winner} wins with score of: {redScore} for red and {blueScore} for blue!</span>)
+  if (redScore > blueScore) {
+    winner = 'Red'
+  } else if (blueScore > redScore) {
+    winner = 'Blue'
+  } else {
+    ;('Tie!')
+  }
+  result.push(
+    <span>
+      {winner} wins with score of: {redScore} for red and {blueScore} for blue!
+    </span>,
+  )
   return result
 }
 
@@ -72,21 +79,23 @@ export default function CoreView({
   token,
   mode,
 }: {
-  controls: number,
-  token: string,
-  mode: string,
+  controls: number
+  token: string
+  mode: string
 }) {
   const [room, setRoom] = useState<Room<GameState> | null>(null)
   const [state, setState] = useState<GameState | null>(null)
   const [gameOver, setGameOver] = useState<boolean>(false)
-  const [stateManager, setStateManager] = useState<StateManager>(new StateManager(
-    new ColyseusService(
-      window.location.protocol == 'http:' ? 'ws' : 'wss',
-      window.location.hostname + ':1337',
+  const [stateManager, setStateManager] = useState<StateManager>(
+    new StateManager(
+      new ColyseusService(
+        window.location.protocol == 'http:' ? 'ws' : 'wss',
+        window.location.hostname + ':1337',
+      ),
+      'arena',
+      token,
     ),
-    'arena',
-    token
-  ))
+  )
 
   useMemo(() => {
     console.log('cv use memo')
@@ -120,20 +129,21 @@ export default function CoreView({
     return (
       <div style={{ padding: '30px' }} className={styles.pageContent}>
         <h1>Game Over</h1>
-        <p style={{ color: '#f9e300', fontSize: '25pt' }}>{(state.gamemode == 'CTC' || state.gamemode == 'Zones') ? CTCWinner(state.players) : state.gameOverMessage}</p>
+        <p style={{ color: '#f9e300', fontSize: '25pt' }}>
+          {state.gamemode == 'CTC' || state.gamemode == 'Zones'
+            ? CTCWinner(state.players)
+            : state.gameOverMessage}
+        </p>
 
         {renderTableData(state.players)}
-        <br /><br />
+        <br />
+        <br />
         <MenuOption name="New Game" href="/" />
       </div>
     )
   }
 
   return (
-    <GameView
-      stateManager={stateManager}
-      state={state}
-      controls={controls}
-    />
+    <GameView stateManager={stateManager} state={state} controls={controls} />
   )
 }
