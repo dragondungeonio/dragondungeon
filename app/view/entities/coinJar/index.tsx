@@ -68,6 +68,7 @@ export const CoinJar = (props: IProps) => {
   
   return (
     <>
+      {/* @ts-ignore */}
       {props.capturing && <CaptureIndicator key={props.key} capturing={props.capturing} x={props.x} y={props.y} team={props.team} />}
       <AnimatedSprite
         anchor={new PIXI.Point(0.5, 0.5)}
