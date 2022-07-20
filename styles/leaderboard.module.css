@@ -100,17 +100,3 @@
   border: 3px solid red;
   padding: 16px;
 }
-
-.abilityBar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  padding: 20px;
-}
-
-.abilityBar img {
-  margin: 15px;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 5px;
-}

@@ -10,6 +10,9 @@ export class CoinJar extends Schema {
   @type('number')
   team: number = 0
 
+  @type('boolean')
+  capturing: boolean = false
+
   @type('string')
   key: string
 

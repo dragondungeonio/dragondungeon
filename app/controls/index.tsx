@@ -128,11 +128,6 @@ export const Controls = (props: ControlProps) => {
   }, [props.actionCallback, updateAndSend, props.viewport])
   return (
     <>
-      <div className={styles.abilityBar}>
-        <img onTouchStart={() => { updateAndSend({ zoneClaim: true }) }} onMouseDown={() => { updateAndSend({ zoneClaim: true }) }} onTouchEnd={() => { updateAndSend({ zoneClaim: false }) }} onMouseUp={() => { updateAndSend({ zoneClaim: false }) }} src="/assets/img/game/coinJar.png" height={60} />
-        <img onTouchStart={() => { updateAndSend({ turbo: true }) }} onMouseDown={() => { updateAndSend({ turbo: true }) }} onTouchEnd={() => { updateAndSend({ turbo: false }) }} onMouseUp={() => { updateAndSend({ turbo: false }) }} src="/assets/img/ui/mixer.png" height={60} />
-        <img style={{ paddingLeft: '40px', paddingRight: '40px' }} onTouchStart={() => { updateAndSend({ space: true, shoot: true }) }} onMouseDown={() => { updateAndSend({ space: true, shoot: true }) }} onTouchEnd={() => { updateAndSend({ space: false, shoot: false }) }} onMouseUp={() => { updateAndSend({ space: false, shoot: false }) }} src="/assets/img/abilities/fireball.png" height={90} />
-      </div>
       <ReactNipple
         options={{
           color: '#c60c30',

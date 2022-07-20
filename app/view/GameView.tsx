@@ -369,7 +369,7 @@ export class GameView extends Component<GameViewProps, GameViewState> {
 
     this.props.state.coinJars.forEach((coinJar) => {
       coinJars.push(
-        <CoinJar x={coinJar.x} y={coinJar.y} key={v4()} team={coinJar.team} />,
+        <CoinJar x={coinJar.x} y={coinJar.y} key={v4()} team={coinJar.team} capturing={coinJar.capturing} />,
       )
     })
 

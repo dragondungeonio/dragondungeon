@@ -153,20 +153,20 @@ export default class CoreRoom extends Room<GameState> {
   registerMessages() {
     this.onMessage('input', (client: Client, message: IInputs) => {
       try {
-        if (message.zoneClaim && this.state.gamemode == 'Zones') {
-          let player = this.state.players.get(client.sessionId)
-          this.state.coinJars.forEach(jar => {
-            if ((player.x > jar.x - 60 && player.x < jar.x + 60) && (player.y > jar.y - 60 && player.y < jar.y + 60)) {
-              setTimeout(() => {
-                if ((player.x > jar.x - 60 && player.x < jar.x + 60) && (player.y > jar.y - 60 && player.y < jar.y + 60) && message.zoneClaim) {
-                  jar.team = player.team
-                  this.broadcast('chatlog', `${player.onlineName} captured a zone for ${player.team == 1 ? 'Red' : 'Blue'} team!`)
-                  player.colyseusClient.send('sfx', '/assets/audio/captured.m4a')
-                }
-              }, 3000)
-            }
-          })
-        }
+        let player = this.state.players.get(client.sessionId)
+        this.state.coinJars.forEach(jar => {
+          if ((player.x > jar.x - 60 && player.x < jar.x + 60) && (player.y > jar.y - 60 && player.y < jar.y + 60)) {
+            jar.capturing = true;
+            setTimeout(() => {
+              jar.capturing = false;
+              if ((player.x > jar.x - 60 && player.x < jar.x + 60) && (player.y > jar.y - 60 && player.y < jar.y + 60)) {
+                jar.team = player.team
+                this.broadcast('chatlog', `${player.onlineName} captured a zone for ${player.team == 1 ? 'Red' : 'Blue'} team!`)
+                player.colyseusClient.send('sfx', '/assets/audio/captured.m4a')
+              }
+            }, 2000)
+          }
+        })
         this.state.players[client.sessionId].inputs(message)
       } catch { }
     })

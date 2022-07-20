@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import * as PIXI from 'pixi.js'
+import { CustomPIXIComponent } from 'react-pixi-fiber'
 import { AnimatedSprite } from '../AnimatedSprite'
 import jarImage1 from './sprites/coinJar1.png'
 import jarImage2 from './sprites/coinJar2.png'
@@ -24,6 +25,7 @@ interface IProps {
   x: number
   y: number
   team: number
+  capturing: boolean
 }
 
 let ANIMATION_SPEED = 0
@@ -62,16 +64,37 @@ export const CoinJar = (props: IProps) => {
     return textures
   }, [])
 
+  let BetterIndicator = CaptureIndicator as any
+  
   return (
-    <AnimatedSprite
-      anchor={new PIXI.Point(0.5, 0.5)}
-      width={100}
-      height={100}
-      textures={jarTextures}
-      x={props.x}
-      animationSpeed={ANIMATION_SPEED}
-      loop={true}
-      y={props.y}
-    />
+    <>
+      {props.capturing && <CaptureIndicator key={props.key} capturing={props.capturing} x={props.x} y={props.y} team={props.team} />}
+      <AnimatedSprite
+        anchor={new PIXI.Point(0.5, 0.5)}
+        width={100}
+        height={100}
+        textures={jarTextures}
+        x={props.x}
+        animationSpeed={ANIMATION_SPEED}
+        loop={true}
+        y={props.y}
+      />
+    </>
   )
 }
+
+const CaptureIndicator = CustomPIXIComponent<PIXI.Graphics, IProps>(
+  {
+    customDisplayObject: (_) => new PIXI.Graphics(),
+    customApplyProps: (instance, oldProps, newProps) => {
+      instance.clear()
+      instance.lineStyle(5, Math.floor(Math.random()*16777215))
+      instance.drawCircle(
+        newProps.x,
+        newProps.y,
+        120,
+      )
+    },
+  },
+  'CaptureIndicator',
+)
