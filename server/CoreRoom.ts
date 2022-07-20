@@ -141,13 +141,7 @@ export default class CoreRoom extends Room<GameState> {
     this.state.players[client.id].mod = mod
 
     if (userData.name == null) {
-      const adjectives = require('../../wordlists/adjectives.json')
-      const nouns = require('../../wordlists/nouns.json')
-      const adjective =
-        adjectives[Math.floor(Math.random() * adjectives.length)]
-      const noun = nouns[Math.floor(Math.random() * nouns.length)]
-      this.state.players[client.id].onlineName =
-        `${adjective}-${noun}`.toLowerCase()
+      this.state.players[client.id].onlineName = `Dragon${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`
     } else {
       this.state.players[client.id].onlineName = userData.name
     }
