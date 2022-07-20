@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import { AnimatePresence } from 'framer-motion'
+import Script from 'next/script'
 
 import styles from '../styles/navigation.module.css'
 import '../styles/globals.css'
@@ -65,34 +66,15 @@ export default function DragonDungeon({ Component, pageProps }) {
 
   return (
     <>
-      <Head>
-        <title>DragonDungeon</title>
-        <link rel="icon" href="/assets/img/game/coinJar.png" />
-        <meta property="og:title" content="DragonDungeon" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://dragondungeon.io" />
-        <meta
-          property="og:image"
-          content="https://dragondungeon.io/assets/img/skins/basic.png"
-        />
-        <meta
-          property="og:description"
-          content="Compete against dragons from all over the world and become the richest dragon of all in this award-winning game from the LEAGUE of Amazing Programmers."
-        />
-        <meta
-          name="description"
-          content="Compete against dragons from all over the world and become the richest dragon of all in this award-winning game from the LEAGUE of Amazing Programmers."
-        />
-        <meta name="twitter:creator" content="@dragondungeonio" />
-        <meta
-          name="twitter:image"
-          content="https://dragondungeon.io/assets/img/skins/basic.png"
-        />
-        <meta
-          name="viewport"
-          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"
-        />
-      </Head>
+      <Script id="gtm" strategy="afterInteractive">
+        {`
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-WK9RJ35');
+        `}
+      </Script>
       <div className={styles.dragondungeon}>
         <div className={styles.centeredContent}>
           {typeof window !== 'undefined' && (
